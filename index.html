@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>庶民-enjoy</title>
+	
+    <link rel="icon" href="favicon.png">
+	
+    <style type="text/css" media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #searchMsg{
+            /* width: 540px; */
+            /* height: 34px; */
+            vertical-align: top;
+            font-size: 18px;
+            padding-left: 10px;
+            width: 100%;
+            max-width: 540px;
+            height: 50px;
+            padding: 0 20px;
+            /* font-size: 16px; */
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        #searchMsg:focus {
+            border-color: orange;
+            box-shadow: 0 0 8px rgba(102,204,255,0.5);
+        }
+        .searchbar{
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .search{
+            width: 100%;
+            max-width: 700px;
+            margin: 100px auto 30px;
+            text-align: center;
+        }
+
+
+        li {
+            list-style: none;
+            padding: 6px;
+        }
+        li:hover {
+            background-color: rgb(168, 213, 252);
+            cursor: default;
+        }
+        ul li:first-child{
+            margin-top: 0;
+        }
+        ul{
+            border: 1px solid #b6b6b6;
+            border-top: 0px;
+            display: none;
+        }
+
+
+        #btn{
+            color: #fff;
+            padding: 0px 8px;
+            margin: 5px;
+            font-size:20px;
+            display: inline-block;
+            background: #66ccff;
+            cursor: pointer;
+
+
+            min-width: 120px;
+            height: 50px;
+            line-height: 45px;
+            /* background: linear-gradient(45deg, #66ccff, #3399ff); */
+            border: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        #btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+
+        .notice-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 654px;
+            width: 90%;
+        }
+        .notice-box p {
+            margin: 10px 0;
+            line-height: 1.6;
+            color: #666;
+        }
+        .notice-box b {
+            color: #333;
+        }
+        .notice-icon {
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="search">
+        <div class="searchbar">
+            <input type="text" id="searchMsg">
+            <span id="btn"> 庶民-enjoy </span>
+        </div>
+        <ul id="list">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <div class="notice-box">
+        <p>
+            <font size="3" color="FF3300">
+                &#9940;&ensp;<b>注&emsp;&emsp;意：</b>
+            </font>
+        </p>
+        <p>
+            点击按钮之后，理应会瞬间发出若干搜索结果页面。
+            但很多浏览器不允许此类操作，会将页面视作弹窗杀掉。
+        </p>
+        
+        
+        <p>
+            <font size="3" color="#009933">
+                &#9989;&ensp;<b>解决方法：</b>
+            </font>
+        </p>
+        <p>
+            第一次弹窗失败后，回到本页面，地址栏右端附近会有弹窗拦截报告，
+            点击拦截图标，在管理选项窗选 “始终允许”，此后不再拦截。
+        </p>
+        
+        
+        <p>
+            <font size="3" color="#6600FF">
+                &#11088;&ensp;<b>增删改站：</b>
+            </font>
+        </p>
+        <p>
+            这些网站迟早会失效，所以如果哪些网站失效或太卡或广告太多或不好用，
+            亦或哪些好用的网站被我遗漏，or anything，
+            请务必在 https://github.com/qianjunlang/shumin-enjoy/issues 告知我。
+        </p>
+
+    </div>
+
+    <script>
+    var searchMsg = document.getElementById("searchMsg");
+    var list = document.getElementById("list");
+    var btn = document.getElementById("btn");
+   
+
+
+    //监听输入框的keuup事件，
+    searchMsg.onkeyup = function() {
+        if (this.value) {
+            show(list);
+            // 动态创建script标签，使用百度提供的接口，将查询字符串编码后，写到src当中
+            var s = document.createElement('script');
+            s.src = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=' + encodeURI(this.value.trim()) 
+		+ '&json=1&p=3&req=2&csor=1&cb=fn';
+		//+ '&sid=1457_21105_17001_22158&pwd=7';
+            // 插入到文档后获取jsonp格式的数据，然后调用callback函数，将data数据以参数的形式传入
+            document.body.appendChild(s);
+        } else {
+            hide(list);
+        }
+    }
+
+    //点击li标签后把输入框的信息填入到文本框
+    list.onclick = function(e) {
+        var e = e || window.event;
+        var target = e.target || e.srcElement;
+        if (target.nodeName == "LI") {
+            searchMsg.value = target.innerHTML;
+        }
+        hide(list)
+    }
+
+	
+    btn.onclick = function() {
+	// window.open("https://dianying.im/search-"+searchMsg.value+"-------------/")
+        var arr = [
+            		//"https://cupfox.app/search?key=",
+			//"https://www.dianyinggou.com/so/",
+			//"https://soupian.app/search?key=",
+			"https://soupian.pro/s?key=",
+			"https://v.ikanbot.com/search?q=",
+		
+			//"https://www.xxc.la/vodsearch/-------------/?wd=",
+			//"https://www.qionggedy.com/query/",
+			"https://www.sanjiuyy.com/vodsearch/-------------.html?wd=",
+			//"https://www.xbfenxiang.com/query/",
+			"https://nnyy.in/so?q=",
+			"https://jumi.su/search/wd/",
+			"https://gimy.ai/search/-------------.html?wd=",
+			"https://www.kanjugg.com/search.php?searchword=",
+			//"https://www.sjz42.net/sjvodsearch/-------------.html?wd=",
+			//"http://www.paicha.cc/index.php?m=vod-search&wd=",
+			//"https://www.kanyk.net/index.php?m=vod-search&wd=",
+			"https://m.shjhbox.com/vodsearch/-------------.html?wd=",
+		
+			//"https://www.chushu.la/vodsearch/-------------.html?wd=",
+			//"https://www.zhenbuka.live/vodsearch/-------------/?wd=",
+			//"https://www.tca.cn.com/so.html?wd=",
+			"https://www.752dy.com/vodsearch/-------------.html?wd=",
+
+
+			//verifi "https://www.bdys10.com/search/",
+			//verifi "https://www.wangfei.tv/vodsearch.html?wd=",
+
+		
+
+
+
+		        
+		        
+		
+		
+		
+		
+		
+			//"http://qqy.one/vod/search.html?wd=",
+			//"https://www.yhvod.cc/search?kw=",
+			//"https://www.xgitv.com/vsearch/-------------.html?wd=",
+			//"https://gimytv.tv/search/-------------.html?wd=",
+			//"https://pilipali.cc/vod/search.html?wd=",
+		
+		
+			//"https://icaqd.com/vodsearch/-------------.html?wd=",
+			//"https://74yyz.com/search.php?searchword=",	
+			//qiang"https://pangzitv.com/index.php?m=vod-search&wd=",
+			//"https://www.2046ys.com/search/?wd=",
+			//"https://www.heiliheili.cc/search/-------------.html?wd=",
+			//"https://www.k88dy.com/search/?wd=",
+		
+		
+			//"https://xsear.ch/search/",
+			//"https://www.zhenbuka11.com/vodsearch/-------------/?wd=",
+			//"http://www.okfrp.com/search/-------------.html?wd=",
+			//"https://www.360tv.cc/search.html?wd=",
+			//"http://www.kkkkwu.net/search/?wd=",
+			//"https://www.wmcfc.com/vodsearch.html?wd=",
+			//"https://www.tkys.tv/vodsearch.html?wd=",
+			//"http://www.csi-s.org.cn/vodsearch/-------------.html?wd=",
+			//"https://www.xqmi.top/index.php/vod/search.html?wd=",
+			//"https://www.yingzhazha.com/vodsearch/-------------.html?wd=",
+			//"https://www.novipnoad.com/?s=",
+
+
+
+			"https://libvioo.com/livodsearch/-------------.html?wd=",
+			"https://www.libvio.fun/search/-------------.html?wd=",
+			"https://www.naifei1.org/vodsearch.html?wd=",
+			"https://ylsm5.cc/search/-------------.html?wd=",
+			//"https://www.kuvun.co/so/-/?wd=",
+			"https://www.czzytv77.com/cdvodsearch/-------------.html?wd=",
+			"https://www.lyztv.com/search/",
+			"https://www.xbdjv.com/xbvodsearch/-------------.html?wd=",
+			"https://www.yjst.net/search/-------------.html?wd=",
+			"https://www.xkvvv.com/search/-------------/?wd=",
+			"https://www.haigui.tv/so",
+			"https://ysgcfun1.com/covodsearch/-------------.html?wd=",
+			"https://www.exeaes.com/vodsearch.html?wd=",
+
+		
+        ]
+        for(var i in arr) window.open(arr[i] + searchMsg.value)
+        
+        //location.href = "https://www.bing.com/search?q=" + searchMsg.value
+    }
+
+
+    function fn(data) {
+        var lis = document.querySelectorAll('li');
+        //这时候遍历查询到的信息，放到li标签当中
+        data.s.forEach(function(item, index) {
+            lis[index].innerHTML = item;
+        });
+
+        // 获取到数据后，把脚本删除
+        var s = document.querySelectorAll('script');
+        for (var i = 1, len = s.length; i < len; i++) {
+            document.body.removeChild(s[i]);
+        }
+    }
+
+    function hide(obj) {
+        obj.style.display = "none"
+    }
+
+    function show(obj) {
+        obj.style.display = "block"
+    }
+    </script>
+</body>
+
+</html>
