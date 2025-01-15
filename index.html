@@ -7,6 +7,11 @@
     <link rel="icon" href="favicon.png">
     
     <style type="text/css" media="screen">
+        li a {
+            font-size: 22px;
+            text-decoration: none;
+            color: #0073e6;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -27,7 +32,7 @@
         }
 
         #searchMsg {
-            font-size: 18px;
+            font-size: 22px;
             padding-left: 10px;
             width: 100%;
             max-width: 540px;
@@ -54,12 +59,12 @@
         #btn {
             color: #fff;
             padding: 0 8px;
-            font-size: 20px;
+            font-size: 25px;
             background: #66ccff;
             cursor: pointer;
-            min-width: 120px;
+            min-width: 135px;
             height: 50px;
-            line-height: 45px;
+            line-height: 50px;
             border: none;
             border-radius: 25px;
             transition: all 0.3s ease;
@@ -74,20 +79,20 @@
         .link-columns {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 22px;
             justify-content: space-between;
-            margin-top: 20px;
+            margin-top: 22px;
             width: 100%;
         }
 
         .column {
             flex: 1;
-            min-width: 200px;
+            min-width: 220px;
         }
 
         .column h3 {
             margin-bottom: 10px;
-            font-size: 18px;
+            font-size: 22px;
             color: #333;
         }
 
@@ -112,22 +117,24 @@
 </head>
 
 <body>
+<p style="margin-bottom:60px;"></p>
     <div class="search">
         <div class="searchbar">
             <input type="text" id="searchMsg" placeholder="Enter your search query">
             <span id="btn">Search Links</span>
         </div>
+		<br>
         <div class="link-columns">
             <div class="column">
-                <h3>資源網:</h3>
+                <h2>資源網:</h3>
                 <ul id="list1"></ul>
             </div>
             <div class="column">
-                <h3>Website:</h3>
+                <h2>Website:</h3>
                 <ul id="list2"></ul>
             </div>
             <div class="column">
-                <h3>資源網 CAN'T PLAY:</h3>
+                <h2>CAN'T PLAY?:</h3>
                 <ul id="list3"></ul>
             </div>
         </div>
