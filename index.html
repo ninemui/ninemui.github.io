@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Search</title>
-	
+    <title>Links</title>
+    
     <link rel="icon" href="favicon.png">
-	
+    
     <style type="text/css" media="screen">
         * {
             margin: 0;
@@ -27,104 +27,87 @@
             padding: 20px;
         }
 
-        #searchMsg{
-            /* width: 540px; */
-            /* height: 34px; */
-            vertical-align: top;
+        #searchMsg {
             font-size: 18px;
             padding-left: 10px;
             width: 100%;
             max-width: 540px;
             height: 50px;
-            padding: 0 20px;
-            /* font-size: 16px; */
             border: 2px solid #e0e0e0;
             border-radius: 25px;
             outline: none;
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
         #searchMsg:focus {
             border-color: orange;
             box-shadow: 0 0 8px rgba(102,204,255,0.5);
         }
-        .searchbar{
+
+        .searchbar {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-bottom: 10px;
         }
-        .search{
-            width: 100%;
-            max-width: 700px;
-            margin: 100px auto 30px;
-            text-align: center;
-        }
 
-
-        li {
-            list-style: none;
-            padding: 6px;
-        }
-        li:hover {
-            background-color: rgb(168, 213, 252);
-            cursor: default;
-        }
-        ul li:first-child{
-            margin-top: 0;
-        }
-        ul{
-            border: 1px solid #b6b6b6;
-            border-top: 0px;
-            display: none;
-        }
-
-
-        #btn{
+        #btn {
             color: #fff;
-            padding: 0px 8px;
-            margin: 5px;
-            font-size:20px;
-            display: inline-block;
+            padding: 0 8px;
+            font-size: 20px;
             background: #66ccff;
             cursor: pointer;
-
-
             min-width: 120px;
             height: 50px;
             line-height: 45px;
-            /* background: linear-gradient(45deg, #66ccff, #3399ff); */
             border: none;
             border-radius: 25px;
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
         #btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        
 
-        .notice-box {
-            margin-top: 30px;
-            padding: 20px;
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            max-width: 654px;
-            width: 90%;
+        .link-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            margin-top: 20px;
+            width: 100%;
         }
-        .notice-box p {
-            margin: 10px 0;
-            line-height: 1.6;
-            color: #666;
+
+        .column {
+            flex: 1;
+            min-width: 200px;
         }
-        .notice-box b {
+
+        .column h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
             color: #333;
         }
-        .notice-icon {
-            display: inline-block;
-            margin-right: 8px;
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 6px;
+        }
+
+        li a {
+            text-decoration: none;
+            color: #0073e6;
+        }
+
+        li a:hover {
+            text-decoration: underline;
         }
 
     </style>
@@ -133,161 +116,90 @@
 <body>
     <div class="search">
         <div class="searchbar">
-            <input type="text" id="searchMsg">
-            <span id="btn"> Search </span>
+            <input type="text" id="searchMsg" placeholder="Enter your search query">
+            <span id="btn">Show Links</span>
         </div>
-        <ul id="list">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-    </div>
-
-    <div class="notice-box">
-        <p>
-            <font size="3" color="FF3300">
-                &#9940;&ensp;<b>注&emsp;&emsp;意：</b>
-            </font>
-        </p>
-        <p>
-            點選按鈕之後，理應會瞬間發出若干搜索結果頁面。
-            但很多瀏覽器不允許此類操作，會將頁面視作彈窗殺掉。
-        </p>
-        
-        
-        <p>
-            <font size="3" color="#009933">
-                &#9989;&ensp;<b>解決方法：</b>
-            </font>
-        </p>
-        <p>
-            第一次彈窗失敗后，回到本頁面，位址列右端附近會有彈窗攔截報告，
-            點選攔截圖示，在管理選項窗選 「始終允許」，此後不再攔截。
-        </p>
-
+        <div class="link-columns">
+            <div class="column">
+                <h3>資源網:</h3>
+                <ul id="list1"></ul>
+            </div>
+            <div class="column">
+                <h3>Website:</h3>
+                <ul id="list2"></ul>
+            </div>
+            <div class="column">
+                <h3>資源網 CAN'T PLAY:</h3>
+                <ul id="list3"></ul>
+            </div>
+        </div>
     </div>
 
     <script>
-    var searchMsg = document.getElementById("searchMsg");
-    var list = document.getElementById("list");
-    var btn = document.getElementById("btn");
-   
+        var searchMsg = document.getElementById("searchMsg");
+        var btn = document.getElementById("btn");
 
+        var categories = {
+            "list1": [
+                { name: "非凡資源", url: "http://ffzy1.tv/index.php/vod/search.html?wd=" },
+                { name: "魔都資源", url: "https://moduzy.com/search/-------------/?wd=" },
+                { name: "如意資源", url: "https://www.ryzyw.com/index.php/vod/search.html?wd=" },
+                { name: "華為吧資源", url: "https://nikanba.live/index.php/vod/search.html?wd=" },
+                { name: "红牛資源", url: "https://hongniuzy.com/index.php/vod/search.html?wd=" }
+            ],
+            "list2": [
+                { name: "獨播庫", url: "https://w.duboku.io/vodsearch/-------------.html?wd=" },
+                { name: "歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
+                { name: "麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
+                { name: "奈飛", url: "https://www.naifei1.org/vodsearch.html?wd=" },
+                { name: "神馬", url: "https://www.18ys.cc/vodsearch/--.html?wd=" }
+            ],
+            "list3": [
+                { name: "最大資源", url: "https://api.zuidapi.com/index.php/vod/search.html?wd=" },
+                { name: "索尼資源", url: "https://suonizy.com/vodsearch/-------------.html?wd=" },
+                { name: "臥龍資源", url: "https://www.wolongzy.tv/index.php/vod/search.html?wd=" },
+                { name: "天空資源", url: "https://tiankongzy.cc/index.php/vod/search.html?wd=" },
+                { name: "無盡資源", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" }
+            ]
+        };
 
-    //监听输入框的keyup事件，
-    searchMsg.onkeyup = function() {
-        if (this.value) {
-            show(list);
-            // 动态创建script标签，使用百度提供的接口，将查询字符串编码后，写到src当中
-            var s = document.createElement('script');
-            s.src = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=' + encodeURI(this.value.trim()) 
-		+ '&json=1&p=3&req=2&csor=1&cb=fn';
-		//+ '&sid=1457_21105_17001_22158&pwd=7';
-            // 插入到文档后获取jsonp格式的数据，然后调用callback函数，将data数据以参数的形式传入
-            document.body.appendChild(s);
-        } else {
-            hide(list);
+        function isTraditionalChinese(str) {
+            const traditionalChineseRegex = /[\u4E00-\u9FFF\uF900-\uFAFF]/;
+            return traditionalChineseRegex.test(str);
         }
-    }
 
-    //点击li标签后把输入框的信息填入到文本框
-    list.onclick = function(e) {
-        var e = e || window.event;
-        var target = e.target || e.srcElement;
-        if (target.nodeName == "LI") {
-            searchMsg.value = target.innerHTML;
+        function convertToSimplifiedChinese(query) {
+            return query.replace(/[\u4E00-\u9FFF\uF900-\uFAFF]/g, char => {
+                // Simplified conversion map placeholder
+                return char; // Replace with actual mapping for full conversion.
+            });
         }
-        hide(list)
-    }
 
-	
-    btn.onclick = function() {
-	// window.open("https://dianying.im/search-"+searchMsg.value+"-------------/")
-        var arr = [
+        btn.onclick = function() {
+            var query = searchMsg.value.trim();
+            if (!query) {
+                alert("Please enter a search query.");
+                return;
+            }
 
-//WEBSITES:
-"https://www.mtyy1.com/vodsearch/-------------.html?wd=",
-"https://www.kpkuang.org/vodsearch/-------------.html?wd=",
-//"https://w.duboku.io/vodsearch/-------------.html?wd=",
-//"https://www.olehdtv.com/index.php/vod/search.html?wd=",
-//"https://www.naifei1.org/vodsearch.html?wd=",
-//"https://www.18ys.cc/vodsearch/--.html?wd=",
-//"https://www.ddzvod.com/index.php/vod/search.html?wd=",
-//"https://www.duonaovod.com/index.php/vod/search.html?wd=",
-//"https://gimy.tv/search/-------------.html?wd=",
-//"https://www.nivod.vip/s/-------------/?wd=",
-//"https://nivodi1.com/index.php/vod/search.html?wd",
-//"https://xiaoxintv.cc/index.php/vod/search.html?wd=",
-//"https://www.trjvod.com/index.php/vod/search.html?wd=",
-//"https://www.freeok.lol/vodsearch.html?wd=",
-//"https://www.ainidj.com/vodsearch/-------------.html?wd=",
+            if (isTraditionalChinese(query)) {
+                query = convertToSimplifiedChinese(query);
+            }
 
-
-//資源網:
-"http://ffzy1.tv/index.php/vod/search.html?wd=",
-"https://moduzy.com/search/-------------/?wd=",
-"https://www.ryzyw.com/index.php/vod/search.html?wd=",
-"https://nikanba.live/index.php/vod/search.html?wd=",
-"https://hongniuzy.com/index.php/vod/search.html?wd=",
-"https://www.subozy.com/index.php/vod/search.html?wd=",
-"https://hhzyapi.com/index.php/vod/search.html?wd=",
-"https://guangsuzy.net/index.php/vod/search.html?wd=",
-"https://jyzyapi.com/index.php/vod/search.html?wd=",
-"https://bfzy.tv/s/?keys=+",
-"https://huyazy.com/index.php/vod/search.html?wd=",
-"https://www.jisuzy.com/index.php/vod/search.html?wd=",
-"https://www.xinlangzy.com/index.php/vod/search.html?wd=",
-
-
-//SEARCH:
-//"https://soupian.pro/s?key=",
-
-
-//資源網: CAN'T PLAY
-//"https://api.zuidapi.com/index.php/vod/search.html?wd=",
-//"https://suonizy.com/vodsearch/-------------.html?wd=",
-//"https://www.wolongzy.tv/index.php/vod/search.html?wd=",
-//"https://tiankongzy.cc/index.php/vod/search.html?wd=",
-//"https://www.wujinzy.com/vodsearch/-------------.html?wd=",
-//"https://okzyw1.com/vodsearch/-------------/?wd=",
-//"https://cj2.yayazy.net/index.php/vod/search.html?wd=",
-//"https://www.heimuer.tv/index.php/vod/search.html?wd=",
-
-        ]
-        for(var i in arr) window.open(arr[i] + searchMsg.value)
-        
-        //location.href = "https://www.bing.com/search?q=" + searchMsg.value
-    }
-
-
-    function fn(data) {
-        var lis = document.querySelectorAll('li');
-        //这时候遍历查询到的信息，放到li标签当中
-        data.s.forEach(function(item, index) {
-            lis[index].innerHTML = item;
-        });
-
-        // 获取到数据后，把脚本删除
-        var s = document.querySelectorAll('script');
-        for (var i = 1, len = s.length; i < len; i++) {
-            document.body.removeChild(s[i]);
-        }
-    }
-
-    function hide(obj) {
-        obj.style.display = "none"
-    }
-
-    function show(obj) {
-        obj.style.display = "block"
-    }
+            Object.keys(categories).forEach(function(listId) {
+                var list = document.getElementById(listId);
+                list.innerHTML = "";
+                categories[listId].forEach(function(link) {
+                    var li = document.createElement("li");
+                    var a = document.createElement("a");
+                    a.href = link.url + encodeURIComponent(query);
+                    a.target = "_blank";
+                    a.textContent = link.name;
+                    li.appendChild(a);
+                    list.appendChild(li);
+                });
+            });
+        };
     </script>
 </body>
 
