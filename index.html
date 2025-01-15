@@ -135,6 +135,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.6/dist/opencc.min.js"></script>
     <script>
         var searchMsg = document.getElementById("searchMsg");
         var btn = document.getElementById("btn");
@@ -163,28 +164,20 @@
             ]
         };
 
-        function isTraditionalChinese(str) {
-            const traditionalChineseRegex = /[\u4E00-\u9FFF\uF900-\uFAFF]/;
-            return traditionalChineseRegex.test(str);
+        async function convertToSimplified(query) {
+            const converter = new OpenCC("https://github.com/ninemui/ninemui.github.io/raw/main/t2s.json");
+			
+            return await converter.convertPromise(query);
         }
 
-        function convertToSimplifiedChinese(query) {
-            return query.replace(/[\u4E00-\u9FFF\uF900-\uFAFF]/g, char => {
-                // Simplified conversion map placeholder
-                return char; // Replace with actual mapping for full conversion.
-            });
-        }
-
-        btn.onclick = function() {
+        btn.onclick = async function() {
             var query = searchMsg.value.trim();
             if (!query) {
                 alert("Please enter a search query.");
                 return;
             }
 
-            if (isTraditionalChinese(query)) {
-                query = convertToSimplifiedChinese(query);
-            }
+            query = await convertToSimplified(query);
 
             Object.keys(categories).forEach(function(listId) {
                 var list = document.getElementById(listId);
