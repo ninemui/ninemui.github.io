@@ -130,16 +130,22 @@
                 <ul id="list1"></ul>
             </div>		
             <div class="column">
-                <h2>Favorite 資源網:</h3>
+                <h2>Favorite 資源網:</h2>
                 <ul id="list2"></ul>
+				<br><br><br><br><br>
+                <h2>CAN'T PLAY??:</h2>
+				<ul id="list2b"></ul>
             </div>
             <div class="column">
-                <h2>資源網:</h3>
-                <ul id="list3"</ul>
+                <h2>資源網:</h2>
+                <ul id="list3"></ul>
             </div>
             <div class="column">
-                <h2>CAN'T PLAY??:</h3>
+                <h2>ENGLISH:</h2>
                 <ul id="list4"></ul>
+				<br><br><br><br><br>
+				<h2>Subtitle:</h2>
+				<ul id="list4b"></ul>
             </div>
 			
         </div>
@@ -178,6 +184,10 @@
                 { name: "如意資源", url: "https://www.ryzyw.com/index.php/vod/search.html?wd=" },
                 { name: "非凡資源", url: "http://ffzy1.tv/index.php/vod/search.html?wd=" },
             ],
+            "list2b": [
+                { name: "臥龍資源", url: "https://www.wolongzy.tv/index.php/vod/search.html?wd=" },
+                { name: "天空資源", url: "https://tiankongzy.cc/index.php/vod/search.html?wd=" },		
+            ],
             "list3": [
                 { name: "華為吧資源", url: "https://nikanba.live/index.php/vod/search.html?wd=" },
                 { name: "暴風資源", url: "https://bfzy.tv/s/?keys=+" },						
@@ -192,11 +202,18 @@
 				{ name: "黑木耳資源", url: "https://www.heimuer.tv/index.php/vod/search.html?wd=" },
 				{ name: "無盡資源 720", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
 				{ name: "OK資源 720", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
-				{ name: "丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" },	
+				{ name: "丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" },
             ],
             "list4": [
-                { name: "臥龍資源", url: "https://www.wolongzy.tv/index.php/vod/search.html?wd=" },
-                { name: "天空資源", url: "https://tiankongzy.cc/index.php/vod/search.html?wd=" },
+				{ name: "Soap2Day", url: "https://ww25.soap2day.day/?s=" },
+				{ name: "Fmovies", url: "https://fmovies.ps/search/" },
+				{ name: "SFlix", url: "https://sflix.to/search/" },
+				{ name: "1HD", url: "https://www.google.ca/search?q=1hd.to+" },	
+            ],
+            "list4b": [
+				{ name: "Addic7ed", url: "https://www.google.ca/search?q=addic7ed.com+" },
+				{ name: "OpenSubtitle", url: "https://www.opensubtitles.org/en/search2/moviename-" },
+				{ name: "My Subs", url: "https://my-subs.co/search.php?key=" },
             ]
         };
 
@@ -212,30 +229,61 @@
             }
         }
 
-        btn.onclick = async function() {
-            var query = searchMsg.value.trim();
-            if (!query) {
-                alert("Please enter a search query.");
-                return;
-            }
+		// Convert Traditional to Simplified Chinese using OpenCC
+		async function convertToSimplified(query) {
+			const converter = OpenCC.Converter({ from: 'tw', to: 'cn' }); // Traditional to Simplified
+			console.log("Converted Query:", query);
+			try {
+				return converter(query); // Convert the query text
+			} catch (error) {
+				console.error('Error converting text:', error);
+				return query; // If conversion fails, return the original query
+			}
+		}
 
-            query = await convertToSimplified(query);
+		async function performSearch() {
+			var query = searchMsg.value.trim();
+			if (!query) {
+				alert("Please enter a search query.");
+				return;
+			}
 
-            // Ensure the lists are cleared before updating
-            Object.keys(categories).forEach(function(listId) {
-                var list = document.getElementById(listId);
-                list.innerHTML = "";
-                categories[listId].forEach(function(link) {
-                    var li = document.createElement("li");
-                    var a = document.createElement("a");
-                    a.href = link.url + encodeURIComponent(query);
-                    a.target = "_blank";
-                    a.textContent = link.name;
-                    li.appendChild(a);
-                    list.appendChild(li);
-                });
-            });
-        };
+			query = await convertToSimplified(query);
+
+			// Ensure the lists are cleared before updating
+			Object.keys(categories).forEach(function (listId) {
+				var list = document.getElementById(listId);
+				list.innerHTML = "";
+				categories[listId].forEach(function (link) {
+					var li = document.createElement("li");
+					var a = document.createElement("a");
+
+					// Replace spaces with hyphens for specific links
+					var modifiedQuery = query;
+					if (link.name === "Fmovies" || link.name === "SFlix") {
+						modifiedQuery = query.replace(/\s+/g, '-');
+					}
+
+					a.href = link.url + encodeURIComponent(modifiedQuery);
+					a.target = "_blank";
+					a.textContent = link.name;
+					li.appendChild(a);
+					list.appendChild(li);
+				});
+			});
+		}
+
+		// Attach event listener to the button
+		btn.onclick = performSearch;
+
+		// Attach event listener for "Enter" key press on the input field
+		searchMsg.addEventListener("keypress", function (event) {
+			if (event.key === "Enter") {
+				performSearch();
+			}
+		});
+
+
     </script>
 </body>
 
