@@ -117,25 +117,25 @@
 </head>
 
 <body>
-<p style="margin-bottom:60px;"></p>
+<p style="margin-bottom:55px;"></p>
     <div class="search">
         <div class="searchbar">
             <input type="text" id="searchMsg" placeholder="Enter your search query">
             <span id="btn">Search Links</span>
         </div>
-		<br>
+<p style="margin-bottom:35px;"></p>
         <div class="link-columns">
             <div class="column">
-                <h2>Favorite:</h3>
+                <h2>Websitez:</h3>
                 <ul id="list1"></ul>
             </div>		
             <div class="column">
-                <h2>資源網:</h3>
+                <h2>Favorite 資源網:</h3>
                 <ul id="list2"></ul>
             </div>
             <div class="column">
-                <h2>Website:</h3>
-                <ul id="list3"></ul>
+                <h2>資源網:</h3>
+                <ul id="list3"</ul>
             </div>
             <div class="column">
                 <h2>CAN'T PLAY??:</h3>
@@ -156,32 +156,9 @@
 
         var categories = {
             "list1": [
-			    { name: "麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
-				{ name: "非凡資源", url: "http://ffzy1.tv/index.php/vod/search.html?wd=" },
-				{ name: "如意資源", url: "https://www.ryzyw.com/index.php/vod/search.html?wd=" },
-				{ name: "魔都資源", url: "https://moduzy.com/search/-------------/?wd=" },
-				{ name: "暴風資源", url: "https://bfzy.tv/s/?keys=+" },
-            ],
-            "list2": [
-                { name: "非凡資源", url: "http://ffzy1.tv/index.php/vod/search.html?wd=" },
-                { name: "魔都資源", url: "https://moduzy.com/search/-------------/?wd=" },
-                { name: "如意資源", url: "https://www.ryzyw.com/index.php/vod/search.html?wd=" },
-                { name: "華為吧資源", url: "https://nikanba.live/index.php/vod/search.html?wd=" },
-                { name: "红牛資源", url: "https://hongniuzy.com/index.php/vod/search.html?wd=" },
-                { name: "速播資源", url: "https://www.subozy.com/index.php/vod/search.html?wd=" },
-                { name: "豪華資源", url: "https://hhzyapi.com/index.php/vod/search.html?wd=" },
-                { name: "光速資源", url: "https://guangsuzy.net/index.php/vod/search.html?wd=" },
-                { name: "金鷹資源", url: "https://jyzyapi.com/index.php/vod/search.html?wd=" },
-                { name: "暴風資源", url: "https://bfzy.tv/s/?keys=+" },
-                { name: "虎牙資源", url: "https://huyazy.com/index.php/vod/search.html?wd=" },
-                { name: "極速資源", url: "https://www.jisuzy.com/index.php/vod/search.html?wd=" },
-                { name: "新浪資源", url: "https://www.xinlangzy.com/index.php/vod/search.html?wd=" },
-
-            ],
-            "list3": [
+                { name: "麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
                 { name: "獨播庫", url: "https://w.duboku.io/vodsearch/-------------.html?wd=" },
                 { name: "歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
-                { name: "麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
                 { name: "奈飛", url: "https://www.naifei1.org/vodsearch.html?wd=" },
                 { name: "神馬", url: "https://www.18ys.cc/vodsearch/--.html?wd=" },
                 { name: "蛋蛋贊", url: "https://www.ddzvod.com/index.php/vod/search.html?wd=" },
@@ -194,17 +171,33 @@
                 { name: "唐人街影視", url: "https://www.trjvod.com/index.php/vod/search.html?wd=" },
                 { name: "FreeOKLOL", url: "https://www.freeok.lol/vodsearch.html?wd=" },
                 { name: "愛你短劇", url: "https://www.ainidj.com/vodsearch/-------------.html?wd=" },
-
+            ],
+            "list2": [
+                { name: "如意資源", url: "https://www.ryzyw.com/index.php/vod/search.html?wd=" },
+                { name: "非凡資源", url: "http://ffzy1.tv/index.php/vod/search.html?wd=" },
+                { name: "索尼資源", url: "https://suonizy.com/vodsearch/-------------.html?wd=" },
+                { name: "魔都資源", url: "https://moduzy.com/search/-------------/?wd=" },
+                { name: "最大資源", url: "https://api.zuidapi.com/index.php/vod/search.html?wd=" },
+            ],
+            "list3": [
+                { name: "華為吧資源", url: "https://nikanba.live/index.php/vod/search.html?wd=" },
+                { name: "暴風資源", url: "https://bfzy.tv/s/?keys=+" },			
+				{ name: "虎牙資源", url: "https://huyazy.com/index.php/vod/search.html?wd=" },
+                { name: "極速資源", url: "https://www.jisuzy.com/index.php/vod/search.html?wd=" },
+                { name: "新浪資源", url: "https://www.xinlangzy.com/index.php/vod/search.html?wd=" },
+				{ name: "黑木耳資源", url: "https://www.heimuer.tv/index.php/vod/search.html?wd=" },
+                { name: "红牛資源", url: "https://hongniuzy.com/index.php/vod/search.html?wd=" },
+                { name: "速播資源", url: "https://www.subozy.com/index.php/vod/search.html?wd=" },
+                { name: "豪華資源", url: "https://hhzyapi.com/index.php/vod/search.html?wd=" },
+                { name: "光速資源", url: "https://guangsuzy.net/index.php/vod/search.html?wd=" },	
+				{ name: "無盡資源", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
+                { name: "金鷹資源", url: "https://jyzyapi.com/index.php/vod/search.html?wd=" },				
+				{ name: "OK資源", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
+				{ name: "丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" },	
             ],
             "list4": [
-                { name: "最大資源", url: "https://api.zuidapi.com/index.php/vod/search.html?wd=" },
-                { name: "索尼資源", url: "https://suonizy.com/vodsearch/-------------.html?wd=" },
                 { name: "臥龍資源", url: "https://www.wolongzy.tv/index.php/vod/search.html?wd=" },
                 { name: "天空資源", url: "https://tiankongzy.cc/index.php/vod/search.html?wd=" },
-                { name: "無盡資源", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
-                { name: "OK資源", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
-                { name: "丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" },
-                { name: "黑木耳資源", url: "https://www.heimuer.tv/index.php/vod/search.html?wd=" },
             ]
         };
 
