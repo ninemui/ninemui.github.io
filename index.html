@@ -126,7 +126,8 @@
             query = await convertToSimplified(query);
 
             allResults.innerHTML = "<p>Loading results...</p>";
-            fetch(`http://127.0.0.1:5000/search?query=${encodeURIComponent(query)}`)
+			fetch(`https://ninemui-search.herokuapp.com/search?query=${encodeURIComponent(query)}`)
+
                 .then(response => response.json())
                 .then(data => {
                     allResults.innerHTML = "";
