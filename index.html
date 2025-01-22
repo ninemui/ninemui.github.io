@@ -126,7 +126,7 @@
             query = await convertToSimplified(query);
 
             allResults.innerHTML = "<p>Loading results...</p>";
-			fetch(`https://ninemui-search.herokuapp.com/search?query=${encodeURIComponent(query)}`)
+			fetch(`https://ninemui-search-1dc41d71e964.herokuapp.com/search?query=${encodeURIComponent(query)}`)
 
                 .then(response => response.json())
                 .then(data => {
