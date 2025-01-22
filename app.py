@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify, send_file, send_from_directory
 import requests
 from bs4 import BeautifulSoup
