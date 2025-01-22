@@ -41,22 +41,24 @@ websites = {
 # Function to scrape the page and extract URLs
 def scrape_page(url, base_url, selector, query):
     try:
-        # Construct the full URL with the search query
+        # Construct the full URL for the search query
         full_url = url.format(query)
-        headers = {"User-Agent": "Mozilla/5.0"}
-        
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+            "Accept-Language": "en-US,en;q=0.9"
+        }
         response = requests.get(full_url, headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-        
+
         # Use the selector to find the links
         results = soup.select(selector)
         links = [urljoin(base_url, result['href']) for result in results if result.get('href')]
-        
+
         # Filter out unwanted links
         valid_links = [link for link in links if '/type/id/' not in link]
         return valid_links
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         print(f"Error scraping {url}: {e}")
         return []
 
