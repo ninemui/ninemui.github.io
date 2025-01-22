@@ -34,34 +34,29 @@ websites = {
     "天空資源": {"url": "https://tiankongzy.cc/index.php/vod/search.html?wd={}", "selector": "ul li span.xing_vb4 a", "base_url": "https://tiankongzy.cc"},
     "華為吧資源": {"url": "https://nikanba.live/index.php/vod/search.html?wd={}", "selector": "ul li span.xing_vb4 a", "base_url": "https://nikanba.live"},
     "黑木耳資源": {"url": "https://www.heimuer.tv/index.php/vod/search.html?wd={}", "selector": "ul.stui-vodlist li a", "base_url": "https://www.heimuer.tv"},
-    "暴風資源": {"url": "https://bfzy.tv/s/?keys={}", "selector": "ul.videoContent li a.videoName", "base_url": "https://bfzy.tv"},
 }
 
 # Function to scrape the page and extract URLs
 def scrape_page(url, base_url, selector, query):
     try:
+        # Construct the full URL for the search query
         full_url = url.format(query)
         headers = {
-            "User-Agent": "Mozilla/5.0"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+            "Accept-Language": "en-US,en;q=0.9"
         }
-        
         response = requests.get(full_url, headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Log page content for debugging (comment out after review)
-        print("HTML content of the page:", soup.prettify())
-
         # Use the selector to find the links
         results = soup.select(selector)
-        print(f"Results found: {results}")
-
         links = [urljoin(base_url, result['href']) for result in results if result.get('href')]
-        print(f"Links found: {links}")
 
+        # Filter out unwanted links
         valid_links = [link for link in links if '/type/id/' not in link]
         return valid_links
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         print(f"Error scraping {url}: {e}")
         return []
 
