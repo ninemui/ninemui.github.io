@@ -24,6 +24,7 @@ websites = {
     "如意資源": {"url": "https://www.ryzyw.com/index.php/vod/search.html?wd={}", "selector": "ul.videoContent li a.videoName", "base_url": "https://www.ryzyw.com"},
     "非凡資源": {"url": "http://ffzy1.tv/index.php/vod/search.html?wd={}", "selector": "ul.videoContent li a.videoName", "base_url": "http://ffzy1.tv"},
     "紅牛資源": {"url": "https://hongniuzy.com/index.php/vod/search.html?wd={}", "selector": "div.xing_vb span.xing_vb4 a", "base_url": "https://hongniuzy.com"},
+    "豪華資源": {"url": "https://hhzyapi.com/index.php/vod/search.html?wd={}", "selector": "div.list div.list-item span.list-title a", "base_url": "https://hhzyapi.com"},
     "光速資源": {"url": "https://guangsuzy.net/index.php/vod/search.html?wd={}", "selector": "table.tb tbody tr td.yp a", "base_url": "https://guangsuzy.net"},
     "金鷹資源": {"url": "https://jyzyapi.com/index.php/vod/search.html?wd={}", "selector": "div.xing_vb span.xing_vb4 a", "base_url": "https://jyzyapi.com"},
     "速播資源": {"url": "https://www.subozy.com/index.php/vod/search.html?wd={}", "selector": "div.list div.list-item span.list-title a", "base_url": "https://www.subozy.com"},
@@ -39,24 +40,28 @@ websites = {
 # Function to scrape the page and extract URLs
 def scrape_page(url, base_url, selector, query):
     try:
-        # Construct the full URL for the search query
         full_url = url.format(query)
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
-            "Accept-Language": "en-US,en;q=0.9"
+            "User-Agent": "Mozilla/5.0"
         }
+        
         response = requests.get(full_url, headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
 
+        # Log page content for debugging (comment out after review)
+        print("HTML content of the page:", soup.prettify())
+
         # Use the selector to find the links
         results = soup.select(selector)
-        links = [urljoin(base_url, result['href']) for result in results if result.get('href')]
+        print(f"Results found: {results}")
 
-        # Filter out unwanted links
+        links = [urljoin(base_url, result['href']) for result in results if result.get('href')]
+        print(f"Links found: {links}")
+
         valid_links = [link for link in links if '/type/id/' not in link]
         return valid_links
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         print(f"Error scraping {url}: {e}")
         return []
 
