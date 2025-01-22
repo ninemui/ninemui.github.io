@@ -1,27 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Links</title>
-    <link rel="icon" href="favicon.png">
-    
-    <style type="text/css" media="screen">
-        li a {
-            font-size: 22px;
-            text-decoration: none;
-            color: #0073e6;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-        }
+    <link rel="icon" href="favicon.ico">
 
+    <style>
         body {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            font-family: Arial, sans-serif;
         }
 
         .container {
@@ -31,261 +22,146 @@
             padding: 20px;
         }
 
-        #searchMsg {
-            font-size: 22px;
-            padding-left: 10px;
-            width: 100%;
-            max-width: 540px;
-            height: 50px;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        #searchMsg:focus {
-            border-color: orange;
-            box-shadow: 0 0 8px rgba(102,204,255,0.5);
-        }
-
         .searchbar {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        #searchMsg {
+            width: 100%;
+            max-width: 540px;
+            height: 50px;
+            font-size: 18px;
+            padding: 0 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        #searchMsg:focus {
+            border-color: orange;
+            box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
         }
 
         #btn {
-            color: #fff;
-            padding: 0 8px;
-            font-size: 25px;
-            background: #66ccff;
-            cursor: pointer;
-            min-width: 135px;
-            height: 50px;
-            line-height: 50px;
+            background-color: #0073e6;
+            color: white;
             border: none;
             border-radius: 25px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 18px;
+            padding: 0 20px;
+            height: 50px;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
         #btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            background-color: #005bb5;
         }
 
-        .link-columns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 22px;
-            justify-content: space-between;
-            margin-top: 22px;
+        .results {
+            margin-top: 20px;
             width: 100%;
         }
 
-        .column {
-            flex: 1;
-            min-width: 220px;
-        }
-
-        .column h3 {
-            margin-bottom: 10px;
-            font-size: 22px;
-            color: #333;
-        }
-
-        ul {
+        .results ul {
             list-style: none;
             padding: 0;
         }
 
-        li {
-            padding: 6px;
+        .results li {
+            margin: 10px 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
         }
 
-        li a {
+        .results a {
             text-decoration: none;
             color: #0073e6;
         }
 
-        li a:hover {
+        .results a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
-
 <body>
-<p style="margin-bottom:50px;"></p>
-    <div class="search">
+<p style="margin-bottom:30px;"></p>
+    <div class="container">
         <div class="searchbar">
             <input type="text" id="searchMsg" placeholder="Enter your search query">
-            <span id="btn">Search Links</span>
+            <button id="btn">Search Links</button>
         </div>
-<p style="margin-bottom:45px;"></p>
-        <div class="link-columns">
-            <div class="column">
-                <h2>Websitez:</h3>
-                <ul id="list1"></ul>
-            </div>		
-            <div class="column">
-                <h2>Favorite 資源網:</h2>
-                <ul id="list2"></ul>
-				<br><br><br><br><br>
-                <h2>CAN'T PLAY??:</h2>
-				<ul id="list2b"></ul>
-            </div>
-            <div class="column">
-                <h2>資源網:</h2>
-                <ul id="list3"></ul>
-            </div>
-            <div class="column">
-                <h2>ENGLISH:</h2>
-                <ul id="list4"></ul>
-				<br><br><br><br><br>
-				<h2>Subtitle:</h2>
-				<ul id="list4b"></ul>
-            </div>
-			
-        </div>
+<p style="margin-bottom:50px;"></p>		
+        <div class="results" id="allResults"></div>
     </div>
 
-    <!-- Add OpenCC JS CDN -->
-	<script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"></script>
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"></script>
     <script>
-        var searchMsg = document.getElementById("searchMsg");
-        var btn = document.getElementById("btn");
+		const websiteOrder = ["麥田影院", "看片狂人", "如意資源", "非凡資源", "紅牛資源", "豪華資源", "光速資源", "金鷹資源", "速播資源", "虎牙資源", "極速資源", "臥龍資源", "天空資源", "華為吧資源", "黑木耳資源", "暴風資源"];
+        const searchMsg = document.getElementById("searchMsg");
+        const btn = document.getElementById("btn");
+        const allResults = document.getElementById("allResults");
 
-        var categories = {
-            "list1": [
-                { name: "麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
-                { name: "獨播庫", url: "https://w.duboku.io/vodsearch/-------------.html?wd=" },
-                { name: "歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
-				{ name: "UB影視", url: "https://www.ub1818.com/fil.html?keyword=" },
-                { name: "看片狂人", url: "https://www.kpkuang.org/vodsearch/-------------.html?wd=" },
-				{ name: "酷片網", url: "https://kupian.org/search/--/?wd=" },
-                { name: "奈飛", url: "https://www.naifei1.org/vodsearch.html?wd=" },
-                { name: "神馬", url: "https://www.18ys.cc/vodsearch/--.html?wd=" },
-                { name: "蛋蛋贊", url: "https://www.ddzvod.com/index.php/vod/search.html?wd=" },
-                { name: "多瑙影視", url: "https://www.duonaovod.com/index.php/vod/search.html?wd=" },
-                { name: "Gimy", url: "https://gimy.tv/search/-------------.html?wd=" },
-                { name: "泥視頻VIP", url: "https://www.nivod.vip/s/-------------/?wd=" },
-                { name: "泥視頻(粉絲復活)", url: "https://nivodi1.com/index.php/vod/search.html?wd" },
-                { name: "小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" },
-                { name: "唐人街影視", url: "https://www.trjvod.com/index.php/vod/search.html?wd=" },
-            ],
-            "list2": [
-                { name: "索尼資源", url: "https://suonizy.com/vodsearch/-------------.html?wd=" },
-                { name: "魔都資源", url: "https://moduzy.com/search/-------------/?wd=" },
-                { name: "最大資源", url: "https://api.zuidapi.com/index.php/vod/search.html?wd=" },				
-                { name: "如意資源", url: "https://www.ryzyw.com/index.php/vod/search.html?wd=" },
-                { name: "非凡資源", url: "http://ffzy1.tv/index.php/vod/search.html?wd=" },
-            ],
-            "list2b": [
-                { name: "臥龍資源", url: "https://www.wolongzy.tv/index.php/vod/search.html?wd=" },
-                { name: "天空資源", url: "https://tiankongzy.cc/index.php/vod/search.html?wd=" },		
-            ],
-            "list3": [
-                { name: "華為吧資源", url: "https://nikanba.live/index.php/vod/search.html?wd=" },
-                { name: "暴風資源", url: "https://bfzy.tv/s/?keys=+" },						
-                { name: "红牛資源", url: "https://hongniuzy.com/index.php/vod/search.html?wd=" },
-                { name: "速播資源", url: "https://www.subozy.com/index.php/vod/search.html?wd=" },
-                { name: "豪華資源", url: "https://hhzyapi.com/index.php/vod/search.html?wd=" },		
-                { name: "金鷹資源", url: "https://jyzyapi.com/index.php/vod/search.html?wd=" },
-                { name: "光速資源", url: "https://guangsuzy.net/index.php/vod/search.html?wd=" },	
-				{ name: "虎牙資源", url: "https://huyazy.com/index.php/vod/search.html?wd=" },
-                { name: "極速資源", url: "https://www.jisuzy.com/index.php/vod/search.html?wd=" },
-                { name: "新浪資源", url: "https://www.xinlangzy.com/index.php/vod/search.html?wd=" },				
-				{ name: "黑木耳資源", url: "https://www.heimuer.tv/index.php/vod/search.html?wd=" },
-				{ name: "無盡資源 720", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
-				{ name: "OK資源 720", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
-				{ name: "丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" },
-            ],
-            "list4": [
-				{ name: "Soap2Day", url: "https://ww25.soap2day.day/?s=" },
-				{ name: "Fmovies", url: "https://fmovies.ps/search/" },
-				{ name: "SFlix", url: "https://sflix.to/search/" },
-				{ name: "1HD", url: "https://www.google.ca/search?q=1hd.to+" },	
-            ],
-            "list4b": [
-				{ name: "Addic7ed", url: "https://www.google.ca/search?q=addic7ed.com+" },
-				{ name: "OpenSubtitle", url: "https://www.opensubtitles.org/en/search2/moviename-" },
-				{ name: "My Subs", url: "https://my-subs.co/search.php?key=" },
-            ]
-        };
-
-        // Convert Traditional to Simplified Chinese using OpenCC
         async function convertToSimplified(query) {
-            const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });  // Traditional to Simplified
-            console.log("Converted Query:", query);
+            const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
             try {
-                return converter(query);  // Convert the query text
-            } catch (error) {
-                console.error('Error converting text:', error);
-                return query;  // If conversion fails, return the original query
+                return await converter(query);
+            } catch {
+                return query; // Fallback to original query
             }
         }
 
-		// Convert Traditional to Simplified Chinese using OpenCC
-		async function convertToSimplified(query) {
-			const converter = OpenCC.Converter({ from: 'tw', to: 'cn' }); // Traditional to Simplified
-			console.log("Converted Query:", query);
-			try {
-				return converter(query); // Convert the query text
-			} catch (error) {
-				console.error('Error converting text:', error);
-				return query; // If conversion fails, return the original query
-			}
-		}
+        async function performSearch() {
+            let query = searchMsg.value.trim();
+            if (!query) {
+                alert("Please enter a search query.");
+                return;
+            }
 
-		async function performSearch() {
-			var query = searchMsg.value.trim();
-			if (!query) {
-				alert("Please enter a search query.");
-				return;
-			}
+            query = await convertToSimplified(query);
 
-			query = await convertToSimplified(query);
+            allResults.innerHTML = "<p>Loading results...</p>";
+            fetch(`http://127.0.0.1:5000/search?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    allResults.innerHTML = "";
 
-			// Ensure the lists are cleared before updating
-			Object.keys(categories).forEach(function (listId) {
-				var list = document.getElementById(listId);
-				list.innerHTML = "";
-				categories[listId].forEach(function (link) {
-					var li = document.createElement("li");
-					var a = document.createElement("a");
+                    websiteOrder.forEach(website => {
+                        const links = data[website];
+                        if (links && links.length > 0) {
+                            // Add the website name as a clickable link
+                            links.forEach(link => {
+                                const li = document.createElement("li");
+                                const a = document.createElement("a");
+                                a.textContent = website;
+                                a.href = link;
+                                a.target = "_blank"; // Open in new tab
+                                li.appendChild(a);
+                                allResults.appendChild(li);
+                            });
+                        } else {
+                            // Add "No Results" for websites without results
+                            const li = document.createElement("li");
+                            li.textContent = `${website} (No Results Found)`;
+                            li.style.color = "gray";
+                            allResults.appendChild(li);
+                        }
+                    });
+                })
+                .catch(() => {
+                    allResults.innerHTML = "<p>Error fetching results, please try again.</p>";
+                });
+        }
 
-					// Replace spaces with hyphens for specific links
-					var modifiedQuery = query;
-					if (link.name === "Fmovies" || link.name === "SFlix") {
-						modifiedQuery = query.replace(/\s+/g, '-');
-					}
-
-					a.href = link.url + encodeURIComponent(modifiedQuery);
-					a.target = "_blank";
-					a.textContent = link.name;
-					li.appendChild(a);
-					list.appendChild(li);
-				});
-			});
-		}
-
-		// Attach event listener to the button
-		btn.onclick = performSearch;
-
-		// Attach event listener for "Enter" key press on the input field
-		searchMsg.addEventListener("keypress", function (event) {
-			if (event.key === "Enter") {
-				performSearch();
-			}
-		});
-
-
+        btn.onclick = performSearch;
+        searchMsg.addEventListener("keypress", e => {
+            if (e.key === "Enter") performSearch();
+        });
     </script>
 </body>
-
 </html>
