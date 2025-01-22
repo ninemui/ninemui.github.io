@@ -43,8 +43,9 @@ def scrape_page(url, base_url, selector, query):
     try:
         # Construct the full URL with the search query
         full_url = url.format(query)
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"}
         
-        response = requests.get(full_url)
+        response = requests.get(full_url, headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         
