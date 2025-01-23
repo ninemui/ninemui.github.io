@@ -7,6 +7,11 @@
     <link rel="icon" href="favicon.ico">
 
     <style>
+	    * {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             min-height: 100vh;
             display: flex;
@@ -17,7 +22,7 @@
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -33,7 +38,7 @@
             width: 100%;
             max-width: 540px;
             height: 50px;
-            font-size: 18px;
+            font-size: 20px;
             padding: 0 20px;
             border: 2px solid #ddd;
             border-radius: 25px;
@@ -51,7 +56,7 @@
             color: white;
             border: none;
             border-radius: 25px;
-            font-size: 18px;
+            font-size: 20px;
             padding: 0 20px;
             height: 50px;
             cursor: pointer;
@@ -62,31 +67,79 @@
             background-color: #005bb5;
         }
 
-        .results {
-            margin-top: 20px;
+        .link-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+            justify-content: space-between;
+            margin-top: 22px;
             width: 100%;
         }
 
-        .results ul {
+        .column {
+            flex: 1;
+            min-width: 150px;
+            max-width: 250px;
+        }
+
+        .column h3 {
+            margin-bottom: 10px;
+            font-size: 22px;
+            color: #333;
+        }
+
+        ul {
             list-style: none;
             padding: 0;
         }
 
-        .results li {
-            margin: 10px 0;
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
+        li {
+            padding: 6px;
         }
 
-        .results a {
+        .common-link {
+            font-size: 20px;
+            font-weight: bold;
             text-decoration: none;
             color: #0073e6;
         }
 
-        .results a:hover {
+        .common-link:hover {
             text-decoration: underline;
         }
+
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3; /* Light gray */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .percentage {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+        }
+		
+		#resourceList li {
+			font-size: 20px; /* Ensures uniform font size */
+		}
+
     </style>
 </head>
 <body>
@@ -96,73 +149,224 @@
             <input type="text" id="searchMsg" placeholder="Enter your search query">
             <button id="btn">Search Links</button>
         </div>
-<p style="margin-bottom:50px;"></p>		
-        <div class="results" id="allResults"></div>
+<p style="margin-bottom:40px;"></p>
+        <div class="link-columns">
+            <div class="column">
+                <h2>資源網:</h2>
+<p style="margin-bottom:3px;"></p>
+                <ul id="resourceList"></ul>
+            </div>
+            <div class="column">
+                <h2>Websitez:</h2>
+<p style="margin-bottom:3px;"></p>				
+                <ul id="websiteList"></ul>
+            </div>
+            <div class="column">
+                <h2>資源網 CAPTCHA:</h2>
+<p style="margin-bottom:3px;"></p>
+                <ul id="captchaList"></ul>
+            </div>     
+            <div class="column">
+				<h2>ENGLISH:</h2>
+<p style="margin-bottom:3px;"></p>
+                <ul id="englishList"></ul>
+				<br><br><br><br><br>
+				<h2>Subtitle:</h2>
+<p style="margin-bottom:3px;"></p>
+				<ul id="subtitleList"></ul>
+            </div>
+        </div>
+        <div class="loader-container" id="loader" style="display: none;">
+            <div class="loader"></div>
+            <div class="percentage" id="percentage">0%</div>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"></script>
-    <script>
-		const websiteOrder = ["麥田影院", "如意資源", "非凡資源", "紅牛資源", "豪華資源", "光速資源", "金鷹資源", "速播資源", "虎牙資源", "極速資源", "臥龍資源", "天空資源", "華為吧資源", "黑木耳資源"];
-        const searchMsg = document.getElementById("searchMsg");
-        const btn = document.getElementById("btn");
-        const allResults = document.getElementById("allResults");
+<script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"></script>
+<script>
+    const websiteOrder = ["麥田影院", "如意資源", "非凡資源", "紅牛資源", "光速資源", "金鷹資源", "速播資源", "虎牙資源", "極速資源", "臥龍資源", "天空資源", "華為吧資源", "黑木耳資源"];
+    const searchMsg = document.getElementById("searchMsg");
+    const btn = document.getElementById("btn");
+    const resourceList = document.getElementById("resourceList");
+    const websiteList = document.getElementById("websiteList");
+    const captchaList = document.getElementById("captchaList");
+    const englishList = document.getElementById("englishList");
+    const subtitleList = document.getElementById("subtitleList");
+    const loader = document.getElementById("loader");
+    const percentageElement = document.getElementById("percentage");
 
-        async function convertToSimplified(query) {
-            const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
-            try {
-                return await converter(query);
-            } catch {
-                return query; // Fallback to original query
-            }
+    const websites = [
+        { name: "麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
+        { name: "獨播庫", url: "https://w.duboku.io/vodsearch/-------------.html?wd=" },
+        { name: "歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
+        { name: "UB影視", url: "https://www.ub1818.com/fil.html?keyword=" },
+        { name: "看片狂人", url: "https://www.kpkuang.org/vodsearch/-------------.html?wd=" },
+        { name: "酷片網", url: "https://kupian.org/search/--/?wd=" },
+        { name: "奈飛", url: "https://www.naifei1.org/vodsearch.html?wd=" },
+        { name: "神馬", url: "https://www.18ys.cc/vodsearch/--.html?wd=" },
+        { name: "蛋蛋贊", url: "https://www.ddzvod.com/index.php/vod/search.html?wd=" },
+        { name: "多瑙影視", url: "https://www.duonaovod.com/index.php/vod/search.html?wd=" },
+        { name: "Gimy", url: "https://gimy.tv/search/-------------.html?wd=" },
+        { name: "泥視頻VIP", url: "https://www.nivod.vip/s/-------------/?wd=" },
+        { name: "泥視頻(粉絲復活)", url: "https://nivodi1.com/index.php/vod/search.html?wd=" },
+        { name: "小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" },
+        { name: "唐人街影視", url: "https://www.trjvod.com/index.php/vod/search.html?wd=" }
+    ];
+
+    const captchaResources = [
+        { name: "索尼資源", url: "https://suonizy.com/vodtype/13.html" },
+        { name: "魔都資源", url: "https://moduzy.com/list26/" },
+        { name: "最大資源", url: "https://zuidazy.me/vodtype/13.html" },
+        { name: "暴風資源", url: "https://bfzy.tv/index.php/vod/type/id/31.html" },
+        { name: "無盡資源 720", url: "https://www.wujinzy.com/vodtype/13.html" },
+        { name: "新浪資源", url: "https://www.xinlangzy.com/index.php/vod/type/id/13.html" },
+        { name: "OK資源 720", url: "https://www.wujinzy.com/vodtype/13.html" },
+        { name: "丫丫資源", url: "https://www.wujinzy.com/vodtype/13.html" }
+    ];
+
+    const englishResources = [
+        { name: "Soap2Day", url: "https://ww25.soap2day.day/?s=" },
+        { name: "Fmovies", url: "https://fmovies.ps/search/" },
+        { name: "SFlix", url: "https://sflix.to/search/" },
+        { name: "1HD", url: "https://www.google.ca/search?q=1hd.to+" }
+    ];
+
+    const subtitleResources = [
+        { name: "Addic7ed", url: "https://www.google.ca/search?q=addic7ed.com+" },
+        { name: "OpenSubtitle", url: "https://www.opensubtitles.org/en/search2/moviename-" },
+        { name: "My Subs", url: "https://my-subs.co/search.php?key=" }
+    ];
+
+    async function convertToSimplified(query) {
+        const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
+        try {
+            return await converter(query);
+        } catch {
+            alert("Could not convert to Simplified Chinese. Using the original query.");
+            return query; // Fallback to original query
+        }
+    }
+
+    async function performSearch() {
+        let query = searchMsg.value.trim();
+        if (!query) {
+            alert("Please enter a search query.");
+            return;
         }
 
-        async function performSearch() {
-            let query = searchMsg.value.trim();
-            if (!query) {
-                alert("Please enter a search query.");
-                return;
+        query = await convertToSimplified(query);
+
+        // Show loader with percentage
+        loader.style.display = "flex";
+        percentageElement.textContent = "0%";
+        let percentage = 0;
+
+        // Simulate percentage progress
+        const interval = setInterval(() => {
+            if (percentage < 95) {
+                percentage += 1;
+                percentageElement.textContent = `${percentage}%`;
             }
+        }, 85); // Increment every 100ms
 
-            query = await convertToSimplified(query);
+        //fetch(`http://localhost:5000/search?query=${encodeURIComponent(query)}`)
+		fetch(`https://ninemui-search-1dc41d71e964.herokuapp.com/search?query=${encodeURIComponent(query)}`)
 
-            allResults.innerHTML = "<p>Loading results...</p>";
-			fetch(`https://ninemui-search-1dc41d71e964.herokuapp.com/search?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                clearInterval(interval); // Stop the percentage simulation
+                loader.style.display = "none";
 
-                .then(response => response.json())
-                .then(data => {
-                    allResults.innerHTML = "";
+                resourceList.innerHTML = "";
+                websiteOrder.forEach(website => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.className = "common-link";
 
-                    websiteOrder.forEach(website => {
-                        const links = data[website];
-                        if (links && links.length > 0) {
-                            // Add the website name as a clickable link
-                            links.forEach(link => {
-                                const li = document.createElement("li");
-                                const a = document.createElement("a");
-                                a.textContent = website;
-                                a.href = link;
-                                a.target = "_blank"; // Open in new tab
-                                li.appendChild(a);
-                                allResults.appendChild(li);
-                            });
-                        } else {
-                            // Add "No Results" for websites without results
-                            const li = document.createElement("li");
-                            li.textContent = `${website} (No Results Found)`;
-                            li.style.color = "gray";
-                            allResults.appendChild(li);
-                        }
-                    });
-                })
-                .catch(() => {
-                    allResults.innerHTML = "<p>Error fetching results, please try again.</p>";
+                    const links = data[website];
+                    if (links && links.length > 0) {
+                        a.textContent = website; // Show only the website name
+                        a.href = links[0]; // Use the first link as the destination
+                        a.target = "_blank"; // Open in a new tab
+                    } else {
+                        li.textContent = `${website}: No Results!`;
+                        li.style.color = "gray";
+                    }
+
+                    li.appendChild(a);
+                    resourceList.appendChild(li);
                 });
-        }
 
-        btn.onclick = performSearch;
-        searchMsg.addEventListener("keypress", e => {
-            if (e.key === "Enter") performSearch();
-        });
-    </script>
+                // Populate static websites
+                websiteList.innerHTML = "";
+                websites.forEach(resource => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.className = "common-link";
+                    a.href = resource.url + encodeURIComponent(query);
+                    a.target = "_blank";
+                    a.textContent = resource.name;
+                    li.appendChild(a);
+                    websiteList.appendChild(li);
+                });
+
+                // Populate CAPTCHA resources
+                captchaList.innerHTML = "";
+                captchaResources.forEach(resource => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.className = "common-link";
+                    a.href = resource.url;
+                    a.target = "_blank";
+                    a.textContent = resource.name;
+                    li.appendChild(a);
+                    captchaList.appendChild(li);
+                });
+
+                // Populate English resources
+                englishList.innerHTML = "";
+                englishResources.forEach(resource => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.className = "common-link";
+
+                    let modifiedQuery = query;
+                    if (resource.name === "Fmovies" || resource.name === "SFlix") {
+                        modifiedQuery = query.replace(/\s+/g, '-');
+                    }
+
+                    a.href = resource.url + encodeURIComponent(modifiedQuery);
+                    a.target = "_blank";
+                    a.textContent = resource.name;
+                    li.appendChild(a);
+                    englishList.appendChild(li);
+                });
+
+                // Populate Subtitle resources
+                subtitleList.innerHTML = "";
+                subtitleResources.forEach(resource => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.className = "common-link";
+                    a.href = resource.url + encodeURIComponent(query);
+                    a.target = "_blank";
+                    a.textContent = resource.name;
+                    li.appendChild(a);
+                    subtitleList.appendChild(li);
+                });
+            })
+            .catch(() => {
+                clearInterval(interval); // Stop the percentage simulation
+                loader.style.display = "none";
+                alert("Error fetching results, please try again.");
+            });
+    }
+
+    btn.onclick = performSearch;
+    searchMsg.addEventListener("keypress", e => {
+        if (e.key === "Enter") performSearch();
+    });
+</script>
+
 </body>
 </html>
