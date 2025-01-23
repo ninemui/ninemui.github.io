@@ -1,4 +1,10 @@
 {
+  "name": "Search",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+{
   "dependencies": {
     "axios": "^1.7.9",
     "cheerio": "^1.0.0",
