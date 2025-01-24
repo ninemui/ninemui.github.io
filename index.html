@@ -5,182 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Links</title>
     <link rel="icon" href="favicon.ico">
-
-    <style>
-	    * {
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .searchbar {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        #searchMsg {
-            width: 100%;
-            max-width: 540px;
-            height: 50px;
-            font-size: 20px;
-            padding: 0 20px;
-            border: 2px solid #ddd;
-            border-radius: 25px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        #searchMsg:focus {
-            border-color: orange;
-            box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
-        }
-
-        #btn {
-            background-color: #0073e6;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 20px;
-            padding: 0 20px;
-            height: 50px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        #btn:hover {
-            background-color: #005bb5;
-        }
-
-        .link-columns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 22px;
-            justify-content: space-between;
-            margin-top: 22px;
-            width: 100%;
-        }
-
-        .column {
-            flex: 1;
-            min-width: 150px;
-            max-width: 250px;
-        }
-
-        .column h3 {
-            margin-bottom: 10px;
-            font-size: 22px;
-            color: #333;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            padding: 6px;
-        }
-
-        .common-link {
-            font-size: 20px;
-            font-weight: bold;
-            text-decoration: none;
-            color: #0073e6;
-        }
-
-        .common-link:hover {
-            text-decoration: underline;
-        }
-
-        .loader-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .loader {
-            border: 8px solid #f3f3f3; /* Light gray */
-            border-top: 8px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .percentage {
-            font-size: 18px;
-            font-weight: bold;
-            color: #555;
-        }
-		
-		#resourceList li {
-			font-size: 20px; /* Ensures uniform font size */
-		}
-
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <p style="margin-bottom:30px;"></p>
-    <div class="container">
-        <div class="searchbar">
-            <input type="text" id="searchMsg" placeholder="Enter your search query">
-            <button id="btn">Search Links</button>
-        </div>
+<div class="container">
+    <div class="searchbar">
+        <input type="text" id="searchMsg" placeholder="Enter your search query">
+        <button id="btn">Search Links</button>
+    </div>
 <p style="margin-bottom:40px;"></p>
-        <div class="link-columns">
-            <div class="column">
-                <h2>資源網:</h2>
-<p style="margin-bottom:3px;"></p>
-                <ul id="resourceList"></ul>
-            </div>
-            <div class="column">
-                <h2>Websitez:</h2>
-<p style="margin-bottom:3px;"></p>				
-                <ul id="websiteList"></ul>
-            </div>
-            <div class="column">
-                <h2>資源網 CAPTCHA:</h2>
-<p style="margin-bottom:3px;"></p>
-                <ul id="captchaList"></ul>
-            </div>     
-            <div class="column">
-				<h2>ENGLISH:</h2>
-<p style="margin-bottom:3px;"></p>
-                <ul id="englishList"></ul>
-				<br><br><br><br><br>
-				<h2>Subtitle:</h2>
-<p style="margin-bottom:3px;"></p>
-				<ul id="subtitleList"></ul>
+    <div class="link-columns">
+        <div class="column">
+            <h2>資源網:</h2>
+            <p style="margin-bottom:3px;"></p>
+            <ul id="resourceList"></ul>
+            <div class="loader-container" id="loader" style="display: none;">
+                <div class="loader"></div>
+                <div class="percentage" id="percentage">0%</div>
             </div>
         </div>
-        <div class="loader-container" id="loader" style="display: none;">
-            <div class="loader"></div>
-            <div class="percentage" id="percentage">0%</div>
+        <div class="column">
+            <h2>Websitez:</h2>
+            <p style="margin-bottom:3px;"></p>
+            <ul id="websiteList"></ul>
+        </div>
+        <div class="column">
+            <h2>資源網 CAPTCHA:</h2>
+            <p style="margin-bottom:3px;"></p>
+            <ul id="captchaList"></ul>
+        </div>
+        <div class="column">
+            <h2>ENGLISH:</h2>
+            <p style="margin-bottom:3px;"></p>
+            <ul id="englishList"></ul>
+            <br><br><br><br><br>
+            <h2>Subtitle:</h2>
+            <p style="margin-bottom:3px;"></p>
+            <ul id="subtitleList"></ul>
         </div>
     </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"></script>
 <script>
@@ -256,7 +121,65 @@
 
         query = await convertToSimplified(query);
 
-        // Show loader with percentage
+        // Populate static websites
+        websiteList.innerHTML = "";
+        websites.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+            a.href = resource.url + encodeURIComponent(query);
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
+            websiteList.appendChild(li);
+        });
+
+        // Populate CAPTCHA resources
+        captchaList.innerHTML = "";
+        captchaResources.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+            a.href = resource.url;
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
+            captchaList.appendChild(li);
+        });
+
+        // Populate English resources
+        englishList.innerHTML = "";
+        englishResources.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+
+            let modifiedQuery = query;
+            if (resource.name === "Fmovies" || resource.name === "SFlix") {
+                modifiedQuery = query.replace(/\s+/g, '-');
+            }
+
+            a.href = resource.url + encodeURIComponent(modifiedQuery);
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
+            englishList.appendChild(li);
+        });
+
+        // Populate Subtitle resources
+        subtitleList.innerHTML = "";
+        subtitleResources.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+            a.href = resource.url + encodeURIComponent(query);
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
+            subtitleList.appendChild(li);
+        });
+
+        // Show loader with percentage in resourceList column
         loader.style.display = "flex";
         percentageElement.textContent = "0%";
         let percentage = 0;
@@ -267,9 +190,10 @@
                 percentage += 1;
                 percentageElement.textContent = `${percentage}%`;
             }
-        }, 85); // Increment every 100ms
+        }, 75); // Increment every 100ms
 
-		fetch(`https://ninemui-search-1dc41d71e964.herokuapp.com/search?query=${encodeURIComponent(query)}`)
+        fetch(`http://localhost:5000/search?query=${encodeURIComponent(query)}`)
+		//fetch(`https://ninemui-search-1dc41d71e964.herokuapp.com/search?query=${encodeURIComponent(query)}`)
 
             .then(response => response.json())
             .then(data => {
@@ -295,64 +219,6 @@
                     li.appendChild(a);
                     resourceList.appendChild(li);
                 });
-
-                // Populate static websites
-                websiteList.innerHTML = "";
-                websites.forEach(resource => {
-                    const li = document.createElement("li");
-                    const a = document.createElement("a");
-                    a.className = "common-link";
-                    a.href = resource.url + encodeURIComponent(query);
-                    a.target = "_blank";
-                    a.textContent = resource.name;
-                    li.appendChild(a);
-                    websiteList.appendChild(li);
-                });
-
-                // Populate CAPTCHA resources
-                captchaList.innerHTML = "";
-                captchaResources.forEach(resource => {
-                    const li = document.createElement("li");
-                    const a = document.createElement("a");
-                    a.className = "common-link";
-                    a.href = resource.url;
-                    a.target = "_blank";
-                    a.textContent = resource.name;
-                    li.appendChild(a);
-                    captchaList.appendChild(li);
-                });
-
-                // Populate English resources
-                englishList.innerHTML = "";
-                englishResources.forEach(resource => {
-                    const li = document.createElement("li");
-                    const a = document.createElement("a");
-                    a.className = "common-link";
-
-                    let modifiedQuery = query;
-                    if (resource.name === "Fmovies" || resource.name === "SFlix") {
-                        modifiedQuery = query.replace(/\s+/g, '-');
-                    }
-
-                    a.href = resource.url + encodeURIComponent(modifiedQuery);
-                    a.target = "_blank";
-                    a.textContent = resource.name;
-                    li.appendChild(a);
-                    englishList.appendChild(li);
-                });
-
-                // Populate Subtitle resources
-                subtitleList.innerHTML = "";
-                subtitleResources.forEach(resource => {
-                    const li = document.createElement("li");
-                    const a = document.createElement("a");
-                    a.className = "common-link";
-                    a.href = resource.url + encodeURIComponent(query);
-                    a.target = "_blank";
-                    a.textContent = resource.name;
-                    li.appendChild(a);
-                    subtitleList.appendChild(li);
-                });
             })
             .catch(() => {
                 clearInterval(interval); // Stop the percentage simulation
@@ -366,6 +232,5 @@
         if (e.key === "Enter") performSearch();
     });
 </script>
-
 </body>
 </html>
