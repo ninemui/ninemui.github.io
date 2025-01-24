@@ -190,7 +190,7 @@
                 percentage += 1;
                 percentageElement.textContent = `${percentage}%`;
             }
-        }, 10); // Increment every 100ms
+        }, 1000); // Increment every 100ms
 
         //fetch(`http://localhost:5000/search?query=${encodeURIComponent(query)}`)
 		fetch(`https://ninemui-search-1dc41d71e964.herokuapp.com/search?query=${encodeURIComponent(query)}`)
