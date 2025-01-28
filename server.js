@@ -20,7 +20,8 @@ app.get('/favicon.ico', (req, res) => {
 // List of websites and metadata
 const websites = {
     "麥田影院": { url: "https://www.mtyy1.com/vodsearch/-------------.html?wd={}", selector: "div.public-list-div a.public-list-exp", base_url: "https://www.mtyy1.com" },
-    "如意資源": { url: "https://www.ryzyw.com/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.ryzyw.com" },
+    "看片狂人": {"url": "https://www.kpkuang.fun/vodsearch/-------------.html?wd={}", "selector": "div.fed-main-info .fed-part-case a.fed-list-pics", "base_url": "https://www.kpkuang.fun"},
+	"如意資源": { url: "https://www.ryzyw.com/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.ryzyw.com" },
     "非凡資源": { url: "http://ffzy1.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "http://ffzy1.tv" },
     "紅牛資源": { url: "https://hongniuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://hongniuzy.com" },
 	"豪華資源": {"url": "https://hhzyapi.com/index.php/vod/search.html?wd={}", "selector": "div.list div.list-item span.list-title a", "base_url": "https://hhzyapi.com"},
