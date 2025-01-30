@@ -1,5 +1,5 @@
 {
-  "name": "Search",
+  "name": "search",
   "version": "1.0.0",
   "scripts": {
     "start": "node server.js"
@@ -10,5 +10,20 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "opencc-js": "^1.0.5"
-  }
+  },
+  "description": "",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ninemui/ninemui.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ninemui/ninemui.github.io/issues"
+  },
+  "homepage": "https://github.com/ninemui/ninemui.github.io#readme"
 }
