@@ -189,10 +189,10 @@
         // Simulate percentage progress
         const interval = setInterval(() => {
             if (percentage < 95) {
-                percentage += 1;
+                percentage += 10;
                 percentageElement.textContent = `${percentage}%`;
             }
-        }, 170); // Increment every 100ms
+        }, 350); // Increment every 100ms
 
         //fetch(`http://localhost:5000/search?query=${encodeURIComponent(query)}`)
 		fetch(`https://ninemui-github-io.onrender.com/search?query=${encodeURIComponent(query)}`)
