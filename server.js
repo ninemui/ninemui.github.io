@@ -24,7 +24,6 @@ app.get('/favicon.ico', (req, res) => {
 // List of websites and metadata
 const websites = {
     "麥田影院": { url: "https://www.mtyy1.com/vodsearch/-------------.html?wd={}", selector: "div.public-list-div a.public-list-exp", base_url: "https://www.mtyy1.com" },
-    //"奈飛": { url: "https://www.naifei1.org/vodsearch.html?wd={}", selector: "div.module-search-item div.video-info a.video-serial", base_url: "https://www.naifei1.org/"},
     "如意資源": { url: "https://www.ryzyw.com/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.ryzyw.com" },
     "非凡資源": { url: "http://ffzy2.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "http://ffzy2.tv" },
     "紅牛資源": { url: "https://hongniuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://hongniuzy.com" },
