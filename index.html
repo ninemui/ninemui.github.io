@@ -194,8 +194,8 @@
             }
         }, 200); // Increment every 100ms
 
-        //fetch(`http://localhost:5000/search?query=${encodeURIComponent(query)}`)
-		fetch(`https://ninemui-github-io.onrender.com/search?query=${encodeURIComponent(query)}`)
+        fetch(`http://localhost:5000/search?query=${encodeURIComponent(query)}`)
+		//fetch(`https://ninemui-github-io.onrender.com/search?query=${encodeURIComponent(query)}`)
 
             .then(response => response.json())
             .then(data => {
@@ -210,25 +210,22 @@
 
 					const links = data[website];
 					if (links && links.length > 0) {
-					    li.textContent = website; // Website name as a header
-    					links.forEach(link => {
+    					links.forEach((link, index) => {
+        					const li = document.createElement("li");
         					const a = document.createElement("a");
         					a.className = "common-link";
-        					a.textContent = link; // Show each result URL
-        					a.href = link;
-        					a.target = "_blank";
-					
-        					const br = document.createElement("br"); // Line break for multiple links
+        					a.href = link; // Set hyperlink
+        					a.target = "_blank"; // Open in new tab
+        					a.textContent = `${website}(${index + 1})`; // 麥田影院(1), 麥田影院(2), etc.
         					li.appendChild(a);
-        					li.appendChild(br);
+        					resourceList.appendChild(li);
     					});
 					} else {
+    					const li = document.createElement("li");
     					li.textContent = `${website}: No Results!`;
     					li.style.color = "gray";
+    					resourceList.appendChild(li);
 					}
-
-                    li.appendChild(a);
-                    resourceList.appendChild(li);
                 });
             })
             .catch(() => {
