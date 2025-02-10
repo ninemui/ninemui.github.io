@@ -49,7 +49,8 @@ const scrapePage = async (url, baseUrl, selector, query) => {
             "Accept-Language": "en-US,en;q=0.9",
         };
 
-        const response = await axios.get(fullUrl, { headers });
+        //const response = await axios.get(fullUrl, { headers });
+		const response = await axios.get(fullUrl, { headers, timeout: 10000 }); // 10s timeout
         const $ = cheerio.load(response.data);
 
         // Use the selector to find the links
