@@ -208,15 +208,24 @@
                     const a = document.createElement("a");
                     a.className = "common-link";
 
-                    const links = data[website];
-                    if (links && links.length > 0) {
-                        a.textContent = website; // Show only the website name
-                        a.href = links[0]; // Use the first link as the destination
-                        a.target = "_blank"; // Open in a new tab
-                    } else {
-                        li.textContent = `${website}: No Results!`;
-                        li.style.color = "gray";
-                    }
+					const links = data[website];
+					if (links && links.length > 0) {
+					    li.textContent = website; // Website name as a header
+    					links.forEach(link => {
+        					const a = document.createElement("a");
+        					a.className = "common-link";
+        					a.textContent = link; // Show each result URL
+        					a.href = link;
+        					a.target = "_blank";
+					
+        					const br = document.createElement("br"); // Line break for multiple links
+        					li.appendChild(a);
+        					li.appendChild(br);
+    					});
+					} else {
+    					li.textContent = `${website}: No Results!`;
+    					li.style.color = "gray";
+					}
 
                     li.appendChild(a);
                     resourceList.appendChild(li);
