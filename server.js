@@ -96,7 +96,12 @@ app.get('/search', async (req, res) => {
 
 // Start the server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
+// Set server timeout to 15 seconds (15000 ms)
+server.setTimeout(15000, (socket) => {
+    console.log("Request timed out");
+    socket.end('HTTP/1.1 408 Request Timeout\r\n\r\n'); // Send timeout response
+});
