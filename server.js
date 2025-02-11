@@ -8,7 +8,7 @@ const NodeCache = require('node-cache');
 const app = express();
 app.use(cors()); // Enable CORS for local testing
 
-const cache = new NodeCache({ stdTTL: 300 }); // Cache TTL of 5min
+const cache = new NodeCache({ stdTTL: 60 }); // Cache TTL of 1min
 
 // Root route
 app.get('/', (req, res) => {
@@ -23,6 +23,7 @@ app.get('/favicon.ico', (req, res) => {
 
 // List of websites and metadata
 const websites = {
+	"看片狂人": {url: "https://www.kpkuang.fun/vodsearch/-------------.html?wd={}", selector: "div.fed-main-info .fed-part-case a.fed-list-pics", base_url: "https://www.kpkuang.fun"},
     "麥田影院": { url: "https://www.mtyy1.com/vodsearch/-------------.html?wd={}", selector: "div.public-list-div a.public-list-exp", base_url: "https://www.mtyy1.com" },
     "奈飛": { url: "https://www.naifei1.org/vodsearch.html?wd={}", selector: "div.module-search-item div.video-info a.video-serial", base_url: "https://www.naifei1.org/"},
 	"如意資源": { url: "https://www.ryzyw.com/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.ryzyw.com" },
@@ -50,7 +51,7 @@ const scrapePage = async (url, baseUrl, selector, query) => {
         };
 
         //const response = await axios.get(fullUrl, { headers });
-		const response = await axios.get(fullUrl, { headers, timeout: 2000 }); // 2s timeout
+		const response = await axios.get(fullUrl, { headers, timeout: 3500 }); // 3s timeout
         const $ = cheerio.load(response.data);
 
         // Use the selector to find the links
