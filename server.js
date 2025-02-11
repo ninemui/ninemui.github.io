@@ -8,7 +8,7 @@ const NodeCache = require('node-cache');
 const app = express();
 app.use(cors()); // Enable CORS for local testing
 
-const cache = new NodeCache({ stdTTL: 3600 }); // Cache TTL of 1 hour
+const cache = new NodeCache({ stdTTL: 300 }); // Cache TTL of 5min
 
 // Root route
 app.get('/', (req, res) => {
