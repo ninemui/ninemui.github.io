@@ -101,7 +101,7 @@ const server = app.listen(PORT, () => {
 });
 
 // Set server timeout to 15 seconds (15000 ms)
-server.setTimeout(10000, (socket) => {
+server.setTimeout(15000, (socket) => {
     console.log("Request timed out");
     socket.end('HTTP/1.1 408 Request Timeout\r\n\r\n'); // Send timeout response
 });
