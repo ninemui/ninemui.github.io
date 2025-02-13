@@ -8,7 +8,7 @@ const NodeCache = require('node-cache');
 const app = express();
 app.use(cors()); // Enable CORS for local testing
 
-const cache = new NodeCache({ stdTTL: 1 }); // Cache TTL of 1sec
+const cache = new NodeCache({ stdTTL: 10 }); // Cache TTL of 10sec
 
 // Root route
 app.get('/', (req, res) => {
@@ -50,7 +50,7 @@ const scrapePage = async (url, baseUrl, selector, query) => {
         };
 
         //const response = await axios.get(fullUrl, { headers });
-		const response = await axios.get(fullUrl, { headers, timeout: 3500 }); // 3.5s timeout
+		const response = await axios.get(fullUrl, { headers, timeout: 4000 }); // 4s timeout
         const $ = cheerio.load(response.data);
 
         // Use the selector to find the links
@@ -100,8 +100,8 @@ const server = app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
-// Set server timeout to 15 seconds (15000 ms)
-server.setTimeout(15000, (socket) => {
+// Set server timeout to 5 seconds (5000 ms)
+server.setTimeout(5000, (socket) => {
     console.log("Request timed out");
     socket.end('HTTP/1.1 408 Request Timeout\r\n\r\n'); // Send timeout response
 });
