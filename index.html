@@ -7,41 +7,48 @@
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<p style="margin-bottom:25px;"></p>
+<p style="margin-bottom:20px;"></p>
 <div class="container">
     <div class="searchbar">
         <input type="text" id="searchMsg" placeholder="Enter your search query">
         <button id="btn">Search Links</button>
     </div>
-<p style="margin-bottom:30px;"></p>
+<p style="margin-bottom:25px;"></p>
     <div class="link-columns">
-        <div class="column">
-            <h2>資源網:</h2>
-            <p style="margin-bottom:3px;"></p>			
+        <div class="column column-1">
+            <h3>資源網 搜:</h3>
             <div class="loader-container" id="loader" style="display: none;">
                 <div class="loader"></div>
                 <div class="percentage" id="percentage">0%</div>
             </div>			
             <ul id="resourceList"></ul>
         </div>
-        <div class="column">
-            <h2>Websitez:</h2>
-            <p style="margin-bottom:3px;"></p>
+		<div class="column">
+            <h3>資源網 URL:</h3>
+            <ul id="resourceURLList"></ul>
+        </div>
+		<div class="column">
+            <h3>Websitez:</h3>
             <ul id="websiteList"></ul>
         </div>
-        <div class="column">
-            <h2>資源網 CAPTCHA:</h2>
-            <p style="margin-bottom:3px;"></p>
+		<div class="column">
+            <h3>Websitez URL:</h3>
+            <ul id="websiteURLList"></ul>
+        </div>		
+		<div class="column">
+            <h3>資源網 CAPTCHA:</h3>
             <ul id="captchaList"></ul>
+			<p style="margin-bottom:10px;"></p>
+            <h3>資源網 URL:</h3>
+            <ul id="captchaURLList"></ul>
         </div>
-        <div class="column">
-            <h2>ENGLISH:</h2>
-            <p style="margin-bottom:3px;"></p>
+		<div class="column">
+            <h3>ENGLISH:</h3>
             <ul id="englishList"></ul>
             <br><br><br><br><br>
-            <h2>Subtitle:</h2>
-            <p style="margin-bottom:3px;"></p>
+            <h3>Subtitle:</h3>
             <ul id="subtitleList"></ul>
         </div>
     </div>
@@ -50,59 +57,111 @@
 <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"></script>
 
 <script>
-    const websiteOrder = ["麥田影院", "奈飛", "如意資源", "非凡資源", "紅牛資源", "豪華資源", "光速資源", "金鷹資源", "速播資源", "華為吧資源", "虎牙資源", "極速資源", "黑木耳資源", "臥龍資源", "天空資源"];
+    const websiteOrder = ["麥田", "奈飛", "如意", "非凡", "紅牛", "豪華", "光速", "金鷹", "速播", "華為吧", "虎牙", "極速", "黑木耳", "臥龍", "天空"];
     //const websiteOrder = ["麥田影院", "奈飛", "如意資源", "臥龍資源", "非凡資源", "天空資源", "紅牛資源", "豪華資源", "光速資源", "金鷹資源", "速播資源", "華為吧資源", "虎牙資源", "極速資源", "黑木耳資源"];
     const searchMsg = document.getElementById("searchMsg");
     const btn = document.getElementById("btn");
     const resourceList = document.getElementById("resourceList");
+	const resourceURLList = document.getElementById("resourceURLList");
     const websiteList = document.getElementById("websiteList");
+    const websiteURLList = document.getElementById("websiteURLList");	
     const captchaList = document.getElementById("captchaList");
+    const captchaURLList = document.getElementById("captchaURLList");
     const englishList = document.getElementById("englishList");
     const subtitleList = document.getElementById("subtitleList");
     const loader = document.getElementById("loader");
     const percentageElement = document.getElementById("percentage");
 
+    const resourceURL = [
+		{ name: "如意資源", url: "https://www.ryzyw.com/index.php/vod/type/id/13.html" },
+		{ name: "非凡資源", url: "https://ffzy1.tv/" },
+		{ name: "紅牛資源", url: "https://hongniuzy.com/index.php/vod/type/id/sCCCCS.html?ac=detail" },
+		{ name: "豪華資源", url: "https://hhzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "光速資源", url: "https://guangsuzy.net/index.php/vod/type/id/13.html" },
+		{ name: "金鷹資源", url: "https://jyzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "速播資源", url: "https://www.subozy.com/index.php/vod/type/id/14.html?ac=detail" },
+		{ name: "虎牙資源", url: "https://huyazy.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "極速資源", url: "https://www.jisuzy.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "臥龍資源", url: "https://www.wolongzy.tv/index.php/vod/type/id/12.html" },
+		{ name: "天空資源", url: "https://tiankongzy.cc/vod/type/id/22/" },
+		{ name: "華為吧資源", url: "https://nikanba.live/index.php/vod/type/id/72.html" },
+		{ name: "黑木耳資源", url: "https://www.heimuer.tv/index.php/vod/type/id/13.html" }
+    ];
+	
     const websites = [
-        { name: "獨播庫", url: "https://w.duboku.io/vodsearch/-------------.html?wd=" },
-        { name: "歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
-        { name: "UB影視", url: "https://www.ub1818.com/fil.html?keyword=" },
-        { name: "看片狂人", url: "https://www.kpkuang.org/vodsearch/-------------.html?wd=" },
-        { name: "麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
-        { name: "酷片網", url: "https://kupian.org/search/--/?wd=" },
-        { name: "奈飛", url: "https://www.naifei1.org/vodsearch.html?wd=" },
-        { name: "網飛貓", url: "https://www.ncat3.com:51111/search?os=pc&k=" },		
-        { name: "神馬", url: "https://www.18ys.cc/vodsearch/--.html?wd=" },
-        { name: "蛋蛋贊", url: "https://www.ddzvod.com/index.php/vod/search.html?wd=" },
-        { name: "多瑙影視", url: "https://www.duonaovod.com/index.php/vod/search.html?wd=" },
-        { name: "Gimy", url: "https://gimy.tv/search/-------------.html?wd=" },
-        { name: "泥視頻VIP", url: "https://www.nivod.vip/s/-------------/?wd=" },
-        { name: "泥視頻(粉絲復活)", url: "https://nivodi1.com/index.php/vod/search.html?wd=" },
-        { name: "小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" },
-        { name: "唐人街影視", url: "https://www.trjvod.com/index.php/vod/search.html?wd=" }
+        { name: "🔍獨播庫", url: "https://w.duboku.io/vodsearch/-------------.html?wd=" },
+        { name: "🔍歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
+        { name: "🔍UB影視", url: "https://www.ub1818.com/fil.html?keyword=" },
+        { name: "🔍看片狂人", url: "https://www.kpkuang.org/vodsearch/-------------.html?wd=" },
+        { name: "🔍麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
+        { name: "🔍酷片網", url: "https://kupian.org/search/--/?wd=" },
+        { name: "🔍奈飛", url: "https://www.naifei1.org/vodsearch.html?wd=" },
+        { name: "🔍網飛貓", url: "https://www.ncat3.com:51111/search?os=pc&k=" },		
+        { name: "🔍神馬", url: "https://www.18ys.cc/vodsearch/--.html?wd=" },
+        { name: "🔍蛋蛋贊", url: "https://www.ddzvod.com/index.php/vod/search.html?wd=" },
+        { name: "🔍多瑙影視", url: "https://www.duonaovod.com/index.php/vod/search.html?wd=" },
+        { name: "🔍Gimy", url: "https://gimy.tv/search/-------------.html?wd=" },
+        { name: "🔍泥視頻VIP", url: "https://www.nivod.vip/s/-------------/?wd=" },
+        { name: "🔍泥視頻(粉絲復活)", url: "https://nivodi1.com/index.php/vod/search.html?wd=" },
+        { name: "🔍小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" },
+        { name: "🔍唐人街影視", url: "https://www.trjvod.com/index.php/vod/search.html?wd=" },
+		{ name: "🔍愛你短劇", url: "https://www.ainidj.com/vodsearch/-------------.html?wd=" }
+    ];
+
+    const websiteURL = [
+		{ name: "獨播庫", url: "https://w.duboku.io/vodshow/13-----------.html" },
+		{ name: "歐樂影院", url: "https://www.olehdtv.com/index.php/vod/show/id/202.html" },
+		{ name: "UB影視", url: "https://www.ub1818.com/fil.html?parent_category_id=101&category_id=123" },
+		{ name: "看片狂人", url: "https://www.kpkuang.org/vodshow/13-------------.html" },
+		{ name: "麥田影視", url: "https://www.mtyy1.com/vodshow/1---%E5%9B%BD%E4%BA%A7%E5%89%A7--------.html" },
+		{ name: "酷片網", url: "https://kupian.org/show/guochanju/" },
+		{ name: "奈飛", url: "https://www.naifei1.org/vodshow/id/guochanju.html" },
+		{ name: "網飛貓", url: "https://www.ncat3.com:51111/show/2-----3-1.html" },
+		{ name: "神馬", url: "https://www.18ys.cc/vodshow/13-------.html" },
+		{ name: "蛋蛋贊", url: "https://www.ddzvod.com/index.php/vod/show/id/13.html" },
+		{ name: "多瑙影視", url: "https://www.duonaovod.com/index.php/vod/show/id/13.html" },
+		{ name: "Gimy", url: "https://gimy.tv/genre/13---.html" },
+		{ name: "泥視頻VIP", url: "https://www.nivod.vip/k/13-----------/" },
+		{ name: "泥視頻(粉絲復活)", url: "https://nivodi1.com/index.php/vod/show/class/%E5%9B%BD%E4%BA%A7%E5%89%A7/id/2.html" },
+		{ name: "小寶影院", url: "https://xiaoxintv.cc/index.php/vod/show/id/41.html" },
+		{ name: "唐人街影視", url: "https://www.trjvod.com/index.php/vod/show/id/13.html" },
+		{ name: "愛你短劇", url: "https://www.ainidj.com" }
     ];
 
     const captchaResources = [
+        { name: "🔍索尼資源", url: "https://suonizy.com/vodsearch/-------------.html?wd=" },
+		{ name: "🔍魔都資源", url: "https://moduzy.com/search/-------------/?wd=" },		
+		{ name: "🔍最大資源", url: "https://api.zuidapi.com/index.php/vod/search.html?wd=" },
+		{ name: "🔍暴風資源", url: "https://bfzy.tv/s/?keys=+" },
+		{ name: "🔍無盡資源 720", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
+		{ name: "🔍新浪資源", url: "https://www.xinlangzy.com/index.php/vod/search.html?wd=" },
+		{ name: "🔍OK資源 720", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
+		{ name: "🔍丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" }
+
+    ];
+	
+    const captchaURL = [
         { name: "索尼資源", url: "https://suonizy.com/vodtype/13.html" },
         { name: "魔都資源", url: "https://moduzy.com/list26/" },
         { name: "最大資源", url: "https://zuidazy.me/vodtype/13.html" },
         { name: "暴風資源", url: "https://bfzy.tv/index.php/vod/type/id/31.html" },
         { name: "無盡資源 720", url: "https://www.wujinzy.com/vodtype/13.html" },
         { name: "新浪資源", url: "https://www.xinlangzy.com/index.php/vod/type/id/13.html" },
-        { name: "OK資源 720", url: "https://www.wujinzy.com/vodtype/13.html" },
-        { name: "丫丫資源", url: "https://www.wujinzy.com/vodtype/13.html" }
+        { name: "OK資源 720", url: "https://okzyw1.com/vodshow/13-----------/100" },
+        { name: "丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/type/id/13.html" }
     ];
 
     const englishResources = [
-        { name: "Soap2Day", url: "https://ww25.soap2day.day/?s=" },
-        { name: "Fmovies", url: "https://fmovies.ps/search/" },
-        { name: "SFlix", url: "https://sflix.to/search/" },
-        { name: "1HD", url: "https://www.google.ca/search?q=1hd.to+" }
+        { name: "🔍Soap2Day", url: "https://ww25.soap2day.day/?s=" },
+        { name: "🔍Fmovies", url: "https://fmovies.ps/search/" },
+        { name: "🔍SFlix", url: "https://sflix.to/search/" },
+        { name: "🔍1HD", url: "https://www.google.ca/search?q=1hd.to+" }
     ];
 
     const subtitleResources = [
-        { name: "Addic7ed", url: "https://www.google.ca/search?q=addic7ed.com+" },
-        { name: "OpenSubtitle", url: "https://www.opensubtitles.org/en/search2/moviename-" },
-        { name: "My Subs", url: "https://my-subs.co/search.php?key=" }
+        { name: "🔍Addic7ed", url: "https://www.google.ca/search?q=addic7ed.com+" },
+        { name: "🔍OpenSubtitle", url: "https://www.opensubtitles.org/en/search2/moviename-" },
+        { name: "🔍My Subs", url: "https://my-subs.co/search.php?key=" }
     ];
 
     async function convertToSimplified(query) {
@@ -124,6 +183,19 @@
 
         query = await convertToSimplified(query);
 
+        // Populate resourceURL
+        resourceURLList.innerHTML = "";
+        resourceURL.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+            a.href = resource.url;
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
+            resourceURLList.appendChild(li);
+        });
+		
         // Populate static websites
         websiteList.innerHTML = "";
         websites.forEach(resource => {
@@ -137,9 +209,9 @@
             websiteList.appendChild(li);
         });
 
-        // Populate CAPTCHA resources
-        captchaList.innerHTML = "";
-        captchaResources.forEach(resource => {
+        // Populate websiteURL
+        websiteURLList.innerHTML = "";
+        websiteURL.forEach(resource => {
             const li = document.createElement("li");
             const a = document.createElement("a");
             a.className = "common-link";
@@ -147,7 +219,33 @@
             a.target = "_blank";
             a.textContent = resource.name;
             li.appendChild(a);
+            websiteURLList.appendChild(li);
+        });
+
+        // Populate CAPTCHA resources
+        captchaList.innerHTML = "";
+        captchaResources.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+            a.href = resource.url + encodeURIComponent(query);
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
             captchaList.appendChild(li);
+        });
+		
+        // Populate CAPTCHA URL
+        captchaURLList.innerHTML = "";
+        captchaURL.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+            a.href = resource.url;
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
+            captchaURLList.appendChild(li);
         });
 
         // Populate English resources

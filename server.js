@@ -8,7 +8,7 @@ const NodeCache = require('node-cache');
 const app = express();
 app.use(cors()); // Enable CORS for local testing
 
-const cache = new NodeCache({ stdTTL: 60 }); // Cache TTL of 1min
+const cache = new NodeCache({ stdTTL: 1 }); // Cache TTL of 1sec
 
 // Root route
 app.get('/', (req, res) => {
@@ -23,21 +23,21 @@ app.get('/favicon.ico', (req, res) => {
 
 // List of websites and metadata
 const websites = {
-    "麥田影院": { url: "https://www.mtyy1.com/vodsearch/-------------.html?wd={}", selector: "div.public-list-div a.public-list-exp", base_url: "https://www.mtyy1.com" },
+    "麥田": { url: "https://www.mtyy1.com/vodsearch/-------------.html?wd={}", selector: "div.public-list-div a.public-list-exp", base_url: "https://www.mtyy1.com" },
     "奈飛": { url: "https://www.naifei1.org/vodsearch.html?wd={}", selector: "div.module-search-item div.video-info a.video-serial", base_url: "https://www.naifei1.org/"},
-	"如意資源": { url: "https://www.ryzyw.com/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.ryzyw.com" },
-    "非凡資源": { url: "http://ffzy2.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "http://ffzy2.tv" },
-    "紅牛資源": { url: "https://hongniuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://hongniuzy.com" },
-    "豪華資源": { url: "https://hhzyapi.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://hhzyapi.com"},
-    "光速資源": { url: "https://guangsuzy.net/index.php/vod/search.html?wd={}", selector: "table.tb tbody tr td.yp a", base_url: "https://guangsuzy.net" },
-    "金鷹資源": { url: "https://jyzyapi.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://jyzyapi.com" },
-    "速播資源": { url: "https://www.subozy.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://www.subozy.com" },
-    "虎牙資源": { url: "https://huyazy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://huyazy.com" },
-    "極速資源": { url: "https://www.jisuzy.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://www.jisuzy.com" },
-    "臥龍資源": { url: "https://www.wolongzy.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.wolongzy.tv" },
-    "天空資源": { url: "https://tiankongzy.cc/index.php/vod/search.html?wd={}", selector: "ul li span.xing_vb4 a", base_url: "https://tiankongzy.cc" },
-    "華為吧資源": { url: "https://nikanba.live/index.php/vod/search.html?wd={}", selector: "ul li span.xing_vb4 a", base_url: "https://nikanba.live" },
-    "黑木耳資源": { url: "https://www.heimuer.tv/index.php/vod/search.html?wd={}", selector: "ul.stui-vodlist li a", base_url: "https://www.heimuer.tv" },
+    "如意": { url: "https://www.ryzyw.com/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.ryzyw.com" },
+    "非凡": { url: "http://ffzy2.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "http://ffzy2.tv" },
+    "紅牛": { url: "https://hongniuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://hongniuzy.com" },
+    "豪華": { url: "https://hhzyapi.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://hhzyapi.com"},
+    "光速": { url: "https://guangsuzy.net/index.php/vod/search.html?wd={}", selector: "table.tb tbody tr td.yp a", base_url: "https://guangsuzy.net" },
+    "金鷹": { url: "https://jyzyapi.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://jyzyapi.com" },
+    "速播": { url: "https://www.subozy.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://www.subozy.com" },
+    "虎牙": { url: "https://huyazy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://huyazy.com" },
+    "極速": { url: "https://www.jisuzy.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://www.jisuzy.com" },
+    "臥龍": { url: "https://www.wolongzy.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.wolongzy.tv" },
+    "天空": { url: "https://tiankongzy.cc/index.php/vod/search.html?wd={}", selector: "ul li span.xing_vb4 a", base_url: "https://tiankongzy.cc" },
+    "華為吧": { url: "https://nikanba.live/index.php/vod/search.html?wd={}", selector: "ul li span.xing_vb4 a", base_url: "https://nikanba.live" },
+    "黑木耳": { url: "https://www.heimuer.tv/index.php/vod/search.html?wd={}", selector: "ul.stui-vodlist li a", base_url: "https://www.heimuer.tv" },
 };
 
 // Function to scrape the page and extract URLs
