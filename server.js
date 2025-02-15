@@ -50,7 +50,7 @@ const scrapePage = async (url, baseUrl, selector, query) => {
         };
 
         //const response = await axios.get(fullUrl, { headers });
-		const response = await axios.get(fullUrl, { headers, timeout: 5000 }); // 5s timeout
+		const response = await axios.get(fullUrl, { headers, timeout: 4500 }); // 5s timeout
         const $ = cheerio.load(response.data);
 
         // Use the selector to find the links
