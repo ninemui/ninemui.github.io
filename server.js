@@ -20,15 +20,14 @@ app.get('/favicon.ico', (req, res) => {
     res.sendFile(path.join(__dirname, 'favicon.ico'));
 });
 
-
 // List of websites and metadata
 const websites = {
     "麥田": { url: "https://www.mtyy1.com/vodsearch/-------------.html?wd={}", selector: "div.public-list-div a.public-list-exp", base_url: "https://www.mtyy1.com" },
-    "奈飛": { url: "https://www.naifei1.org/vodsearch.html?wd={}", selector: "div.module-search-item div.video-info a.video-serial", base_url: "https://www.naifei1.org/"},
+    "奈飛": { url: "https://www.naifei1.org/vodsearch.html?wd={}", selector: "div.module-search-item div.video-info a.video-serial", base_url: "https://www.naifei1.org/" },
     "如意": { url: "https://www.ryzyw.com/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.ryzyw.com" },
     "非凡": { url: "http://ffzy2.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "http://ffzy2.tv" },
     "紅牛": { url: "https://hongniuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://hongniuzy.com" },
-    "豪華": { url: "https://hhzyapi.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://hhzyapi.com"},
+    "豪華": { url: "https://hhzyapi.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://hhzyapi.com" },
     "光速": { url: "https://guangsuzy.net/index.php/vod/search.html?wd={}", selector: "table.tb tbody tr td.yp a", base_url: "https://guangsuzy.net" },
     "金鷹": { url: "https://jyzyapi.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://jyzyapi.com" },
     "速播": { url: "https://www.subozy.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://www.subozy.com" },
@@ -40,8 +39,15 @@ const websites = {
     "黑木耳": { url: "https://www.heimuer.tv/index.php/vod/search.html?wd={}", selector: "ul.stui-vodlist li a", base_url: "https://www.heimuer.tv" },
 };
 
-// Function to scrape the page and extract URLs
-const scrapePage = async (url, baseUrl, selector, query) => {
+// Function to scrape the page and extract URLs with timeout
+const scrapePage = async (url, baseUrl, selector, query, timeout = 3000) => {
+    const fetchWithTimeout = (url, options, timeout) => {
+        return Promise.race([
+            axios.get(url, options),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), timeout))
+        ]);
+    };
+
     try {
         const fullUrl = url.replace('{}', query); // Replace {} with the query
         const headers = {
@@ -49,8 +55,7 @@ const scrapePage = async (url, baseUrl, selector, query) => {
             "Accept-Language": "en-US,en;q=0.9",
         };
 
-        //const response = await axios.get(fullUrl, { headers });
-		const response = await axios.get(fullUrl, { headers, timeout: 4500 }); // 5s timeout
+        const response = await fetchWithTimeout(fullUrl, { headers }, timeout); // 3s timeout for each request
         const $ = cheerio.load(response.data);
 
         // Use the selector to find the links
@@ -82,7 +87,7 @@ app.get('/search', async (req, res) => {
     try {
         const results = await Promise.all(
             Object.entries(websites).map(([name, metadata]) =>
-                scrapePage(metadata.url, metadata.base_url, metadata.selector, query)
+                scrapePage(metadata.url, metadata.base_url, metadata.selector, query, 3000)
                     .then(links => ({ [name]: links }))
             )
         );
