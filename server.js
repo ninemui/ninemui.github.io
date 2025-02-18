@@ -52,7 +52,7 @@ const scrapePage = async (url, baseUrl, selector, query, timeout = 3000) => {
             "Accept-Language": "en-US,en;q=0.9",
         };
 
-        const response = await fetchWithTimeout(fullUrl, { headers }, timeout); // 3s timeout for each request
+        const response = await fetchWithTimeout(fullUrl, { headers }, timeout); // 4s timeout for each request
         const $ = cheerio.load(response.data);
 
         // Use the selector to find the links
@@ -79,7 +79,7 @@ app.get('/search', async (req, res) => {
     try {
         const results = await Promise.all(
             Object.entries(websites).map(([name, metadata]) =>
-                scrapePage(metadata.url, metadata.base_url, metadata.selector, query, 3000)
+                scrapePage(metadata.url, metadata.base_url, metadata.selector, query, 4000)
                     .then(links => ({ [name]: links }))
             )
         );
