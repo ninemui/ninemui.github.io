@@ -3,12 +3,9 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const cors = require('cors');
 const path = require('path');
-const NodeCache = require('node-cache');
 
 const app = express();
 app.use(cors()); // Enable CORS for local testing
-
-const cache = new NodeCache({ stdTTL: 10 }); // Cache TTL of 10sec
 
 // Root route
 app.get('/', (req, res) => {
@@ -79,11 +76,6 @@ app.get('/search', async (req, res) => {
         return res.status(400).json({ error: "Query parameter is missing" });
     }
 
-    const cachedResults = cache.get(query);
-    if (cachedResults) {
-        return res.json(cachedResults); // Return cached results if available
-    }
-
     try {
         const results = await Promise.all(
             Object.entries(websites).map(([name, metadata]) =>
@@ -92,7 +84,6 @@ app.get('/search', async (req, res) => {
             )
         );
         const combinedResults = Object.assign({}, ...results);
-        cache.set(query, combinedResults); // Cache the results
         res.json(combinedResults);
     } catch (error) {
         res.status(500).json({ error: "An error occurred during the search" });
