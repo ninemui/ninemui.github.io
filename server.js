@@ -38,7 +38,7 @@ const websites = {
 };
 
 // Function to scrape the page and extract URLs with timeout
-const scrapePage = async (url, baseUrl, selector, query, timeout = 3000) => {
+const scrapePage = async (url, baseUrl, selector, query, timeout = 4000) => {
     const fetchWithTimeout = (url, options, timeout) => {
         return Promise.race([
             axios.get(url, options),
@@ -97,8 +97,8 @@ const server = app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
-// Set server timeout to 5 seconds (5000 ms)
-server.setTimeout(5000, (socket) => {
+// Set server timeout to 8 seconds (8000 ms)
+server.setTimeout(8000, (socket) => {
     console.log("Request timed out");
     socket.end('HTTP/1.1 408 Request Timeout\r\n\r\n'); // Send timeout response
 });
