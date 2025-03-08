@@ -138,7 +138,6 @@
 		{ name: "🔍新浪資源", url: "https://www.xinlangzy.com/index.php/vod/search.html?wd=" },
 		{ name: "🔍OK資源 720", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
 		{ name: "🔍丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" }
-
     ];
 	
     const captchaURL = [
@@ -176,27 +175,70 @@
     }
 
     async function performSearch() {
-        let query = searchMsg.value.trim();
-        if (!query) {
-            alert("Please enter a search query.");
-            return;
-        }
+    let query = searchMsg.value.trim();
+    if (!query) {
+        alert("Please enter a search query.");
+        return;
+    }
 
-        query = await convertToSimplified(query);
+    query = await convertToSimplified(query);
 
-        // Populate resourceURL
-        resourceURLList.innerHTML = "";
-        resourceURL.forEach(resource => {
-            const li = document.createElement("li");
-            const a = document.createElement("a");
-            a.className = "common-link";
-            a.href = resource.url;
-            a.target = "_blank";
-            a.textContent = resource.name;
-            li.appendChild(a);
-            resourceURLList.appendChild(li);
+    // Clear previous results
+    resourceList.innerHTML = "";
+    loader.style.display = "flex";
+    percentageElement.textContent = "0%";
+
+    // Create an EventSource to listen for real-time updates
+    const eventSource = new EventSource(`/search?query=${encodeURIComponent(query)}`);
+
+    // Object to store results as they arrive
+    const results = {};
+    let completedWebsites = 0;
+
+    eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        const website = Object.keys(data)[0];
+        const links = data[website];
+
+        // Store the results for this website
+        results[website] = links;
+        completedWebsites++;
+
+        // Update the progress percentage
+        const totalWebsites = websiteOrder.length;
+        const progress = Math.round((completedWebsites / totalWebsites) * 100);
+        percentageElement.textContent = `${progress}%`;
+
+        // Clear the resourceList and re-render in the correct order
+        resourceList.innerHTML = "";
+        websiteOrder.forEach(website => {
+            const links = results[website];
+
+            if (links && links.length > 0) {
+                links.forEach((link, index) => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.className = "common-link";
+                    a.href = link;
+                    a.target = "_blank";
+                    a.textContent = `${website}(${index + 1})`;
+                    li.appendChild(a);
+                    resourceList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement("li");
+                li.textContent = `${website}: No Results!`;
+                li.style.color = "gray";
+                resourceList.appendChild(li);
+            }
         });
-		
+    };
+
+    eventSource.onerror = () => {
+        eventSource.close();
+        loader.style.display = "none";
+    };
+
         // Populate static websites
         websiteList.innerHTML = "";
         websites.forEach(resource => {
@@ -267,7 +309,6 @@
             li.appendChild(a);
             englishList.appendChild(li);
         });
-
         // Populate Subtitle resources
         subtitleList.innerHTML = "";
         subtitleResources.forEach(resource => {
@@ -281,58 +322,18 @@
             subtitleList.appendChild(li);
         });
 
-        // Show loader with percentage in resourceList column
-        loader.style.display = "flex";
-        percentageElement.textContent = "0%";
-        let percentage = 0;
-
-        // Simulate percentage progress
-        const interval = setInterval(() => {
-            if (percentage < 95) {
-                percentage += 5;
-                percentageElement.textContent = `${percentage}%`;
-            }
-        }, 200); // Increment every 100ms
-
-        //fetch(`http://localhost:5000/search?query=${encodeURIComponent(query)}`)
-		fetch(`https://ninemui-github-io.onrender.com/search?query=${encodeURIComponent(query)}`)
-
-            .then(response => response.json())
-            .then(data => {
-                clearInterval(interval); // Stop the percentage simulation
-                loader.style.display = "none";
-
-                resourceList.innerHTML = "";
-                websiteOrder.forEach(website => {
-                    const li = document.createElement("li");
-                    const a = document.createElement("a");
-                    a.className = "common-link";
-
-					const links = data[website];
-					if (links && links.length > 0) {
-    					links.forEach((link, index) => {
-        					const li = document.createElement("li");
-        					const a = document.createElement("a");
-        					a.className = "common-link";
-        					a.href = link; // Set hyperlink
-        					a.target = "_blank"; // Open in new tab
-        					a.textContent = `${website}(${index + 1})`; // 麥田影院(1), 麥田影院(2), etc.
-        					li.appendChild(a);
-        					resourceList.appendChild(li);
-    					});
-					} else {
-    					const li = document.createElement("li");
-    					li.textContent = `${website}: No Results!`;
-    					li.style.color = "gray";
-    					resourceList.appendChild(li);
-					}
-                });
-            })
-            .catch(() => {
-                clearInterval(interval); // Stop the percentage simulation
-                loader.style.display = "none";
-                alert("Error fetching results, please try again.");
-            });
+        // Populate resourceURL
+        resourceURLList.innerHTML = "";
+        resourceURL.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+            a.href = resource.url;
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
+            resourceURLList.appendChild(li);
+        });
     }
 
     btn.onclick = performSearch;

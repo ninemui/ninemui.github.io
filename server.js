@@ -71,25 +71,29 @@ const scrapePage = async (url, baseUrl, selector, query, timeout = 4000) => {
     }
 };
 
-// Search endpoint
-app.get('/search', async (req, res) => {
+// SSE endpoint for real-time search results
+app.get('/search', (req, res) => {
     const query = req.query.query; // Get the 'query' parameter
     if (!query) {
         return res.status(400).json({ error: "Query parameter is missing" });
     }
 
-    try {
-        const results = await Promise.all(
-            Object.entries(websites).map(([name, metadata]) =>
-                scrapePage(metadata.url, metadata.base_url, metadata.selector, query, 4000)
-                    .then(links => ({ [name]: links }))
-            )
-        );
-        const combinedResults = Object.assign({}, ...results);
-        res.json(combinedResults);
-    } catch (error) {
-        res.status(500).json({ error: "An error occurred during the search" });
-    }
+    // Set headers for SSE
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.flushHeaders();
+
+    // Send results as they are found
+    Object.entries(websites).forEach(async ([name, metadata]) => {
+        const links = await scrapePage(metadata.url, metadata.base_url, metadata.selector, query, 4000);
+        res.write(`data: ${JSON.stringify({ [name]: links })}\n\n`); // Send data to client
+    });
+
+    // End the stream when all results are sent
+    res.on('close', () => {
+        res.end();
+    });
 });
 
 // Start the server
