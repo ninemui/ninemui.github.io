@@ -190,8 +190,8 @@
     percentageElement.textContent = "0%";
 
     // (LOCAL or RENDER) Create an EventSource to listen for real-time updates 
-    const eventSource = new EventSource(`/search?query=${encodeURIComponent(query)}`);
-	//const eventSource = new EventSource(`https://ninemui-github-io.onrender.com/search?query=${encodeURIComponent(query)}`);
+    //const eventSource = new EventSource(`/search?query=${encodeURIComponent(query)}`);
+	const eventSource = new EventSource(`https://ninemui-github-io.onrender.com/search?query=${encodeURIComponent(query)}`);
 
     // Object to store results as they arrive
     const results = {};
