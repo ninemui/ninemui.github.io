@@ -9,16 +9,16 @@
 </head>
 
 <body>
-<p style="margin-bottom:20px;"></p>
+<p style="margin-bottom:15px;"></p>
 <div class="container">
     <div class="searchbar">
         <input type="text" id="searchMsg" placeholder="Enter your search query">
-        <button id="btn">Search Links</button>
+        <button id="btn">Search</button>
     </div>
 <p style="margin-bottom:25px;"></p>
     <div class="link-columns">
         <div class="column column-1">
-            <h3>資源網 搜:</h3>
+            <h3>資源網 🔍:</h3>
             <div class="loader-container" id="loader" style="display: none;">
                 <div class="loader"></div>
                 <div class="percentage" id="percentage">0%</div>
@@ -30,7 +30,7 @@
             <ul id="resourceURLList"></ul>
         </div>
 		<div class="column">
-            <h3>Websitez:</h3>
+            <h3>Websitez 🔍:</h3>
             <ul id="websiteList"></ul>
         </div>
 		<div class="column">
@@ -38,17 +38,17 @@
             <ul id="websiteURLList"></ul>
         </div>		
 		<div class="column">
-            <h3>資源網 CAPTCHA:</h3>
+            <h3>資源網 🔍 CAPTCHA:</h3>
             <ul id="captchaList"></ul>
 			<p style="margin-bottom:10px;"></p>
             <h3>資源網 URL:</h3>
             <ul id="captchaURLList"></ul>
         </div>
 		<div class="column">
-            <h3>ENGLISH:</h3>
+            <h3>ENGLISH 🔍:</h3>
             <ul id="englishList"></ul>
             <br><br><br><br><br>
-            <h3>Subtitle:</h3>
+            <h3>Subtitle 🔍:</h3>
             <ul id="subtitleList"></ul>
         </div>
     </div>
@@ -57,7 +57,7 @@
 <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"></script>
 
 <script>
-    const websiteOrder = ["奈飛", "如意", "豆瓣", "臥龍", "非凡", "魔爪", "紅牛", "豪華", "光速", "金鷹", "速播", "虎牙", "極速", "天空", "黑木耳"];
+    const websiteOrder = ["🔍 如意", "🔍 豆瓣", "🔍 臥龍", "🔍 非凡", "🔍 魔爪", "🔍 紅牛", "🔍 豪華", "🔍 光速", "🔍 金鷹", "🔍 速播", "🔍 虎牙", "🔍 極速", "🔍 黑木耳"];
     const searchMsg = document.getElementById("searchMsg");
     const btn = document.getElementById("btn");
     const resourceList = document.getElementById("resourceList");
@@ -89,33 +89,32 @@
     ];
 	
     const websites = [
-        { name: "🔍獨播庫", url: "https://w.duboku.io/vodsearch/-------------.html?wd=" },
-        { name: "🔍歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
-        { name: "🔍UB影視", url: "https://www.ub1818.com/fil.html?keyword=" },
-        { name: "🔍看片狂人", url: "https://www.kpkuang.org/vodsearch/-------------.html?wd=" },
-        { name: "🔍麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
-        { name: "🔍酷片網", url: "https://kupian.org/search/--/?wd=" },
-        { name: "🔍奈飛", url: "https://www.naifei1.org/vodsearch.html?wd=" },
-        { name: "🔍即看影視", url: "https://www.jktv.app/search/-------------.html?wd=" },
-        { name: "🔍網飛貓", url: "https://www.ncat3.com:51111/search?os=pc&k=" },		
-        { name: "🔍神馬", url: "https://www.18ys.cc/vodsearch/--.html?wd=" },
-        { name: "🔍蛋蛋贊", url: "https://www.ddzvod.com/index.php/vod/search.html?wd=" },
-        { name: "🔍多瑙影視", url: "https://www.duonaovod.com/index.php/vod/search.html?wd=" },
-        { name: "🔍Gimy", url: "https://gimy.tv/search/-------------.html?wd=" },
-        { name: "🔍泥視頻VIP", url: "https://www.nivod.vip/s/-------------/?wd=" },
-        { name: "🔍小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" },
-        { name: "🔍唐人街影視", url: "https://www.trjvod.com/index.php/vod/search.html?wd=" },
-		{ name: "🔍愛你短劇", url: "https://www.ainidj.com/vodsearch/-------------.html?wd=" }
+        { name: "🔍 奈飛", url: "https://www.naifei1.org/vodsearch.html?wd=" },
+        { name: "🔍 看片狂人", url: "https://www.kpkuang.org/vodsearch/-------------.html?wd=" },
+        { name: "🔍 獨播庫", url: "https://w.duboku.io/vodsearch/-------------.html?wd=" },
+        { name: "🔍 歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
+        { name: "🔍 UB影視", url: "https://www.ub1818.com/fil.html?keyword=" },
+        { name: "🔍 酷片網", url: "https://kupian.org/search/--/?wd=" },
+        { name: "🔍 即看影視", url: "https://www.jktv.app/search/-------------.html?wd=" },
+        { name: "🔍 網飛貓", url: "https://www.ncat3.com:51111/search?os=pc&k=" },		
+        { name: "🔍 神馬", url: "https://www.18ys.cc/vodsearch/--.html?wd=" },
+        { name: "🔍 蛋蛋贊", url: "https://www.ddzvod.com/index.php/vod/search.html?wd=" },
+        { name: "🔍 多瑙影視", url: "https://www.duonaovod.com/index.php/vod/search.html?wd=" },
+        { name: "🔍 Gimy", url: "https://gimy.tv/search/-------------.html?wd=" },
+        { name: "🔍 泥視頻VIP", url: "https://www.nivod.vip/s/-------------/?wd=" },
+        { name: "🔍 小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" },
+        { name: "🔍 唐人街影視", url: "https://www.trjvod.com/index.php/vod/search.html?wd=" },
+        { name: "🔍 麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
+		{ name: "🔍 愛你短劇", url: "https://www.ainidj.com/vodsearch/-------------.html?wd=" }
     ];
 
     const websiteURL = [
+		{ name: "奈飛", url: "https://www.naifei1.org/vodshow/id/guochanju.html" },
+		{ name: "看片狂人", url: "https://www.kpkuang.org/vodshow/13-------------.html" },
 		{ name: "獨播庫", url: "https://w.duboku.io/vodshow/13-----------.html" },
 		{ name: "歐樂影院", url: "https://www.olehdtv.com/index.php/vod/show/id/202.html" },
 		{ name: "UB影視", url: "https://www.ub1818.com/fil.html?parent_category_id=101&category_id=123" },
-		{ name: "看片狂人", url: "https://www.kpkuang.org/vodshow/13-------------.html" },
-		{ name: "麥田影視", url: "https://www.mtyy1.com/vodshow/1---%E5%9B%BD%E4%BA%A7%E5%89%A7--------.html" },
 		{ name: "酷片網", url: "https://kupian.org/show/guochanju/" },
-		{ name: "奈飛", url: "https://www.naifei1.org/vodshow/id/guochanju.html" },
 		{ name: "即看影視", url: "https://www.jktv.app/show/13-----------.html" },
 		{ name: "網飛貓", url: "https://www.ncat3.com:51111/show/2-----3-1.html" },
 		{ name: "神馬", url: "https://www.18ys.cc/vodshow/13-------.html" },
@@ -125,25 +124,26 @@
 		{ name: "泥視頻VIP", url: "https://www.nivod.vip/k/13-----------/" },
 		{ name: "小寶影院", url: "https://xiaoxintv.cc/index.php/vod/show/id/41.html" },
 		{ name: "唐人街影視", url: "https://www.trjvod.com/index.php/vod/show/id/13.html" },
+		{ name: "麥田影視", url: "https://www.mtyy1.com/vodshow/1---%E5%9B%BD%E4%BA%A7%E5%89%A7--------.html" },
 		{ name: "愛你短劇", url: "https://www.ainidj.com" }
     ];
 
     const captchaResources = [
-        { name: "🔍索尼資源", url: "https://suonizy.net/vodsearch/-------------.html?wd=" },
-		{ name: "🔍魔都資源", url: "https://moduzy.com/search/-------------/?wd=" },	
-		{ name: "🔍華為吧資源", url: "https://huawei8.live/index.php/vod/search.html?wd={}" },		
-		{ name: "🔍最大資源", url: "https://api.zuidapi.com/index.php/vod/search.html?wd=" },
-		{ name: "🔍暴風資源", url: "https://bfzy.tv/s/?keys=+" },
-		{ name: "🔍無盡資源 720", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
-		{ name: "🔍新浪資源", url: "https://www.xinlangzy.com/index.php/vod/search.html?wd=" },
-		{ name: "🔍OK資源 720", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
-		{ name: "🔍丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" }
+        { name: "🔍 索尼資源", url: "https://suonizy.net/vodsearch/-------------.html?wd=" },
+		{ name: "🔍 魔都資源", url: "https://moduzy.com/search/-------------/?wd=" },	
+		{ name: "🔍 華為吧資源", url: "https://huawei8.live/index.php/vod/search.html?wd={}" },		
+		{ name: "🔍 最大資源", url: "https://api.zuidapi.com/index.php/vod/search.html?wd=" },
+		{ name: "🔍 暴風資源", url: "https://bfzy.tv/s/?keys=+" },
+		{ name: "🔍 無盡資源 720", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
+		{ name: "🔍 新浪資源", url: "https://www.xinlangzy.com/index.php/vod/search.html?wd=" },
+		{ name: "🔍 OK資源 720", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
+		{ name: "🔍 丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" }
     ];
 	
     const captchaURL = [
         { name: "索尼資源", url: "https://suonizy.net/vodtype/13.html" },
         { name: "魔都資源", url: "https://moduzy.com/list26/" },
-		{ name: "🔍華為吧資源", url: "https://huawei8.live/index.php/vod/type/id/72.html" },	
+		{ name: "華為吧資源", url: "https://huawei8.live/index.php/vod/type/id/72.html" },	
         { name: "最大資源", url: "https://zuidazy.me/vodtype/13.html" },
         { name: "暴風資源", url: "https://bfzy.tv/index.php/vod/type/id/31.html" },
         { name: "無盡資源 720", url: "https://www.wujinzy.com/vodtype/13.html" },
@@ -153,16 +153,16 @@
     ];
 
     const englishResources = [
-        { name: "🔍Soap2Day", url: "https://ww25.soap2day.day/?s=" },
-        { name: "🔍Fmovies", url: "https://fmovies.ps/search/" },
-        { name: "🔍SFlix", url: "https://sflix.to/search/" },
-        { name: "🔍1HD", url: "https://www.google.ca/search?q=1hd.to+" }
+        { name: "🔍 Soap2Day", url: "https://ww25.soap2day.day/?s=" },
+        { name: "🔍 Fmovies", url: "https://fmovies.ps/search/" },
+        { name: "🔍 SFlix", url: "https://sflix.to/search/" },
+        { name: "🔍 1HD", url: "https://www.google.ca/search?q=1hd.to+" }
     ];
 
     const subtitleResources = [
-        { name: "🔍Addic7ed", url: "https://www.google.ca/search?q=addic7ed.com+" },
-        { name: "🔍OpenSubtitle", url: "https://www.opensubtitles.org/en/search2/moviename-" },
-        { name: "🔍My Subs", url: "https://my-subs.co/search.php?key=" }
+        { name: "🔍 Addic7ed", url: "https://www.google.ca/search?q=addic7ed.com+" },
+        { name: "🔍 OpenSubtitle", url: "https://www.opensubtitles.org/en/search2/moviename-" },
+        { name: "🔍 My Subs", url: "https://my-subs.co/search.php?key=" }
     ];
 
     async function convertToSimplified(query) {
@@ -189,9 +189,9 @@
     loader.style.display = "flex";
     percentageElement.textContent = "0%";
 
-    // Create an EventSource to listen for real-time updates
-    //const eventSource = new EventSource(`/search?query=${encodeURIComponent(query)}`);
-	const eventSource = new EventSource(`https://ninemui-github-io.onrender.com/search?query=${encodeURIComponent(query)}`);
+    // (LOCAL or RENDER) Create an EventSource to listen for real-time updates 
+    const eventSource = new EventSource(`/search?query=${encodeURIComponent(query)}`);
+	//const eventSource = new EventSource(`https://ninemui-github-io.onrender.com/search?query=${encodeURIComponent(query)}`);
 
     // Object to store results as they arrive
     const results = {};

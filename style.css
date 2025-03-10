@@ -6,11 +6,24 @@
 }
 
 body {
+	background-color: #1e1e1e;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: Arial, sans-serif;
+	color: #e1e1e1;
+}
+
+.common-link {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #599eff;
+}
+
+.common-link:hover {
+    text-decoration: underline;
 }
 
 .container {
@@ -28,10 +41,13 @@ body {
 }
 
 #searchMsg {
+	background-color: #1e1e1e;
+	color: #e1e1e1;
     width: 100%;
     max-width: 540px;
     height: 50px;
     font-size: 20px;
+	font-weight: bold;
     padding: 0 20px;
     border: 2px solid #ddd;
     border-radius: 25px;
@@ -45,11 +61,12 @@ body {
 }
 
 #btn {
-    background-color: #0073e6;
+    background-color: #0060e7;
     color: white;
     border: none;
     border-radius: 25px;
     font-size: 20px;
+	font-weight: bold;
     padding: 0 20px;
     height: 50px;
     cursor: pointer;
@@ -62,20 +79,19 @@ body {
 
 .link-columns {
     display: flex;
-    gap: 20px;
+    gap: 18px;
     justify-content: space-between;
-    margin-top: 22px;
+    margin-top: 18px;
     width: 100%;
 }
 
 .column-1 {
-    flex-basis: 19%; /* 19% width */
-    min-width: 150px;
+    min-width: 100px;
 }
 
 .column h3 {
     margin-bottom: 3px;
-    font-size: 21px;
+    font-size: 19px;
 }
 
 ul {
@@ -84,18 +100,7 @@ ul {
 }
 
 li {
-    padding: 6px;
-}
-
-.common-link {
-    font-size: 19px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #0073e6;
-}
-
-.common-link:hover {
-    text-decoration: underline;
+    padding: 5px;
 }
 
 .loader-container {
@@ -126,5 +131,5 @@ li {
 }
 		
 #resourceList li {
-    font-size: 20px; /* Ensures uniform font size */
+    font-size: 17px; /* Ensures uniform font size */
 }
