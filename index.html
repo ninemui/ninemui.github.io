@@ -6,154 +6,6 @@
     <title>影視資源搜尋</title>
     <link rel="icon" href="favicon.ico">
 	<link rel="stylesheet" href="/style.css">
-<style>
-* {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-	background-color: #1e1e1e;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, sans-serif;
-	color: #e1e1e1;
-}
-
-.common-link {
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #599eff;
-}
-
-.common-link:hover {
-    text-decoration: underline;
-}
-
-.container {
-    width: 100%;
-    max-width: 1150px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.searchbar {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-#searchMsg {
-	background-color: #1e1e1e;
-	color: #e1e1e1;
-    width: 100%;
-    max-width: 540px;
-    height: 50px;
-    font-size: 20px;
-	font-weight: bold;
-    padding: 0 20px;
-    border: 2px solid #ddd;
-    border-radius: 25px;
-    outline: none;
-    transition: 0.3s;
-}
-
-#searchMsg:focus {
-    border-color: orange;
-    box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
-}
-
-#btn {
-    background-color: #0060e7;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 20px;
-	font-weight: bold;
-    padding: 0 20px;
-    height: 50px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-#btn:hover {
-    background-color: #005bb5;
-}
-
-.link-columns {
-    display: flex;
-    gap: 18px;
-    justify-content: space-between;
-    margin-top: 18px;
-    width: 100%;
-}
-
-.column-1 {
-    min-width: 100px;
-}
-
-.column h3 {
-    margin-bottom: 3px;
-    font-size: 19px;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    padding: 5px;
-}
-
-.loader-container {
-    display: flex;
-    flex-direction: row; /* Change from column to row */
-    align-items: center; /* Center items vertically */
-    gap: 10px; /* Space between loader and percentage */
-}
-
-.loader {
-    border: 8px solid #f3f3f3; /* Light gray */
-    border-top: 10px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.percentage {
-    font-size: 18px;
-    font-weight: bold;
-    color: #555;
-}
-		
-.status-text {
-    color: #888;
-    font-style: italic;
-    margin-top: 10px;
-}
-
-#resourceList li,
-#resourceURLList li,
-#websiteList li,
-#websiteURLList li,
-#captchaList li,
-#captchaURLList li,
-#englishList li,
-#subtitleList li {
-    font-size: 18px !important; /* Force the same font size for all lists */
-}
-</style>
 
 </head>
 <body>
@@ -230,18 +82,18 @@ li {
         : 'http://localhost:5000';
 
     const resourceURL = [
-		{ name: "如意資源", url: "https://www.ryzyw.com/index.php/vod/type/id/13.html" },
-		{ name: "豆瓣資源", url: "https://www.dbzy.com/vodtype/13.html?ac=detail" },
-		{ name: "臥龍資源", url: "https://wolongzyw.tv/index.php/vod/type/id/12.html" },
-		{ name: "魔爪資源", url: "https://mzzy.me/index.php/vod/type/id/26.html" },
-		{ name: "紅牛資源", url: "https://hongniuzy.com/index.php/vod/type/id/sCCCCS.html?ac=detail" },
-		{ name: "豪華資源", url: "https://hhzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
-		{ name: "光速資源", url: "https://guangsuzy.net/index.php/vod/type/id/13.html" },
-		{ name: "金鷹資源", url: "https://jyzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
-		{ name: "速播資源", url: "https://www.subozy.com/index.php/vod/type/id/14.html?ac=detail" },
-		{ name: "虎牙資源", url: "https://huyazy.com/index.php/vod/type/id/20.html?ac=detail" },
-		{ name: "極速資源", url: "https://www.jisuzy.com/index.php/vod/type/id/20.html?ac=detail" },
-		{ name: "黑木耳資源", url: "https://www.heimuer.tv/index.php/vod/type/id/13.html" }
+		{ name: "🔍如意資源", url: "https://www.ryzyw.com/index.php/vod/type/id/13.html" },
+		{ name: "🔍豆瓣資源", url: "https://www.dbzy.com/vodtype/13.html?ac=detail" },
+		{ name: "🔍臥龍資源", url: "https://wolongzyw.tv/index.php/vod/type/id/12.html" },
+		{ name: "🔍魔爪資源", url: "https://mzzy.me/index.php/vod/type/id/26.html" },
+		{ name: "🔍紅牛資源", url: "https://hongniuzy.com/index.php/vod/type/id/sCCCCS.html?ac=detail" },
+		{ name: "🔍豪華資源", url: "https://hhzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "🔍光速資源", url: "https://guangsuzy.net/index.php/vod/type/id/13.html" },
+		{ name: "🔍金鷹資源", url: "https://jyzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "🔍速播資源", url: "https://www.subozy.com/index.php/vod/type/id/14.html?ac=detail" },
+		{ name: "🔍虎牙資源", url: "https://huyazy.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "🔍極速資源", url: "https://www.jisuzy.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "🔍黑木耳資源", url: "https://www.heimuer.tv/index.php/vod/type/id/13.html" }
     ];
 	
     const websites = [

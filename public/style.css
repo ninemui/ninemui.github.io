@@ -134,3 +134,14 @@ li {
     font-style: italic;
     margin-top: 10px;
 }
+
+#resourceList li,
+#resourceURLList li,
+#websiteList li,
+#websiteURLList li,
+#captchaList li,
+#captchaURLList li,
+#englishList li,
+#subtitleList li {
+    font-size: 18px !important; /* Force the same font size for all lists */
+}
