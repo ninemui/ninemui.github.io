@@ -1,161 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>影視資源搜尋</title>
+    <title>Search Links</title>
     <link rel="icon" href="favicon.ico">
-	<link rel="stylesheet" href="/style.css">
-<style>
-* {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-	background-color: #1e1e1e;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, sans-serif;
-	color: #e1e1e1;
-}
-
-.common-link {
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #599eff;
-}
-
-.common-link:hover {
-    text-decoration: underline;
-}
-
-.container {
-    width: 100%;
-    max-width: 1150px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.searchbar {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-#searchMsg {
-	background-color: #1e1e1e;
-	color: #e1e1e1;
-    width: 100%;
-    max-width: 540px;
-    height: 50px;
-    font-size: 20px;
-	font-weight: bold;
-    padding: 0 20px;
-    border: 2px solid #ddd;
-    border-radius: 25px;
-    outline: none;
-    transition: 0.3s;
-}
-
-#searchMsg:focus {
-    border-color: orange;
-    box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
-}
-
-#btn {
-    background-color: #0060e7;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 20px;
-	font-weight: bold;
-    padding: 0 20px;
-    height: 50px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-#btn:hover {
-    background-color: #005bb5;
-}
-
-.link-columns {
-    display: flex;
-    gap: 18px;
-    justify-content: space-between;
-    margin-top: 18px;
-    width: 100%;
-}
-
-.column-1 {
-    min-width: 100px;
-}
-
-.column h3 {
-    margin-bottom: 3px;
-    font-size: 19px;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    padding: 5px;
-}
-
-.loader-container {
-    display: flex;
-    flex-direction: row; /* Change from column to row */
-    align-items: center; /* Center items vertically */
-    gap: 10px; /* Space between loader and percentage */
-}
-
-.loader {
-    border: 8px solid #f3f3f3; /* Light gray */
-    border-top: 10px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.percentage {
-    font-size: 18px;
-    font-weight: bold;
-    color: #555;
-}
-		
-.status-text {
-    color: #888;
-    font-style: italic;
-    margin-top: 10px;
-}
-
-#resourceList li,
-#resourceURLList li,
-#websiteList li,
-#websiteURLList li,
-#captchaList li,
-#captchaURLList li,
-#englishList li,
-#subtitleList li {
-    font-size: 18px !important; /* Force the same font size for all lists */
-}
-</style>
-
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 <p style="margin-bottom:15px;"></p>
 <div class="container">
@@ -169,7 +21,7 @@ li {
             <h3>資源網 🔍:</h3>
             <div class="loader-container" id="loader" style="display: none;">
                 <div class="loader"></div>
-				<div class="status-text" id="status">Searching...</div>
+                <div class="percentage" id="percentage">0%</div>
             </div>			
             <ul id="resourceList"></ul>
         </div>
@@ -203,12 +55,11 @@ li {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"></script>
-<script>
-    const websiteOrder = ["🔍 如意", "🔍 豆瓣", "🔍 臥龍", "🔍 魔爪", "🔍 紅牛", 
-                         "🔍 豪華", "🔍 光速", "🔍 金鷹", "🔍 速播", "🔍 虎牙", 
-                         "🔍 極速", "🔍 黑木耳"];
 
-    // Configuration data (keep your existing data)
+<script>
+    const websiteOrder = ["🔍 如意", "🔍 豆瓣", "🔍 臥龍", "🔍 魔爪", "🔍 紅牛", "🔍 豪華", "🔍 光速", "🔍 金鷹", "🔍 速播", "🔍 虎牙", "🔍 極速", "🔍 黑木耳"];
+    const searchMsg = document.getElementById("searchMsg");
+    const btn = document.getElementById("btn");
     const resourceList = document.getElementById("resourceList");
 	const resourceURLList = document.getElementById("resourceURLList");
     const websiteList = document.getElementById("websiteList");
@@ -217,17 +68,8 @@ li {
     const captchaURLList = document.getElementById("captchaURLList");
     const englishList = document.getElementById("englishList");
     const subtitleList = document.getElementById("subtitleList");
-    const btn = document.getElementById("btn");
     const loader = document.getElementById("loader");
-    const percentageElement = document.getElementById("percentage");	
-
-    let currentSearch = null;
-    let isSearching = false;
-
-	const isProduction = window.location.hostname !== 'localhost';
-    const baseURL = isProduction 
-        ? 'https://ninemui-github-io.onrender.com' 
-        : 'http://localhost:5000';
+    const percentageElement = document.getElementById("percentage");
 
     const resourceURL = [
 		{ name: "如意資源", url: "https://www.ryzyw.com/index.php/vod/type/id/13.html" },
@@ -320,37 +162,82 @@ li {
         { name: "🔍 OpenSubtitle", url: "https://www.opensubtitles.org/en/search2/moviename-" },
         { name: "🔍 My Subs", url: "https://my-subs.co/search.php?key=" }
     ];
-	
 
-        async function convertToSimplified(query) {
-            try {
-                const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
-                return await converter(query);
-            } catch {
-                return query;
-            }
+    async function convertToSimplified(query) {
+        const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
+        try {
+            return await converter(query);
+        } catch {
+            alert("Could not convert to Simplified Chinese. Using the original query.");
+            return query; // Fallback to original query
         }
-
-        function clearResults() {
-            document.querySelectorAll('#resourceList, #websiteList, #resourceURLList, #websiteURLList, #captchaList, #captchaURLList, #englishList, #subtitleList')
-                .forEach(el => el.innerHTML = '');
-        }
-
-async function performSearch() {
-    if (isSearching) {
-        currentSearch.close();
-        document.getElementById('status').textContent = '已取消當前搜尋';
     }
 
-    const query = document.getElementById('searchMsg').value.trim();
-    if (!query) return alert('請輸入搜尋內容');
+    async function performSearch() {
+    let query = searchMsg.value.trim();
+    if (!query) {
+        alert("Please enter a search query.");
+        return;
+    }
 
-    try {
-        isSearching = true;
-        clearResults();
-        document.getElementById('loader').style.display = 'flex';
+    query = await convertToSimplified(query);
 
-        const simplifiedQuery = await convertToSimplified(query);
+    // Clear previous results
+    resourceList.innerHTML = "";
+    loader.style.display = "flex";
+    percentageElement.textContent = "0%";
+
+    // (LOCAL or RENDER) Create an EventSource to listen for real-time updates 
+    //const eventSource = new EventSource(`/search?query=${encodeURIComponent(query)}`);
+	const eventSource = new EventSource(`https://ninemui-github-io.onrender.com/search?query=${encodeURIComponent(query)}`);
+
+    // Object to store results as they arrive
+    const results = {};
+    let completedWebsites = 0;
+
+    eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        const website = Object.keys(data)[0];
+        const links = data[website];
+
+        // Store the results for this website
+        results[website] = links;
+        completedWebsites++;
+
+        // Update the progress percentage
+        const totalWebsites = websiteOrder.length;
+        const progress = Math.round((completedWebsites / totalWebsites) * 100);
+        percentageElement.textContent = `${progress}%`;
+
+        // Clear the resourceList and re-render in the correct order
+        resourceList.innerHTML = "";
+        websiteOrder.forEach(website => {
+            const links = results[website];
+
+            if (links && links.length > 0) {
+                links.forEach((link, index) => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.className = "common-link";
+                    a.href = link;
+                    a.target = "_blank";
+                    a.textContent = `${website}(${index + 1})`;
+                    li.appendChild(a);
+                    resourceList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement("li");
+                li.textContent = `${website}: No Results!`;
+                li.style.color = "gray";
+                resourceList.appendChild(li);
+            }
+        });
+    };
+
+    eventSource.onerror = () => {
+        eventSource.close();
+        loader.style.display = "none";
+    };
 
         // Populate static websites
         websiteList.innerHTML = "";
@@ -358,7 +245,7 @@ async function performSearch() {
             const li = document.createElement("li");
             const a = document.createElement("a");
             a.className = "common-link";
-            a.href = resource.url + encodeURIComponent(simplifiedQuery);
+            a.href = resource.url + encodeURIComponent(query);
             a.target = "_blank";
             a.textContent = resource.name;
             li.appendChild(a);
@@ -384,13 +271,13 @@ async function performSearch() {
             const li = document.createElement("li");
             const a = document.createElement("a");
             a.className = "common-link";
-            a.href = resource.url + encodeURIComponent(simplifiedQuery);
+            a.href = resource.url + encodeURIComponent(query);
             a.target = "_blank";
             a.textContent = resource.name;
             li.appendChild(a);
             captchaList.appendChild(li);
         });
-
+		
         // Populate CAPTCHA URL
         captchaURLList.innerHTML = "";
         captchaURL.forEach(resource => {
@@ -411,9 +298,9 @@ async function performSearch() {
             const a = document.createElement("a");
             a.className = "common-link";
 
-            let modifiedQuery = simplifiedQuery;
+            let modifiedQuery = query;
             if (resource.name === "Fmovies" || resource.name === "SFlix") {
-                modifiedQuery = simplifiedQuery.replace(/\s+/g, '-');
+                modifiedQuery = query.replace(/\s+/g, '-');
             }
 
             a.href = resource.url + encodeURIComponent(modifiedQuery);
@@ -422,14 +309,13 @@ async function performSearch() {
             li.appendChild(a);
             englishList.appendChild(li);
         });
-
         // Populate Subtitle resources
         subtitleList.innerHTML = "";
         subtitleResources.forEach(resource => {
             const li = document.createElement("li");
             const a = document.createElement("a");
             a.className = "common-link";
-            a.href = resource.url + encodeURIComponent(simplifiedQuery);
+            a.href = resource.url + encodeURIComponent(query);
             a.target = "_blank";
             a.textContent = resource.name;
             li.appendChild(a);
@@ -448,84 +334,12 @@ async function performSearch() {
             li.appendChild(a);
             resourceURLList.appendChild(li);
         });
-
-        // Start streaming dynamic results
-        currentSearch = new EventSource(`${baseURL}/search?query=${encodeURIComponent(simplifiedQuery)}`);
-
-        const results = {};
-        let completed = 0;
-
-        currentSearch.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            const [website, links] = Object.entries(data)[0];
-            
-            results[website] = links;
-            completed++;
-            
-            updateProgress(completed);
-            renderResults(results);
-        };
-
-        currentSearch.onerror = () => {
-            isSearching = false;
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('status').textContent = '搜尋完成';
-            currentSearch.close();
-        };
-
-    } catch (error) {
-        console.error('搜尋失敗:', error);
-        isSearching = false;
-        document.getElementById('loader').style.display = 'none';
-        document.getElementById('status').textContent = '搜尋失敗，請重試';
     }
-}
 
-        function updateProgress(completed) {
-            const progress = Math.round((completed / websiteOrder.length) * 100);
-            document.getElementById('status').textContent = 
-                `搜尋中... (${completed}/${websiteOrder.length}) ${progress}%`;
-        }
-
-        function renderResults(results) {
-            const listElement = document.getElementById('resourceList');
-            listElement.innerHTML = '';
-            
-            websiteOrder.forEach(website => {
-                const links = results[website] || [];
-                const item = document.createElement('li');
-                
-                if (links.length > 0) {
-                    links.forEach((link, index) => {
-                        const linkElement = document.createElement('a');
-                        linkElement.className = 'common-link';
-                        linkElement.href = link;
-                        linkElement.target = '_blank';
-                        linkElement.textContent = `${website} (${index + 1})`;
-                        item.appendChild(linkElement);
-                    });
-                } else {
-                    item.textContent = `${website}: No Results!`;
-                    item.style.color = '#666';
-                }
-                
-                listElement.appendChild(item);
-            });
-        }
-
-        // Initialize event listeners
-        document.getElementById('btn').addEventListener('click', performSearch);
-        document.getElementById('searchMsg').addEventListener('keypress', e => {
-            if (e.key === 'Enter') performSearch();
-        });
-
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', () => {
-            if (currentSearch) {
-                currentSearch.close();
-            }
-        });
-		
-    </script>
+    btn.onclick = performSearch;
+    searchMsg.addEventListener("keypress", e => {
+        if (e.key === "Enter") performSearch();
+    });
+</script>
 </body>
 </html>

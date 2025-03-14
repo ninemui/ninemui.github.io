@@ -1,5 +1,4 @@
 /* style.css */
-
 * {
     margin: 0;
     padding: 0;
@@ -130,6 +129,8 @@ li {
     color: #555;
 }
 		
-#resourceList li {
-    font-size: 17px; /* Ensures uniform font size */
+.status-text {
+    color: #888;
+    font-style: italic;
+    margin-top: 10px;
 }
