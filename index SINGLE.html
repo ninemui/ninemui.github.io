@@ -344,30 +344,18 @@
         
         websiteOrder.forEach(website => {
             const links = results[website] || [];
-            const linkItems = [];
-
+            
             if (links.length > 0) {
                 links.forEach((link, index) => {
+                    const item = document.createElement('li');
                     const linkElement = document.createElement('a');
                     linkElement.className = 'common-link';
                     linkElement.href = link;
                     linkElement.target = '_blank';
                     linkElement.textContent = `${website} (${index + 1})`;
-                    linkItems.push(linkElement);
-                });
-
-                // Group links into pairs
-                for (let i = 0; i < linkItems.length; i += 2) {
-                    const item = document.createElement('li');
-                    item.appendChild(linkItems[i]);
-
-                    if (linkItems[i + 1]) {
-                        item.appendChild(document.createTextNode(', '));
-                        item.appendChild(linkItems[i + 1]);
-                    }
-
+                    item.appendChild(linkElement);
                     listElement.appendChild(item);
-                }
+                });
             } else {
                 const item = document.createElement('li');
                 item.textContent = `${website}: No Results!`;
