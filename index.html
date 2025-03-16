@@ -24,26 +24,26 @@
             </div>			
             <ul id="resourceList"></ul>
         </div>
-        <div class="column">
+        <div class="column column-2">
             <h3>資源網 URL 🌍:</h3>
             <ul id="resourceURLList"></ul>
         </div>
-        <div class="column">
+        <div class="column column-3">
             <h3>Websitez 🔍:</h3>
             <ul id="websiteList"></ul>
         </div>
-        <div class="column">
+        <div class="column column-4">
             <h3>Websitez URL 🌍:</h3>
             <ul id="websiteURLList"></ul>
         </div>		
-        <div class="column">
-            <h3>資源網 🔍 CAPTCHA:</h3>
+        <div class="column column-5">
+            <h3>資源網 <img src="https://cdn3.emoji.gg/emojis/6465-captcha.png" width="25px" height="25px">:</h3>
             <ul id="captchaList"></ul>
             <p style="margin-bottom:8px;"></p>
             <h3>資源網 URL 🌍:</h3>
             <ul id="captchaURLList"></ul>
         </div>
-        <div class="column">
+        <div class=" column-6">
             <h3>ENGLISH 🔍:</h3>
             <ul id="englishList"></ul>
             <br><br><br><br><br>
@@ -141,9 +141,9 @@
         { name: "🔍 華為吧資源", url: "https://huawei8.live/index.php/vod/search.html?wd={}" },		
         { name: "🔍 最大資源", url: "https://api.zuidapi.com/index.php/vod/search.html?wd=" },
         { name: "🔍 暴風資源", url: "https://bfzy.tv/s/?keys=+" },
-        { name: "🔍 無盡資源 720", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
+        { name: "🔍 無盡資源", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
         { name: "🔍 新浪資源", url: "https://www.xinlangzy.com/index.php/vod/search.html?wd=" },
-        { name: "🔍 OK資源 720", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
+        { name: "🔍 OK資源", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
         { name: "🔍 丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" }
     ];
 	
@@ -153,9 +153,9 @@
         { name: "🌍華為吧資源", url: "https://huawei8.live/index.php/vod/type/id/72.html" },	
         { name: "🌍最大資源", url: "https://zuidazy.me/vodtype/13.html" },
         { name: "🌍暴風資源", url: "https://bfzy.tv/index.php/vod/type/id/31.html" },
-        { name: "🌍無盡資源 720", url: "https://www.wujinzy.com/vodtype/13.html" },
+        { name: "🌍無盡資源", url: "https://www.wujinzy.com/vodtype/13.html" },
         { name: "🌍新浪資源", url: "https://www.xinlangzy.com/index.php/vod/type/id/13.html" },
-        { name: "🌍OK資源 720", url: "https://okzyw1.com/vodshow/13-----------/100" },
+        { name: "🌍OK資源", url: "https://okzyw1.com/vodshow/13-----------/100" },
         { name: "🌍丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/type/id/13.html" }
     ];
 
@@ -370,7 +370,7 @@
                 }
             } else {
                 const item = document.createElement('li');
-                item.textContent = `${website}: No Results!`;
+                item.textContent = `${website}: 冇喎!`;
                 item.style.color = '#666';
                 listElement.appendChild(item);
             }
