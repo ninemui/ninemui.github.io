@@ -6,7 +6,6 @@ const path = require('path');
 const { setTimeout } = require('timers/promises');
 
 const headers = {
-  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
   'Accept-Language': 'en-US,en;q=0.9',
   'Referer': 'https://www.google.com/',
@@ -22,9 +21,6 @@ const userAgents = [
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
   'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1'
 ];
-
-// Override the static User-Agent with a random one
-headers['User-Agent'] = userAgents[Math.floor(Math.random() * userAgents.length)];
 
 const app = express();
 app.use(cors());
@@ -54,11 +50,17 @@ const websites = {
 };
 
 // Function to scrape the page and extract URLs with timeout
-const scrapePage = async (url, baseUrl, selector, query) => {
+const scrapePage = async (url, baseUrl, selector, query, retries = 3) => {
     try {
         const fullUrl = url.replace('{}', encodeURIComponent(query));
         const controller = new AbortController();
-        
+
+        // Create dynamic headers for each request
+        const headers = {
+            ...baseHeaders,
+            'User-Agent': userAgents[Math.floor(Math.random() * userAgents.length)]
+        };
+		
         const response = await Promise.race([
             axios.get(fullUrl, {
                 headers: headers,
@@ -78,7 +80,7 @@ const scrapePage = async (url, baseUrl, selector, query) => {
 
     } catch (error) {
       if (retries > 0) {
-        console.log(`Retrying (${retries} left)...`);
+        console.log(`Retrying (${retries} left) for ${url.split('/')[2]}...`);
         await new Promise(resolve => setTimeout(resolve, 2000)); // 2s delay
         return scrapePage(url, baseUrl, selector, query, retries - 1);
       }
