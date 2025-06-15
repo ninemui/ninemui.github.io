@@ -77,10 +77,16 @@ const scrapePage = async (url, baseUrl, selector, query) => {
         }).get().filter(link => link && !link.includes('/type/id/'));
 
     } catch (error) {
-        console.error(`Scrape error: ${url.split('/')[2]} - ${error.message}`);
-        return [];
+      if (retries > 0) {
+        console.log(`Retrying (${retries} left)...`);
+        await new Promise(resolve => setTimeout(resolve, 2000)); // 2s delay
+        return scrapePage(url, baseUrl, selector, query, retries - 1);
+      }
+      console.error(`Scrape error: ${url.split('/')[2]} - ${error.message}`);
+      return [];
     }
 };
+
 
 // Concurrent task processor
 async function processConcurrently(tasks, concurrency = 4) {
@@ -130,6 +136,7 @@ app.get('/search', async (req, res) => {
         res.end();
     }
 });
+
 
 // Server setup
 const PORT = process.env.PORT || 5000;
