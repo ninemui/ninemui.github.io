@@ -1,14 +1,29 @@
 {
-  "name": "search",
+  "name": "electron-server-wrapper",
   "version": "1.0.0",
+  "description": "影視資源搜尋",
+  "author": "9mui",
+  "main": "electron/main.js",
   "scripts": {
-    "start": "node run.js",
-    "dev": "node server.js"
+    "start": "electron .",
+    "build": "electron-builder",
+    "dev": "node server.js",
+    "run": "node run.js"
+  },
+  "build": {
+    "appId": "9zSearch.id",
+    "win": {
+      "icon": "electron/icon.png"
+    }
   },
   "dependencies": {
     "axios": "^1.10.0",
     "cheerio": "^1.1.0",
     "cors": "^2.8.5",
     "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "electron": "^25.x.x",
+    "electron-builder": "^26.0.12"
   }
 }
