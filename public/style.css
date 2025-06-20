@@ -27,6 +27,32 @@ body {
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
+    position: relative;
+}
+
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+}
+
+.clear-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+    font-size: 24px;
+    display: none;
+    background: none;
+    border: none;
+    padding: 0 5px;
+    z-index: 2;
+}
+
+.clear-btn:hover {
+    color: #e1e1e1;
 }
 
 #searchMsg {
@@ -37,11 +63,12 @@ body {
     height: 45px;
     font-size: 19px;
 	font-weight: bold;
-    padding: 0 19px;
+    padding: 0 40px 0 19px;
     border: 2px solid #ddd;
     border-radius: 25px;
     outline: none;
     transition: 0.3s;
+	box-sizing: border-box;
 }
 
 #searchMsg:focus {

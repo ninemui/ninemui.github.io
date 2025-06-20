@@ -10,10 +10,14 @@
 <body>
 <p style="margin-bottom:12px;"></p>
 <div class="container">
-    <div class="searchbar">
+	<div class="searchbar">
+    <div class="search-container">
         <input type="text" id="searchMsg" placeholder="Enter your search query">
-        <button id="btn">Search</button>
+        <span id="clear-search" class="clear-btn">&times;</span>
     </div>
+		<button id="btn">Search</button>
+	</div>
+	
 <p style="margin-bottom:17px;"></p>
     <div class="link-columns">
         <div class="column column-1">
@@ -392,6 +396,28 @@
             currentSearch.close();
         }
     });
+
+// Clear search button functionality
+const searchInput = document.getElementById('searchMsg');
+const clearButton = document.getElementById('clear-search');
+
+// Show/hide clear button based on input
+searchInput.addEventListener('input', function() {
+    clearButton.style.display = this.value.length > 0 ? 'block' : 'none';
+});
+
+// Clear input when X is clicked
+clearButton.addEventListener('click', function() {
+    searchInput.value = '';
+    clearButton.style.display = 'none';
+    searchInput.focus();
+});
+
+// Make sure existing search functionality remains
+document.getElementById('btn').addEventListener('click', performSearch);
+document.getElementById('searchMsg').addEventListener('keypress', e => {
+    if (e.key === 'Enter') performSearch();
+});
 		
 </script>
 </body>
