@@ -59,9 +59,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"></script>
 <script>
-    const websiteOrder = ["🔍 P.Dog", "🔍 豪華", "🔍 光速", "🔍 如意", "🔍 豆瓣", 
-                         "🔍 臥龍", "🔍 魔爪", "🔍 紅牛", "🔍 金鷹", "🔍 速播", 
-                         "🔍 虎牙", "🔍 極速", "🔍 黑木耳"];
+    const websiteOrder = ["🔍 P.Dog", "🔍 新浪", "🔍 速播", "🔍 光速", "🔍 臥龍", "🔍 金馬", "🔍 虎牙", "🔍 天涯",
+	                      "🔍 茅台", "🔍 豪華", "🔍 如意", "🔍 魔爪", "🔍 金鷹", "🔍 紅牛", "🔍 極速", "🔍 黑木耳"];
+                         
 
     // Configuration data (keep your existing data)
     const resourceList = document.getElementById("resourceList");
@@ -86,18 +86,21 @@
 
     const resourceURL = [
 		{ name: "🌍P.Dog", url: "https://ylsp.tv/vodshow/13-----------2025/" },
-        { name: "🌍豪華資源", url: "https://hhzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
-        { name: "🌍光速資源", url: "https://guangsuzy.net/index.php/vod/type/id/13.html" },
+		{ name: "🌍新浪資源", url: "https://www.xinlangzy.com/index.php/vod/type/id/13.html" },
+		{ name: "🌍速播資源", url: "https://www.subozy.com/index.php/vod/type/id/14.html?ac=detail" },
+		{ name: "🌍光速資源", url: "https://guangsuzy.net/index.php/vod/type/id/13.html" },
+		{ name: "🌍臥龍資源", url: "https://www.wolongzy.tv/index.php/vod/type/id/12.html" },
+		{ name: "🌍金馬資源", url: "https://www.jmzy1.com/index.php/vod/type/id/27.html" },
+		{ name: "🌍虎牙資源", url: "https://huyazy.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "🌍天涯資源", url: "https://tyyszyapi.com/index.php/vod/type/id/40.html" },
+		{ name: "🌍茅台資源", url: "https://mtzy.me/vodtype/13.html?ac=detail" },
+		{ name: "🌍豪華資源", url: "https://hhzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
 		{ name: "🌍如意資源", url: "https://www.ryzyw.com/index.php/vod/type/id/13.html" },
-        { name: "🌍豆瓣資源", url: "https://www.dbzy.com/vodtype/13.html?ac=detail" },
-        { name: "🌍臥龍資源", url: "https://wolongzyw.tv/index.php/vod/type/id/12.html" },
-        { name: "🌍魔爪資源", url: "https://mzzy.me/index.php/vod/type/id/26.html" },
-        { name: "🌍紅牛資源", url: "https://hongniuzy.com/index.php/vod/type/id/sCCCCS.html?ac=detail" },
-        { name: "🌍金鷹資源", url: "https://jyzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
-        { name: "🌍速播資源", url: "https://www.subozy.com/index.php/vod/type/id/14.html?ac=detail" },
-        { name: "🌍虎牙資源", url: "https://huyazy.com/index.php/vod/type/id/20.html?ac=detail" },
-        { name: "🌍極速資源", url: "https://www.jisuzy.com/index.php/vod/type/id/20.html?ac=detail" },
-        { name: "🌍黑木耳資源", url: "https://www.heimuer.tv/index.php/vod/type/id/13.html" }
+		{ name: "🌍魔爪資源", url: "https://mzzy.me/index.php/vod/type/id/26.html" },
+		{ name: "🌍金鷹資源", url: "https://jyzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "🌍紅牛資源", url: "https://hongniuzy.com/index.php/vod/type/id/sCCCCS.html?ac=detail" },
+		{ name: "🌍極速資源", url: "https://www.jisuzy.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "🌍黑木耳資源", url: "https://www.heimuer.tv/index.php/vod/type/id/13.html" },
     ];
 	
     const websites = [
@@ -143,26 +146,24 @@
     ];
 
     const captchaResources = [
+		{ name: "🔍 快車資源", url: "https://kuaichezy.com/index.php/vod/search.html?wd" },
 		{ name: "🔍 索尼資源", url: "https://suonizy.net/vodsearch/-------------.html?wd=" },
         { name: "🔍 魔都資源", url: "https://moduzy.net/search/-------------/?wd=" },	
         { name: "🔍 華為吧資源", url: "https://huawei8.live/index.php/vod/search.html?wd={}" },		
         { name: "🔍 最大資源", url: "https://zuidazy.me/vodsearch/-------------.html?wd=" },
         { name: "🔍 暴風資源", url: "https://bfzy.tv/s/?keys=+" },
         { name: "🔍 無盡資源", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
-        { name: "🔍 新浪資源", url: "https://www.xinlangzy.com/index.php/vod/search.html?wd=" },
-        { name: "🔍 OK資源", url: "https://okzyw1.com/vodsearch/-------------/?wd=" },
         { name: "🔍 丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/search.html?wd=" }
     ];
 	
     const captchaURL = [
+        { name: "🌍快車資源", url: "https://kuaichezy.com/index.php/vod/type/id/13.html" },
         { name: "🌍索尼資源", url: "https://suonizy.net/vodtype/13.html" },
         { name: "🌍魔都資源", url: "https://moduzy.net/list26/" },
         { name: "🌍華為吧資源", url: "https://huawei8.live/index.php/vod/type/id/72.html" },	
         { name: "🌍最大資源", url: "https://zuidazy.me/vodtype/13.html" },
         { name: "🌍暴風資源", url: "https://bfzy.tv/index.php/vod/type/id/31.html" },
         { name: "🌍無盡資源", url: "https://www.wujinzy.com/vodtype/13.html" },
-        { name: "🌍新浪資源", url: "https://www.xinlangzy.com/index.php/vod/type/id/13.html" },
-        { name: "🌍OK資源", url: "https://okzyw1.com/vodshow/13-----------/100" },
         { name: "🌍丫丫資源", url: "https://cj2.yayazy.net/index.php/vod/type/id/13.html" }
     ];
 
