@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>OpenCC 繁體轉簡體</title>
+  <script src="./opencc/dist/umd/t2cn.js"></script>
+</head>
+<body>
+  <h1 id="output">轉換中...</h1>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      // OpenCC is a function already
+      const converter = OpenCC.Converter({ from: 'tw', to: 'cn' });
+      const result = converter('國譚');
+      document.getElementById('output').textContent = result;
+    });
+  </script>
+</body>
+</html>
+
+
