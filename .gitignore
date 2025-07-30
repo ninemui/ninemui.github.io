@@ -1,5 +1,5 @@
-node_modules/
-BACKUP/
-electron/
-dist/
-public/
+/node_modules/
+/BACKUP/
+/electron/
+/dist/
+/public/
