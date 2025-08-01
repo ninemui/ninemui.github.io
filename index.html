@@ -57,7 +57,7 @@
     </div>
 </div>
 
-<script src="./opencc/dist/umd/t2cn.js"></script>
+<script src="./opencc/dist/umd/full.js"></script>
 <script>
     const websiteOrder = ["🔍 P.Dog","🔍 天涯", "🔍 新浪", "🔍 速播", "🔍 光速", "🔍 臥龍", "🔍 虎牙", "🔍 u酷", 
 	                      "🔍 淘片", "🔍 茅台", "🔍 豪華", "🔍 如意", "🔍 魔爪", "🔍 金鷹", "🔍 紅牛", "🔍 極速", "🔍 黑木耳"];
@@ -191,6 +191,16 @@
         }
     }
 
+    async function convertToTraditional(query) {
+        try {
+            const converter = OpenCC.Converter({ from: 'cn', to: 'tw' });
+            return await converter(query);
+        } catch {
+            return query;
+        }
+    }
+	
+	
     function clearResults() {
         document.querySelectorAll('#resourceList, #websiteList, #resourceURLList, #websiteURLList, #captchaList, #captchaURLList, #englishList, #subtitleList')
             .forEach(el => el.innerHTML = '');
@@ -211,14 +221,23 @@
             document.getElementById('loader').style.display = 'flex';
 
             const simplifiedQuery = await convertToSimplified(query);
-
+			// Add Traditional Chinese conversion for specific sites
+			const traditionalQuery = await convertToTraditional(query);
+			
             // Populate static websites
             websiteList.innerHTML = "";
             websites.forEach(resource => {
                 const li = document.createElement("li");
                 const a = document.createElement("a");
                 a.className = "common-link";
-                a.href = resource.url + encodeURIComponent(simplifiedQuery);
+				
+                // Special case for 小鴨影音 - use original query (Traditional Chinese)
+                if (resource.name === "🔍 小鴨影音") {
+                    a.href = resource.url + encodeURIComponent(traditionalQuery);
+                } else {
+                    a.href = resource.url + encodeURIComponent(simplifiedQuery);
+                }
+	
                 a.target = "_blank";
                 a.textContent = resource.name;
                 li.appendChild(a);
