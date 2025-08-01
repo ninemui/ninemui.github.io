@@ -60,7 +60,7 @@
 <script src="./opencc/dist/umd/t2cn.js"></script>
 <script>
     const websiteOrder = ["🔍 P.Dog","🔍 天涯", "🔍 新浪", "🔍 速播", "🔍 光速", "🔍 臥龍", "🔍 虎牙", "🔍 u酷", 
-	                      "🔍 淘片", "🔍 茅台", "🔍 豪華", "🔍 如意", "🔍 魔爪", "🔍 金鷹", "🔍 紅牛", "🔍 極速", "🔍 金馬", "🔍 黑木耳"];
+	                      "🔍 淘片", "🔍 茅台", "🔍 豪華", "🔍 如意", "🔍 魔爪", "🔍 金鷹", "🔍 紅牛", "🔍 極速", "🔍 黑木耳"];
                          
 
     // Configuration data (keep your existing data)
@@ -101,50 +101,48 @@
 		{ name: "🌍金鷹資源", url: "https://jyzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
 		{ name: "🌍紅牛資源", url: "https://hongniuzy.com/index.php/vod/type/id/sCCCCS.html?ac=detail" },
 		{ name: "🌍極速資源", url: "https://www.jisuzy.com/index.php/vod/type/id/20.html?ac=detail" },
-		{ name: "🌍金馬資源", url: "https://www.jmzy1.com/index.php/vod/type/id/27.html" },
 		{ name: "🌍黑木耳資源", url: "https://www.heimuer.tv/index.php/vod/type/id/13.html" },
     ];
 	
     const websites = [
-		{ name: "🔍 極越TV", url: "https://www.jiyue1.com/vodsearch.html?wd=" },
+        { name: "🔍 極越TV", url: "https://www.jiyue1.com/vodsearch.html?wd=" },
         { name: "🔍 看片狂人", url: "https://www.kpkuang.fun/vodsearch/-------------.html?wd=" },
-        { name: "🔍 麥田影視", url: "https://137.220.194.24/vodsearch/-------------.html?wd=" },
         { name: "🔍 歐樂影院", url: "https://www.olevod.tv/search?q=" },
         { name: "🔍 UB影視", url: "https://www.ub1818.com/fil.html?keyword=" },
-        { name: "🔍 如意影視", url: "https://rytv.tv/index.php/vod/search.html?wd=" },		
-		{ name: "🔍 P.Dog", url: "https://ylsp.tv/vodsearch/-------------/?wd=" },
-        { name: "🔍 老王電影", url: "https://laowang.co/s.html?wd=" },
+        { name: "🔍 老王電影", url: "https://www.laowang.co/s.html?wd=" },
         { name: "🔍 網飛貓", url: "https://www.ncat3.com/search?os=pc&k=" },
+        { name: "🔍 小鴨影音", url: "https://777tv.ai/vod/search.html?wd=" },
         { name: "🔍 泥視頻", url: "https://www.nivod.vip/s/-------------/?wd=" },
         { name: "🔍 蛋蛋魔法", url: "https://ddmf.net/vodsearch/-------------.html?wd=" },
-        { name: "🔍 唐人街影視", url: "https://www.chinatownfilm.com/vodsearch/-------------.html?wd=" },
-        { name: "🔍 小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" },
-        { name: "🔍 酷片網", url: "https://kupian.org/search/--/?wd=" },
+        { name: "🔍 麥田影視", url: "https://137.220.194.24/vodsearch/-------------.html?wd=" },
         { name: "🔍 Gimy", url: "https://gimy.tv/search/-------------.html?wd=" },
-        { name: "🔍 獨播庫", url: "https://w.duboku.io/vodsearch/-------------.html?wd=" },
-        { name: "🔍 即看影視", url: "https://www.jktv.app/search/-------------.html?wd=" },
+        { name: "🔍 iKanBot", url: "https://v.ikanbot.com/search?q=" },
+        { name: "🔍 愛壹帆", url: "https://www.iyf.tv/search/" },
+        { name: "🔍 金牌影院", url: "https://www.jiabaide.cn/vod/search/" },
+        { name: "🔍 飄花影院", url: "https://phvod.com/phsearch/-------------.html?wd=" },
+        { name: "🔍 小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" },
+        { name: "🔍 如意影視", url: "https://rytv.tv/index.php/vod/search.html?wd=" },
         { name: "🔍 旺旺短劇", url: "https://wwzy.tv/index.php/vod/search.html?wd=" }
-
     ];
 
     const websiteURL = [
 		{ name: "🌍極越TV", url: "https://www.jiyue1.com/o/area/中国/id/juji/year/2025.html" },
         { name: "🌍看片狂人", url: "https://www.kpkuang.fun/vodshow/13-------------.html" },
-        { name: "🌍麥田影視", url: "https://137.220.194.24/vodshow/2-中国大陆----------2025.html" },
         { name: "🌍歐樂影院", url: "https://www.olevod.tv/nav/连续剧/全部地区/全部年份/国产剧/全部/全部/最新.html" },
         { name: "🌍UB影視", url: "https://www.ub1818.com/fil.html?parent_category_id=101&category_id=123" },
-        { name: "🌍如意影視", url: "https://rytv.tv/index.php/vod/show/id/13.html" },		
-		{ name: "🌍P.Dog", url: "https://ylsp.tv/vodshow/13-----------2025/" },
-        { name: "🌍老王電影", url: "https://laowang.co/vs/2----国语-------2025.html" },
+        { name: "🌍老王電影", url: "https://www.laowang.co/vs/2----国语-------2025.html" },
         { name: "🌍網飛貓", url: "https://www.ncat3.com/show/2-----3-1.html" },
-        { name: "🌍泥視頻", url: "https://www.nivod.vip/k/13-----------/" },
+		{ name: "🌍小鴨影音", url: "https://777tv.ai/vod/show/id/13.html" },
+        { name: "🌍泥視頻", url: "https://www.nivod.vip/k/2-大陆----------/" },	
         { name: "🌍蛋蛋魔法", url: "https://ddmf.net/vodshow/13-----------.html" },
-        { name: "🌍唐人街影視", url: "https://www.chinatownfilm.com/vodshow/13-----------.html" },
-        { name: "🌍小寶影院", url: "https://xiaoxintv.cc/index.php/vod/show/id/41.html" },
-        { name: "🌍酷片網", url: "https://kupian.org/show/guochanju/" },
+        { name: "🌍麥田影視", url: "https://137.220.194.24/vodshow/2-中国大陆----------2025.html" },
         { name: "🌍Gimy", url: "https://gimy.tv/genre/13---.html" },
-        { name: "🌍獨播庫", url: "https://w.duboku.io/vodshow/13-----------.html" },
-        { name: "🌍即看影視", url: "https://www.jktv.app/show/13-----------.html" },
+		{ name: "🌍iKanBot", url: "https://v.ikanbot.com/hot/index-tv-国产剧.html" },
+		{ name: "🌍愛壹帆", url: "https://www.iyf.tv/list/drama?region=大陆" },
+		{ name: "🌍金牌影院", url: "https://www.jiabaide.cn/vod/show/id/2/type/14" },
+		{ name: "🌍飄花影院", url: "https://phvod.com/phshow/2-大陆----------.html" },
+        { name: "🌍小寶影院", url: "https://xiaoxintv.cc/index.php/vod/show/id/41.html" },
+        { name: "🌍如意影視", url: "https://rytv.tv/index.php/vod/show/id/13.html" },
         { name: "🌍旺旺短劇", url: "https://wwzy.tv/index.php/vod/type/id/1.html" }
     ];
 
@@ -156,8 +154,7 @@
         { name: "🔍 魔都資源", url: "https://moduzy.net/search/-------------/?wd=" },	
         { name: "🔍 最大資源", url: "https://zuidazy.me/vodsearch/-------------.html?wd=" },
         { name: "🔍 暴風資源", url: "https://bfzy.tv/s/?keys=+" },
-        { name: "🔍 無盡資源", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" },
-        { name: "🔍 華為吧資源", url: "https://huawei8.live/index.php/vod/search.html?wd={}" }	
+        { name: "🔍 無盡資源", url: "https://www.wujinzy.com/vodsearch/-------------.html?wd=" }
     ];
 	
     const captchaURL = [
@@ -168,8 +165,7 @@
         { name: "🌍魔都資源", url: "https://moduzy.net/list26/" },
         { name: "🌍最大資源", url: "https://zuidazy.me/vodtype/13.html" },
         { name: "🌍暴風資源", url: "https://bfzy.tv/index.php/vod/type/id/31.html" },
-        { name: "🌍無盡資源", url: "https://www.wujinzy.com/vodtype/13.html" },	
-        { name: "🌍華為吧資源", url: "https://huawei8.live/index.php/vod/type/id/72.html" }
+        { name: "🌍無盡資源", url: "https://www.wujinzy.com/vodtype/13.html" }
     ];
 
     const englishResources = [

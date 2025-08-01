@@ -30,7 +30,6 @@ const websites = {
     "🔍 速播": { url: "https://www.subozy.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://www.subozy.com" },
     "🔍 光速": { url: "https://guangsuzy.net/index.php/vod/search.html?wd={}", selector: "table.tb tbody tr td.yp a", base_url: "https://guangsuzy.net" },
 	"🔍 臥龍": { url: "https://wolongzyw.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://wolongzyw.tv" },
-	"🔍 金馬": { url: "https://www.jmzy.com/index.php/vod/search.html?wd={}", selector: "ul.stui-vodlist.clearfix h3.title a", base_url: "https://www.jmzy.com/" },
     "🔍 虎牙": { url: "https://huyazy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://huyazy.com" },
 	"🔍 u酷": { url: "https://ukuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://ukuzy.com" },	
 	"🔍 淘片": { url: "https://www.taopianzy.com/search.html?keyword={}", selector: "tbody tr td.fontleft.txleft span.fontbule a", base_url: "https://www.taopianzy.com" },
