@@ -59,6 +59,21 @@
 
 <script src="./opencc/dist/umd/full.js"></script>
 <script>
+
+	// Display last update date (Top of Page)
+	document.addEventListener('DOMContentLoaded', function() {
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const today = new Date();
+    const formattedDate = `${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+    
+    const updateDiv = document.createElement('div');
+    updateDiv.className = 'last-update';
+    updateDiv.textContent = `Last Updated: ${formattedDate}`;
+    
+	// Insert at the very top of the body
+    document.body.insertBefore(updateDiv, document.body.firstChild);
+	});
+
     const websiteOrder = ["🔍 P.Dog","🔍 天涯", "🔍 新浪", "🔍 速播", "🔍 光速", "🔍 臥龍", "🔍 虎牙", "🔍 u酷", 
 	                      "🔍 淘片", "🔍 茅台", "🔍 豪華", "🔍 如意", "🔍 魔爪", "🔍 金鷹", "🔍 紅牛", "🔍 極速", "🔍 黑木耳"];
                          

@@ -4,6 +4,13 @@
     padding: 0;
 }
 
+.last-update {
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+    margin-top: 1px;
+}
+
 body {
 	background-color: #1e1e1e;
     min-height: 100vh;
