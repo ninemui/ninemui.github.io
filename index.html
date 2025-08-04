@@ -10,7 +10,7 @@
 <body>
 
 			<!-- Last Update -->
-<div class="last-update">Last Updated: August 1, 2025</div>
+<div class="last-update">Last Updated: August 4, 2025</div>
 
 <div class="container">
 	<div class="searchbar">
@@ -205,10 +205,52 @@
 	
 	
     function clearResults() {
-        document.querySelectorAll('#resourceList, #websiteList, #resourceURLList, #websiteURLList, #captchaList, #captchaURLList, #englishList, #subtitleList')
+        document.querySelectorAll('#resourceList, #websiteList, #captchaList, #englishList, #subtitleList')
             .forEach(el => el.innerHTML = '');
     }
 
+    // Function to populate URL lists that don't require search
+    function populateURLLists() {
+        // Populate ResourceURL
+        resourceURLList.innerHTML = "";
+        resourceURL.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+            a.href = resource.url;
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
+            resourceURLList.appendChild(li);
+        });
+
+        // Populate websiteURL
+        websiteURLList.innerHTML = "";
+        websiteURL.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+            a.href = resource.url;
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
+            websiteURLList.appendChild(li);
+        });
+
+        // Populate CAPTCHA URL
+        captchaURLList.innerHTML = "";
+        captchaURL.forEach(resource => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.className = "common-link";
+            a.href = resource.url;
+            a.target = "_blank";
+            a.textContent = resource.name;
+            li.appendChild(a);
+            captchaURLList.appendChild(li);
+        });
+    }
+	
     async function performSearch() {
         if (isSearching) {
             currentSearch.close();
@@ -247,19 +289,6 @@
                 websiteList.appendChild(li);
             });
 
-            // Populate websiteURL
-            websiteURLList.innerHTML = "";
-            websiteURL.forEach(resource => {
-                const li = document.createElement("li");
-                const a = document.createElement("a");
-                a.className = "common-link";
-                a.href = resource.url;
-                a.target = "_blank";
-                a.textContent = resource.name;
-                li.appendChild(a);
-                websiteURLList.appendChild(li);
-            });
-
             // Populate CAPTCHA resources
             captchaList.innerHTML = "";
             captchaResources.forEach(resource => {
@@ -271,19 +300,6 @@
                 a.textContent = resource.name;
                 li.appendChild(a);
                 captchaList.appendChild(li);
-            });
-
-            // Populate CAPTCHA URL
-            captchaURLList.innerHTML = "";
-            captchaURL.forEach(resource => {
-                const li = document.createElement("li");
-                const a = document.createElement("a");
-                a.className = "common-link";
-                a.href = resource.url;
-                a.target = "_blank";
-                a.textContent = resource.name;
-                li.appendChild(a);
-                captchaURLList.appendChild(li);
             });
 
             // Populate English resources
@@ -318,18 +334,6 @@
                 subtitleList.appendChild(li);
             });
 
-            // Populate resourceURL
-            resourceURLList.innerHTML = "";
-            resourceURL.forEach(resource => {
-                const li = document.createElement("li");
-                const a = document.createElement("a");
-                a.className = "common-link";
-                a.href = resource.url;
-                a.target = "_blank";
-                a.textContent = resource.name;
-                li.appendChild(a);
-                resourceURLList.appendChild(li);
-            });
 
             // Start streaming dynamic results
             currentSearch = new EventSource(`${baseURL}/search?query=${encodeURIComponent(simplifiedQuery)}`);
@@ -408,6 +412,11 @@
         });
     }
 
+    // Initialize the page by populating URL lists
+    document.addEventListener('DOMContentLoaded', function() {
+        populateURLLists();
+    });
+	
     // Initialize event listeners
     document.getElementById('btn').addEventListener('click', performSearch);
     document.getElementById('searchMsg').addEventListener('keypress', e => {
