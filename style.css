@@ -108,6 +108,27 @@ body {
     width: 100%;
 }
 
+.column-1{
+    min-width: 105px;
+}
+
+.column-2 {
+    min-width: 130px;
+}
+
+.column-3 {
+    min-width: 175px;
+}
+
+.column-4,
+.column-5 {
+    min-width: 150px;
+}
+
+.column-6 {
+    min-width: 145px;
+}
+
 .column h3 {
     margin-bottom: 3px;
     font-size: 20px;
