@@ -26,21 +26,16 @@ app.get('/favicon.ico', (req, res) => {
 const websites = {
 	"🔍 永樂": {url: "https://ylsp.tv/vodsearch/-------------/?wd={}", selector: "div.module-card-item.module-item div.module-card-item-title a", base_url: "https://ylsp.tv"},
 	"🔍 天涯": { url: "https://tyyszyapi.com/index.php/vod/search.html?wd={}", selector: "ul.stui-vodlist.clearfix a", base_url: "https://tyyszyapi.com" },
-	"🔍 新浪": { url: "https://www.xinlangzy.com/index.php/vod/search.html?wd={}", selector: "div.dy-item a.text-overflow", base_url: "https://www.xinlangzy.com/" },
-    "🔍 速播": { url: "https://www.subozy.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://www.subozy.com" },
     "🔍 光速": { url: "https://guangsuzy.net/index.php/vod/search.html?wd={}", selector: "table.tb tbody tr td.yp a", base_url: "https://guangsuzy.net" },
 	"🔍 臥龍": { url: "https://wolongzyw.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://wolongzyw.tv" },
     "🔍 虎牙": { url: "https://huyazy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://huyazy.com" },
 	"🔍 u酷": { url: "https://ukuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://ukuzy.com" },	
 	"🔍 淘片": { url: "https://www.taopianzy.com/search.html?keyword={}", selector: "tbody tr td.fontleft.txleft span.fontbule a", base_url: "https://www.taopianzy.com" },
 	"🔍 茅台": { url: "https://mtzy.me/vodsearch/-------------.html?wd={}", selector: "table.center tbody tr td a", base_url: "http://mtzy.me/" },
-    "🔍 豪華": { url: "https://hhzyapi.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://hhzyapi.com" },
 	"🔍 如意": { url: "https://www.ryzyw.com/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.ryzyw.com" },
     "🔍 魔爪": { url: "https://mzzy.me/index.php/vod/search.html?wd={}", selector: "div.wrap table tbody tr td a", base_url: "https://mzzy.me" },
 	"🔍 金鷹": { url: "https://jyzyapi.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://jyzyapi.com" },
     "🔍 紅牛": { url: "https://hongniuzy.tv/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://hongniuzy.tv" },
-    "🔍 極速": { url: "https://www.jisuzy.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://www.jisuzy.com" },
-	"🔍 黑木耳": { url: "https://www.heimuer.tv/index.php/vod/search.html?wd={}", selector: "ul.stui-vodlist li a", base_url: "https://www.heimuer.tv" },
 
 };
 
