@@ -10,7 +10,7 @@
 <body>
 
 			<!-- Last Update -->
-<div class="last-update">Last Updated: August 23, 2025</div>
+<div class="last-update">Last Updated: August 30, 2025</div>
 
 <div class="container">
 	<div class="searchbar">
@@ -116,7 +116,7 @@
         { name: "🔍 泥視頻", url: "https://www.nivod.vip/s/-------------/?wd=" },
         { name: "🔍 蛋蛋魔法", url: "https://ddmf.net/vodsearch/-------------.html?wd=" },
         { name: "🔍 麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
-        { name: "🔍 Gimy", url: "https://gimy.tv/search/-------------.html?wd=" },
+        { name: "🔍 Gimy", url: "https://gimy.ai/search/-------------.html?wd=" },
         { name: "🔍 iKanBot", url: "https://v.ikanbot.com/search?q=" },
         { name: "🔍 愛壹帆", url: "https://www.iyf.tv/search/" },
         { name: "🔍 金牌影院", url: "https://www.jiabaide.cn/vod/search/" },
@@ -137,7 +137,7 @@
         { name: "🌍泥視頻", url: "https://www.nivod.vip/k/2-大陆----------/" },	
         { name: "🌍蛋蛋魔法", url: "https://ddmf.net/vodshow/13-----------.html" },
         { name: "🌍麥田影視", url: "https://www.mtyy1.com/vodshow/2-中国大陆----------2025.html" },
-        { name: "🌍Gimy", url: "https://gimy.tv/genre/13---/by/time.html" },
+        { name: "🌍Gimy", url: "https://gimy.ai/cat/13--time---------.html" },
 		{ name: "🌍iKanBot", url: "https://v.ikanbot.com/hot/index-tv-国产剧.html" },
 		{ name: "🌍愛壹帆", url: "https://www.iyf.tv/list/drama?region=大陆" },
 		{ name: "🌍金牌影院", url: "https://www.jiabaide.cn/vod/show/id/2/type/14" },
@@ -286,8 +286,8 @@
                 const a = document.createElement("a");
                 a.className = "common-link";
 				
-                // Special case for 小鴨影音 - use original query (Traditional Chinese)
-                if (resource.name === "🔍 小鴨影音") {
+                // Special case for 小鴨影音 & Gimy - use original query (Traditional Chinese)
+                if (resource.name === "🔍 小鴨影音" || resource.name === "🔍 Gimy") {
                     a.href = resource.url + encodeURIComponent(traditionalQuery);
                 } else {
                     a.href = resource.url + encodeURIComponent(simplifiedQuery);
