@@ -10,7 +10,7 @@
 <body>
 
 			<!-- Last Update -->
-<div class="last-update">Last Updated: August 31, 2025</div>
+<div class="last-update">Last Updated: September 10, 2025</div>
 
 <div class="container">
 	<div class="searchbar">
@@ -123,7 +123,8 @@
         { name: "🔍 飄花影院", url: "https://phvod.com/phsearch/-------------.html?wd=" },
         { name: "🔍 小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" },
         { name: "🔍 如意影視", url: "https://rytv.tv/index.php/vod/search.html?wd=" },
-        { name: "🔍 旺旺短劇", url: "https://wwzy.tv/index.php/vod/search.html?wd=" }
+        { name: "🔍 旺旺短劇", url: "https://wwzy.tv/index.php/vod/search.html?wd=" },
+		{ name: "🔍 蜜蜂劇場", url: "https://beeplaylet.com/playlet/search?query=" }
     ];
 
     const websiteURL = [
@@ -144,7 +145,8 @@
 		{ name: "🌍 飄花影院", url: "https://phvod.com/phshow/2-大陆----------.html" },
         { name: "🌍 小寶影院", url: "https://xiaoxintv.cc/index.php/vod/show/id/41.html" },
         { name: "🌍 如意影視", url: "https://rytv.tv/index.php/vod/show/id/13.html" },
-        { name: "🌍 旺旺短劇", url: "https://wwzy.tv/index.php/vod/type/id/1.html" }
+        { name: "🌍 旺旺短劇", url: "https://wwzy.tv/index.php/vod/type/id/1.html" },
+		{ name: "🌍 蜜蜂劇場", url: "https://beeplaylet.com" }
     ];
 
     const captchaResources = [
@@ -286,8 +288,8 @@
                 const a = document.createElement("a");
                 a.className = "common-link";
 				
-                // Special case for 小鴨影音 & Gimy - use original query (Traditional Chinese)
-                if (resource.name === "🔍 小鴨影音" || resource.name === "🔍 Gimy") {
+                // Special case for 小鴨影音 & Gimy & 蜜蜂劇場 - use original query (Traditional Chinese)
+                if (resource.name === "🔍 小鴨影音" || resource.name === "🔍 Gimy" || resource.name === "🔍 蜜蜂劇場") {
                     a.href = resource.url + encodeURIComponent(traditionalQuery);
                 } else {
                     a.href = resource.url + encodeURIComponent(simplifiedQuery);
