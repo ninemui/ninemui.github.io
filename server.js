@@ -24,6 +24,7 @@ app.get('/favicon.ico', (req, res) => {
 
 // Website configuration
 const websites = {
+	"🔍 豆瓣": { url: "https://www.dbzy1.com/vodsearch/-------------.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://www.dbzy1.com" },
 	"🔍 永樂": {url: "https://ylsp.tv/vodsearch/-------------/?wd={}", selector: "div.module-card-item.module-item div.module-card-item-title a", base_url: "https://ylsp.tv"},
 	"🔍 天涯": { url: "https://tyyszyapi.com/index.php/vod/search.html?wd={}", selector: "ul.stui-vodlist.clearfix a", base_url: "https://tyyszyapi.com" },
     "🔍 光速": { url: "https://guangsuzy.net/index.php/vod/search.html?wd={}", selector: "table.tb tbody tr td.yp a", base_url: "https://guangsuzy.net" },
