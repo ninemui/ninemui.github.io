@@ -110,21 +110,14 @@ body {
 }
 
 .column-1 {
-    min-width: 120px;
+    min-width: 200px;
 }
-
 .column-2,
 .column-3,
-.column-4 {
-    min-width: 130px;
-}
-
-.column-5 {
-    min-width: 150px;
-}
-
+.column-4,
+.column-5,
 .column-6 {
-    min-width: 160px;
+    min-width: 130px;
 }
 
 .column h3 {
