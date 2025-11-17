@@ -110,14 +110,14 @@ body {
 }
 
 .column-1 {
-    min-width: 200px;
+    min-width: 207px;
 }
 .column-2,
 .column-3,
 .column-4,
 .column-5,
 .column-6 {
-    min-width: 140px;
+    min-width: 131px;
 }
 
 .column h3 {
