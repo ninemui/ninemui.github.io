@@ -25,6 +25,7 @@ app.get('/favicon.ico', (req, res) => {
 // Website configuration
 const websites = {
 	"🔍 永樂視訊": {url: "https://ylsp.tv/vodsearch/-------------/?wd={}", selector: "div.module-card-item.module-item div.module-card-item-title a", base_url: "https://ylsp.tv"},
+	"🔍 電影天堂": { url: "https://dyttzyw.tv/index.php/vod/search.html?wd={}", selector: "a.group", base_url: "https://dyttzyw.tv/" },
 	"🔍 非凡": { url: "http://ffzy1.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "http://ffzy1.tv" },
 	"🔍 天涯": { url: "https://tyyszyapi.com/index.php/vod/search.html?wd={}", selector: "ul.stui-vodlist.clearfix a", base_url: "https://tyyszyapi.com" },
 	"🔍 豆瓣": { url: "https://www.dbzy1.com/vodsearch/-------------.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://www.dbzy1.com" },
@@ -36,6 +37,8 @@ const websites = {
     "🔍 魔爪": { url: "https://mzzy.me/index.php/vod/search.html?wd={}", selector: "div.wrap table tbody tr td a", base_url: "https://mzzy.me" },
 	"🔍 金鷹": { url: "https://jyzyapi.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://jyzyapi.com" },
     "🔍 紅牛": { url: "https://hongniuzy.tv/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://hongniuzy.tv" },
+
+
 
 };
 
