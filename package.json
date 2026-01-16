@@ -1,6 +1,6 @@
 {
   "name": "electron-server-wrapper",
-  "version": "12.22.2025",
+  "version": "1.16.2026",
   "description": "影視資源搜尋",
   "author": "9mui",
   "main": "electron/main.js",
