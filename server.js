@@ -27,7 +27,7 @@ const websites = {
 
 
 	"🔍 永樂視訊": {url: "https://ylsp.tv/vodsearch/-------------/?wd={}", selector: "div.module-card-item.module-item div.module-card-item-title a", base_url: "https://ylsp.tv"},
-	"🔍 GimyNow": { url: "https://gimy.now/find/-------------.html?wd={}", selector: "div.col-md-3.col-sm-4.col-xs-3.news-box-txt-l.clearfix  a.video-pic.loading", base_url: "https://gimy.now" },
+	"🔍 GimyTV.Ai": { url: "https://gimytv.ai/search/-------------.html?wd={}", selector: "div.col-md-3.col-sm-4.col-xs-3.news-box-txt-l.clearfix  a.video-pic.loading", base_url: "https://gimytv.ai" },
 	"🔍 獨播庫": { url: "https://www.dbku.tv/vodsearch/-------------.html?wd={}", selector: "li.clearfix a.searchkey", base_url: "https://www.dbku.tv" },
 	"🔍 電影天堂": { url: "https://dyttzyw.tv/index.php/vod/search.html?wd={}", selector: "tbody tr a.group", base_url: "https://dyttzyw.tv" },
 	"🔍 非凡": { url: "http://ffzy1.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "http://ffzy1.tv" },
