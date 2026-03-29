@@ -39,8 +39,9 @@ const websites = {
 	"🔍 虎牙": { url: "https://huyazy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://huyazy.com" },
 	"🔍 電影天堂": { url: "https://dyttzyw.tv/index.php/vod/search.html?wd={}", selector: "tbody tr a.group", base_url: "https://dyttzyw.tv" },
 	"🔍 如意": { url: "https://www.ryzyw.com/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.ryzyw.com" },
-	"🔍 u酷": { url: "https://ukuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://ukuzy.com" },
+	"🔍 櫻花": { url: "https://yhzy.cc/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://yhzy.cc" },
 	"🔍 淘片": { url: "https://www.taopianzy.com/search.html?keyword={}", selector: "tbody tr td.fontleft.txleft span.fontbule a", base_url: "https://www.taopianzy.com" },
+	"🔍 u酷": { url: "https://ukuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://ukuzy.com" },
 };
 
 // Function to scrape the page and extract URLs with timeout
