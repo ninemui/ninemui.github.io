@@ -10,7 +10,7 @@
 <body>
 
 			<!-- Last Update -->
-<div class="last-update">Last Updated: March 29, 2026</div>
+<div class="last-update">Last Updated: March 31, 2026</div>
 
 <div class="container">
 	<div class="searchbar">
@@ -56,6 +56,8 @@
             <p style="margin-bottom:4px;"></p>
             <h3>資源網 <img src="./captcha.png" width="25px" height="25px">:</h3>
             <ul id="captchaList"></ul>		
+			<p style="margin-bottom:12px;"></p>
+			<A HREF="https://123chill.uk/" style="color: #599eff; font-weight: bold; font-size: 19px; text-decoration: none;">🌍 123Chill.uk</A>
 			<p style="margin-bottom:10px;"></p>
 			<h4>Subtitle 🔍:</h4>
             <ul id="subtitleList"></ul>			
@@ -112,7 +114,7 @@
 	
     const websites = [
         { name: "🔍 萬佳影視", url: "https://www.158799.xyz/vodsearch.html?wd=" },
-        { name: "🔍 GimyMAX", url: "https://gimymax.com/search/-------------.html?wd=" },
+		{ name: "🔍 GimyTV.biz", url: "https://gimytv.biz/vodsearch/-------------.html?wd=" },
 		{ name: "🔍 歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
         { name: "🔍 UB影視", url: "https://www.ub1818.com/fil.html?keyword=" },	
         { name: "🔍 看片狂人", url: "https://kpkuang.fun/vodsearch/-------------.html?wd=" },
@@ -132,7 +134,7 @@
 
     const websiteURL = [
 		{ name: "🌍 萬佳影視", url: "https://www.wjys.cc/vodshow/area/中国/id/juji.html" },
-		{ name: "🌍 GimyMAX", url: "https://gimymax.com/type/13.html" },
+		{ name: "🌍 GimyTV.biz", url: "https://gimytv.biz/vodtype/13.html" },
 		{ name: "🌍 歐樂影院", url: "https://www.olehdtv.com/index.php/vod/show/id/2.html" },
         { name: "🌍 UB影視", url: "https://www.ub1818.com/fil.html?parent_category_id=101&category_id=123" },
         { name: "🌍 看片狂人", url: "https://kpkuang.fun/vodshow/13-------------.html" },		
@@ -288,7 +290,7 @@
                 a.className = "common-link";
 				
                 // Special case for 小鴨影音 & Gimy- use original query (Traditional Chinese)
-                if (resource.name === "🔍 小鴨影音" || resource.name === "🔍 GimyAI.TW") {
+                if (resource.name === "🔍 小鴨影音" || resource.name === "🔍 GimyAI.TW" || resource.name === "🔍 GimyTV.biz") {
                     a.href = resource.url + encodeURIComponent(traditionalQuery);
                 } else {
                     a.href = resource.url + encodeURIComponent(simplifiedQuery);
