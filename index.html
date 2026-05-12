@@ -10,7 +10,7 @@
 <body>
 
 			<!-- Last Update -->
-<div class="last-update">Last Updated: May 03, 2026</div>
+<div class="last-update">Last Updated: May 11, 2026</div>
 
 <div class="container">
 	<div class="searchbar">
@@ -117,7 +117,7 @@
 		{ name: "🔍 GimyTV.biz", url: "https://gimytv.biz/vodsearch/-------------.html?wd=" },
 		{ name: "🔍 歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
         { name: "🔍 UB影視", url: "https://www.ub1818.com/fil.html?keyword=" },	
-        { name: "🔍 看片狂人", url: "https://kpkuang.fun/vodsearch/-------------.html?wd=" },
+        { name: "🔍 看片狂人", url: "https://kpkuang.fyi/vodsearch/-------------.html?wd={search}&passed=1" },
 		{ name: "🔍 電影線上看", url: "https://www.movieffm.net/xssearch?q=" },
         { name: "🔍 iKanBot", url: "https://v.ikanbot.com/search?q=" },
         { name: "🔍 網飛貓", url: "https://www.ncat3.com/search?os=pc&k=" },
@@ -137,7 +137,7 @@
 		{ name: "🌍 GimyTV.biz", url: "https://gimytv.biz/vodtype/13.html" },
 		{ name: "🌍 歐樂影院", url: "https://www.olehdtv.com/index.php/vod/show/id/2.html" },
         { name: "🌍 UB影視", url: "https://www.ub1818.com/fil.html?parent_category_id=101&category_id=123" },
-        { name: "🌍 看片狂人", url: "https://kpkuang.fun/vodshow/13-------------.html" },		
+        { name: "🌍 看片狂人", url: "https://kpkuang.fyi/vodshow/2-中国大陆------------.html" },		
 		{ name: "🌍 電影線上看", url: "https://www.movieffm.net/drama/?genres&region&dtyear&cats&orderby&tvtype=cndrama" },
 		{ name: "🌍 iKanBot", url: "https://v.ikanbot.com/hot/index-tv-国产剧.html" },
         { name: "🌍 網飛貓", url: "https://www.ncat3.com/show/2--中国大陆---1-1.html" },
@@ -282,25 +282,38 @@
 			// Add Traditional Chinese conversion for specific sites
 			const traditionalQuery = await convertToTraditional(query);
 			
-            // Populate static websites
+            // Populate websites
             websiteList.innerHTML = "";
             websites.forEach(resource => {
                 const li = document.createElement("li");
                 const a = document.createElement("a");
                 a.className = "common-link";
-				
-                // Special case for 小鴨影音 & Gimy- use original query (Traditional Chinese)
-                if (resource.name === "🔍 小鴨影音" || resource.name === "🔍 GimyAI.TW" || resource.name === "🔍 GimyTV.biz") {
-                    a.href = resource.url + encodeURIComponent(traditionalQuery);
-                } else {
-                    a.href = resource.url + encodeURIComponent(simplifiedQuery);
+            
+                let finalUrl = "";
+            
+				// Special handling for 看片狂人
+                if (resource.name === "🔍 看片狂人") {
+                    const encoded = encodeURIComponent(simplifiedQuery);
+                    finalUrl = resource.url.replace("{search}", encoded);
                 }
-	
+                // Existing special case - use Traditional Chinese				
+                else if (resource.name === "🔍 小鴨影音" || 
+                         resource.name === "🔍 GimyTV.biz") {
+                    finalUrl = resource.url + encodeURIComponent(traditionalQuery);
+                } 
+                else {
+                // Normal sites
+                    finalUrl = resource.url + encodeURIComponent(simplifiedQuery);
+                }
+            
+                a.href = finalUrl;
                 a.target = "_blank";
                 a.textContent = resource.name;
                 li.appendChild(a);
                 websiteList.appendChild(li);
-            });
+           });
+
+
 
             // Populate CAPTCHA resources
             captchaList.innerHTML = "";
