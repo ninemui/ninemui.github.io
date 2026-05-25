@@ -10,7 +10,7 @@
 <body>
 
 			<!-- Last Update -->
-<div class="last-update">Last Updated: May 11, 2026</div>
+<div class="last-update">Last Updated: May 24, 2026</div>
 
 <div class="container">
 	<div class="searchbar">
@@ -40,35 +40,35 @@
                 <div class="status-text" id="status">Searching...</div>
             </div>			
             <ul id="resourceList"></ul>
+			<p style="margin-bottom:20px;"></p>
+			<h4>ENGLISH 🔍:</h4>
+            <ul id="englishList"></ul>	
         </div>
         <div class="column column-4">
             <h3>資源網 <img src="./link.png" width="30px">:</h3>
-            <ul id="resourceURLList"></ul>
+            <ul id="resourceURLList"></ul>		
+			<p style="margin-bottom:14px;"></p>
+			<A HREF="https://123chill.uk/" style="color: #599eff; font-weight: bold; font-size: 19px; text-decoration: none;">🌍 123Chill.uk</A>
+			<p style="margin-bottom:10px;"></p>
+			<h4>Subtitle 🔍:</h4>
+            <ul id="subtitleList"></ul>		
         </div>		
         <div class="column column-5">
             <h3>資源網 <img src="./link.png" width="30px">:</h3>
-            <ul id="captchaURLList"></ul>
-			<p style="margin-bottom:10px;"></p>
-			<h4>ENGLISH 🔍:</h4>
-            <ul id="englishList"></ul>			
+            <ul id="captchaURLList"></ul>		
         </div>
         <div class="column column-6">
             <p style="margin-bottom:4px;"></p>
             <h3>資源網 <img src="./captcha.png" width="25px" height="25px">:</h3>
-            <ul id="captchaList"></ul>		
-			<p style="margin-bottom:12px;"></p>
-			<A HREF="https://123chill.uk/" style="color: #599eff; font-weight: bold; font-size: 19px; text-decoration: none;">🌍 123Chill.uk</A>
-			<p style="margin-bottom:10px;"></p>
-			<h4>Subtitle 🔍:</h4>
-            <ul id="subtitleList"></ul>			
+            <ul id="captchaList"></ul>	
         </div>
     </div>
 </div>
 
 <script src="./opencc/dist/umd/full.js"></script>
 <script>
-    const websiteOrder = ["🔍 永樂視訊", "🔍 GimyAI.TW", "🔍 獨播庫", "🔍 新浪", "🔍 茅台", "🔍 豆瓣", "🔍 臥龍", "🔍 豪華", 
-	 		              "🔍 光速", "🔍 金鷹","🔍 紅牛", "🔍 極速", "🔍 虎牙", "🔍 電影天堂", "🔍 如意", "🔍 櫻花", "🔍 淘片", "🔍 u酷"];              
+    const websiteOrder = ["🔍 永樂視訊", "🔍 GimyAI.TW", "🔍 獨播庫", "🔍 茅台", "🔍 豆瓣", "🔍 豪華", 
+	 		              "🔍 紅牛", "🔍 電影天堂", "🔍 如意", "🔍 櫻花", "🔍 貓眼", "🔍 淘片", "🔍 u酷"];              
 
     // Configuration data (keep your existing data)
     const resourceList = document.getElementById("resourceList");
@@ -95,23 +95,18 @@
 		{ name: "🌍 永樂視訊", url: "https://ylsp.tv/vodshow/2-大陆-time_update---------2025/" },
 		{ name: "🌍 GimyAI.TW", url: "https://gimyai.tw/genre/13.html" },
 		{ name: "🌍 獨播庫", url: "https://www.dbku.tv/vodshow/13-----------.html" },
-		{ name: "🌍 新浪資源", url: "https://www.xinlangzy.com/index.php/vod/type/id/13.html" },
 		{ name: "🌍 茅台資源", url: "https://mtzy0.com/vodtype/13.html?ac=detail" },
 		{ name: "🌍 豆瓣資源", url: "https://www.dbzy1.com/vodtype/13.html?ac=detail" },
-		{ name: "🌍 臥龍資源", url: "https://wolongzyw.com/index.php/vod/type/id/12.html" },
 		{ name: "🌍 豪華資源", url: "https://hhzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
-		{ name: "🌍 光速資源", url: "https://guangsuzy.net/index.php/vod/type/id/13.html" },
-		{ name: "🌍 金鷹資源", url: "https://jyzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
 		{ name: "🌍 紅牛資源", url: "https://hongniuzy.com/index.php/vod/type/id/sCCCCS.html?ac=detail" },
-		{ name: "🌍 極速資源", url: "https://www.jisuzy.com/index.php/vod/type/id/20.html?ac=detail" },
-		{ name: "🌍 虎牙資源", url: "https://huyazy.com/index.php/vod/type/id/20.html?ac=detail" },
 		{ name: "🌍 電影天堂", url: "https://dyttzyw.tv/index.php/vod/type/id/13.html" },
 		{ name: "🌍 如意資源", url: "https://www.ryzyw.com/index.php/vod/type/id/13.html" },
 		{ name: "🌍 櫻花資源", url: "https://yhzy.cc/index.php/vod/type/id/13.html" },
-		{ name: "🌍 淘片資源", url: "https://www.taopianzy.com/vod/list.html?type_id=20&cate_id=238&page=1" },
+		{ name: "🌍 貓眼資源", url: "https://www.maoyanzy.com/index.php/vod/show/id/13.html" },
+		{ name: "🌍 淘片資源", url: "https://www.taopianzy.com/vod/list.html?type_id=20&cate_id=238&page=1" }	,
 		{ name: "🌍 u酷資源", url: "https://ukuzy.com/index.php/vod/type/id/13.html?ac=detail" }
     ];
-	
+				
     const websites = [
         { name: "🔍 萬佳影視", url: "https://www.158799.xyz/vodsearch.html?wd=" },
 		{ name: "🔍 GimyTV.biz", url: "https://gimytv.biz/vodsearch/-------------.html?wd=" },
@@ -125,8 +120,9 @@
         { name: "🔍 蛋蛋魔法", url: "https://ddmf.net/vodsearch/-------------.html?wd=" },
         { name: "🔍 麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
         { name: "🔍 愛壹帆", url: "https://www.iyf.tv/search/" },
+		{ name: "🔍 瓜子影視", url: "https://gz360.tv/searchPage?key=" },
+		{ name: "🔍 唐人街影視", url: "https://www.trvod.com/vodsearch/-------------.html?wd=" },
         { name: "🔍 金牌影院", url: "https://www.jiabaide.cn/vod/search/" },
-        { name: "🔍 飄花影院", url: "https://phvod.com/phsearch/-------------.html?wd=" },
         { name: "🔍 小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" },
         { name: "🔍 如意影視", url: "https://rytv.tv/index.php/vod/search.html?wd=" },
         { name: "🔍 旺旺短劇", url: "http://demo.wwzy.tv/index.php/vod/search.html?wd=" }
@@ -145,14 +141,20 @@
         { name: "🌍 蛋蛋魔法", url: "https://ddmf.net/vodshow/13-----------.html" },
         { name: "🌍 麥田影視", url: "https://www.mtyy1.com/vodshow/2-大陆----------.html" },
 		{ name: "🌍 愛壹帆", url: "https://www.iyf.tv/list/drama?region=大陆" },
+		{ name: "🌍 瓜子影視", url: "https://gz360.tv/?nav_id=4&t_id=2" },
+		{ name: "🌍 唐人街影視", url: "https://www.trvod.com/vodshow/13-----------.html" },
 		{ name: "🌍 金牌影院", url: "https://www.jiabaide.cn/vod/show/id/2/type/14" },
-		{ name: "🌍 飄花影院", url: "https://phvod.com/phshow/2-大陆----------.html" },
         { name: "🌍 小寶影院", url: "https://xiaoxintv.cc/index.php/vod/show/id/41.html" },
         { name: "🌍 如意影視", url: "https://rytv.tv/index.php/vod/show/id/13.html" },
         { name: "🌍 旺旺短劇", url: "http://demo.wwzy.tv/index.php/vod/show/id/1.html" }
     ];
 
     const captchaResources = [
+		{ name: "🔍 新浪資源", url: "https://www.xinlangzy.com/index.php/vod/search.html?wd=" },
+		{ name: "🔍 光速資源", url: "https://guangsuzy.net/index.php/vod/search.html?wd=" },
+		{ name: "🔍 金鷹資源", url: "https://jyzyapi.com/index.php/vod/search.html?wd=" },
+		{ name: "🔍 極速資源", url: "https://www.jisuzy.com/index.php/vod/search.html?wd=" },
+		{ name: "🔍 虎牙資源", url: "https://huyazy.com/index.php/vod/search.html?wd=" },
 		{ name: "🔍 百度資源", url: "https://bdzy1.com/index.php/vod/search.html?wd=" },
 		{ name: "🔍 魔都資源", url: "https://moduzy.com/search/-------------/?wd=" },
 		{ name: "🔍 優質資源", url: "https://www.hdzyk.com/index.php?m=vod-search&wd=" },
@@ -169,6 +171,11 @@
     ];
 	
     const captchaURL = [	
+		{ name: "🌍 新浪資源", url: "https://www.xinlangzy.com/index.php/vod/type/id/13.html" },
+		{ name: "🌍 光速資源", url: "https://guangsuzy.net/index.php/vod/type/id/13.html" },
+		{ name: "🌍 金鷹資源", url: "https://jyzyapi.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "🌍 極速資源", url: "https://www.jisuzy.com/index.php/vod/type/id/20.html?ac=detail" },
+		{ name: "🌍 虎牙資源", url: "https://huyazy.com/index.php/vod/type/id/20.html?ac=detail" },
 		{ name: "🌍 百度資源", url: "https://bdzy1.com/index.php/vod/type/id/13.html" },
 		{ name: "🌍 魔都資源", url: "https://moduzy.com/list26/" },
 		{ name: "🌍 優質資源", url: "https://www.hdzyk.com/?m=vod-type-id-12.html" },
