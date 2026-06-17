@@ -24,8 +24,7 @@ app.get('/favicon.ico', (req, res) => {
 
 // Website configuration
 const websites = {	
-	
-	"🔍 永樂視訊": { url: "https://ylsp.tv/vodsearch/-------------/?wd={}", selector: "div.module-card-item.module-item div.module-card-item-title a", base_url: "https://ylsp.tv" },
+	//"🔍 永樂視訊": { url: "https://ylsp.tv/vodsearch/-------------/?wd={}", selector: "div.module-card-item.module-item div.module-card-item-title a", base_url: "https://ylsp.tv" },
 	"🔍 GimyAI.TW": { url: "https://gimyai.tw/find/-------------.html?wd={}", selector: "div.col-md-3.col-sm-4.col-xs-3.news-box-txt-l.clearfix  a.video-pic.loading", base_url: "https://gimyai.tw" },
 	"🔍 獨播庫": { url: "https://www.dbku.tv/vodsearch/-------------.html?wd={}", selector: "li.clearfix a.searchkey", base_url: "https://www.dbku.tv" },
 	//"🔍 新浪": { url: "https://www.xinlangzy.com/index.php/vod/search.html?wd={}", selector: "div.dy-item a.text-overflow", base_url: "https://www.xinlangzy.com" },
@@ -35,6 +34,7 @@ const websites = {
 	//"🔍 光速": { url: "https://guangsuzy.net/index.php/vod/search.html?wd={}", selector: "table.tb tbody tr td.yp a", base_url: "https://guangsuzy.net" },
 	//"🔍 金鷹": { url: "https://jyzyapi.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://jyzyapi.com" },
 	"🔍 紅牛": { url: "https://hongniuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://hongniuzy.com" },
+	"🔍 西瓜": {  "url": "https://xgzy.tv/index.php/vod/search.html?wd={}", "selector": "td.py-2.px-2.w-12 a", "base_url": "https://xgzy.tv"},
 	//"🔍 極速": { url: "https://www.jisuzy.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://www.jisuzy.com" },
 	//"🔍 虎牙": { url: "https://huyazy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://huyazy.com" },
 	"🔍 電影天堂": { url: "https://dyttzyw.tv/index.php/vod/search.html?wd={}", selector: "tbody tr a.group", base_url: "https://dyttzyw.tv" },
@@ -42,6 +42,7 @@ const websites = {
 	"🔍 櫻花": { url: "https://yhzy.cc/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://yhzy.cc" },
 	"🔍 貓眼": { url: "https://www.maoyanzy.com/index.php/vod/search.html?wd={}", selector: "a.this-link.flex[href]:not([href='javascript:'])", base_url: "https://www.maoyanzy.com" },
 	"🔍 淘片": { url: "https://www.taopianzy.com/search.html?keyword={}", selector: "tbody tr td.fontleft.txleft span.fontbule a", base_url: "https://www.taopianzy.com" },
+	"🔍 非凡": { url: "http://ffzy1.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "http://ffzy1.tv" },
 	"🔍 u酷": { url: "https://ukuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://ukuzy.com" },
 };
 
