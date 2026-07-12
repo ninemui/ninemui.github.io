@@ -1,4 +1,4 @@
-import STCharacters from '../dict/STCharacters.js';
 import STPhrases from '../dict/STPhrases.js';
+import STCharacters from '../dict/STCharacters.js';
 
-export default [STCharacters, STPhrases];
+export default [[STPhrases, STCharacters]];

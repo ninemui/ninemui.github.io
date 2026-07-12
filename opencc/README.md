@@ -1,50 +1,83 @@
-# opencc-js [![](https://badge.fury.io/js/opencc-js.svg)](https://www.npmjs.com/package/opencc-js) [![](https://github.com/nk2028/opencc-js/workflows/Test/badge.svg)](https://github.com/nk2028/opencc-js/actions?query=workflow%3ATest) [![](https://data.jsdelivr.com/v1/package/npm/opencc-js/badge)](https://www.jsdelivr.com/package/npm/opencc-js)
-
-The JavaScript version of Open Chinese Convert (OpenCC)
+# opencc-js
+[![npm package badge](https://badge.fury.io/js/opencc-js.svg)](https://www.npmjs.com/package/opencc-js)
+[![GitHub Testing Badge](https://github.com/nk2028/opencc-js/workflows/Test/badge.svg)](https://github.com/nk2028/opencc-js/actions?query=workflow%3ATest)
+[![jsDelivr Monthly Downloads Badge](https://data.jsdelivr.com/v1/package/npm/opencc-js/badge)](https://www.jsdelivr.com/package/npm/opencc-js)
+[![Socket.dev Supply Chain Security Badge](https://badge.socket.dev/npm/package/opencc-js)](https://socket.dev/npm/package/opencc-js/)
 
 [繁體版](README-zh-TW.md) - [简体版](README-zh-CN.md)
 
-## Import
+**The Pure JavaScript version of Open Chinese Convert (OpenCC)**
 
-**Import opencc-js in HTML page**
+`opencc-js` is a pure JavaScript implementation of [OpenCC](https://github.com/BYVoid/OpenCC) for both browsers and Node.js. It bundles dictionary data generated from [`opencc-data`](https://github.com/nk2028/opencc-data) at build time, and no native binary is required.
 
-Import in HTML pages:
+The conversion pipeline aligns with the official OpenCC implementation, including phrase-level segmentation for the built-in converters, verified against upstream OpenCC test cases and golden outputs. Exact parity with the official OpenCC output is not guaranteed for all inputs.
 
-```html
-<script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>     <!-- Full version -->
-<script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/cn2t.js"></script>     <!-- For Simplified to Traditional -->
-<script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/t2cn.js"></script>     <!-- For Traditional Chinese to Simplified Chinese -->
-```
+`opencc-js` supports the OpenCC mmseg-style segmentation used by the built-in converters, but does not support extended segmenters such as jieba.
 
-ES6 import
+> Note: For a comparison with the [`opencc`](https://www.npmjs.com/package/opencc) and [`opencc-wasm`](https://www.npmjs.com/package/opencc-wasm) packages, see below.
 
-```html
-<script type="module">
-  import * as OpenCC from './dist/esm/full.js'; // Full version
-  import * as OpenCC from './dist/esm/cn2t.js'; // For Simplified to Traditional
-  import * as OpenCC from './dist/esm/t2cn.js'; // For Traditional Chinese to Simplified Chinese
-</script>
-```
+## Data
 
-**Import opencc-js in Node.js script**
+Dictionary data is generated from [`opencc-data`](https://www.npmjs.com/package/opencc-data) at build time and bundled in the published package. Browser usage does not fetch extra dictionary text files at runtime.
+
+To avoid producing tofu boxes for glyphs that are often missing from browser and system fonts, `opencc-js` does not bundle OpenCC's `TSCharactersExt` tofu-risk mappings. A small number of rare Traditional-to-Simplified extension-character conversions may therefore intentionally differ from the upstream OpenCC test data.
+
+## Usage
+
+Choose the installation method that matches your environment.
+
+> **Important:** Version `1.4.0` syncs with `opencc-data` 1.4.0 and refreshes the generated dictionary data.
+
+**Install opencc-js for Node.js or a bundler**
 
 ```sh
 npm install opencc-js
 ```
 
-CommonJS
+ES modules:
+
+```javascript
+import OpenCC from 'opencc-js';
+```
+
+CommonJS:
 
 ```javascript
 const OpenCC = require('opencc-js');
 ```
 
-ES Modules
+**Use opencc-js in a browser**
 
-```javascript
-import * as OpenCC from 'opencc-js';
+Self-hosted ES module:
+
+```html
+<script type="module">
+  import OpenCC from './dist/esm/full.js';
+
+  const converter = OpenCC.Converter({ from: 'cn', to: 'tw' });
+  console.log(converter('汉语')); // 漢語
+</script>
 ```
 
-## Usage
+CDN ES module:
+
+```html
+<script type="module">
+  // Use the latest stable version from https://www.npmjs.com/package/opencc-js, or pin 1.4.0 explicitly
+  import OpenCC from 'https://cdn.jsdelivr.net/npm/opencc-js@1.4.0/dist/esm/full.js';
+
+  const converter = OpenCC.Converter({ from: 'cn', to: 'tw' });
+  console.log(converter('汉语')); // 漢語
+</script>
+```
+
+UMD build for plain script tags:
+
+```html
+<!-- Use the latest stable version from https://www.npmjs.com/package/opencc-js, or pin 1.4.0 explicitly -->
+
+<script src="https://cdn.jsdelivr.net/npm/opencc-js@1.4.0/dist/umd/full.js"></script>
+```
 
 **Basic usage**
 
@@ -92,7 +125,7 @@ console.log(converter('悟空道：“师父又来了。怎么叫做‘水中捞
 // output: 悟空道：「師父又來了。怎麼叫做『水中撈月』？」
 ```
 
-This will get the same result with an extra convertion.
+This will get the same result with an extra conversion.
 
 ```javascript
 const customDict = [
@@ -130,20 +163,43 @@ HTMLConvertHandler.restore(); // Restore  -> 漢語
 ```
 
 ## API
-* `.Converter({})`: declare the converter's direction via locals.
+* `.Converter({})`: declare the converter's direction via locales.
   * default: `{ from: 'tw', to: 'cn' }`
-  * syntax : `{ from: local1, to: local2 }`
-* locals: letter codes defining a writing local tradition, occasionally its idiomatic habits.
+  * syntax : `{ from: locale1, to: locale2 }`
+* locales: letter codes defining a writing locale and, occasionally, its idiomatic habits.
   * `cn`: Simplified Chinese (Mainland China)
   * `tw`: Traditional Chinese (Taiwan)
     * `twp`: with phrase conversion (ex: 自行車 -> 腳踏車）
   * `hk`: Traditional Chinese (Hong Kong)
+    * `hkp`: with Hong Kong phrase conversion (ex: 鼠標 -> 滑鼠)
   * `jp`: Japanese Shinjitai
-  * `t`: Traditional Chinese (OpenCC standard. Do not use unless you know what you are doing)
+  * `t`: Traditional Chinese ([OpenCC standard](https://github.com/BYVoid/OpenCC/blob/master/DESIGN_PRINCIPLES.md)), mainly useful as an intermediate form
+
+Unless you specifically need the [OpenCC standard Traditional Chinese](https://github.com/BYVoid/OpenCC/blob/master/DESIGN_PRINCIPLES.md) intermediate form, prefer regional output such as `tw`, `twp`, `hk`, or `hkp` instead of `to: 't'`.
+
+| opencc-js options | OpenCC config | Notes |
+|---|---|---|
+| `{ from: 'cn', to: 'tw' }` | `s2tw` | Recommended for Simplified Chinese to Traditional Chinese (Taiwan). |
+| `{ from: 'cn', to: 'twp' }` | `s2twp` | Recommended for Simplified Chinese to Traditional Chinese (Taiwan) with phrase conversion. |
+| `{ from: 'cn', to: 'hk' }` | `s2hk` | Recommended for Simplified Chinese to Traditional Chinese (Hong Kong). |
+| `{ from: 'cn', to: 'hkp' }` | `s2hkp` | Simplified Chinese to Traditional Chinese (Hong Kong) with phrase conversion. The phrase dictionary is still developing and currently small; use with care. |
+| `{ from: 't', to: 'cn' }` | `t2s` | Recommended for generic Traditional Chinese to Simplified Chinese. |
+| `{ from: 'tw', to: 'cn' }` | `tw2s` | Recommended for Traditional Chinese (Taiwan) to Simplified Chinese. |
+| `{ from: 'twp', to: 'cn' }` | `tw2sp` | Recommended for Traditional Chinese (Taiwan, with phrases) to Simplified Chinese. |
+| `{ from: 'hk', to: 'cn' }` | `hk2s` | Recommended for Traditional Chinese (Hong Kong) to Simplified Chinese. |
+| `{ from: 'hkp', to: 'cn' }` | `hk2sp` | Traditional Chinese (Hong Kong, with phrases) to Simplified Chinese. The phrase dictionary is still developing and currently small; use with care. |
+| `{ from: 'cn', to: 't' }` | `s2t` | Advanced: Simplified Chinese to OpenCC standard Traditional Chinese. Usually not the best end-user display locale. |
+| `{ from: 't', to: 'tw' }` | `t2tw` | Advanced: OpenCC standard Traditional Chinese to Traditional Chinese (Taiwan). |
+| `{ from: 't', to: 'hk' }` | `t2hk` | Advanced: OpenCC standard Traditional Chinese to Traditional Chinese (Hong Kong). |
+| `{ from: 'tw', to: 't' }` | `tw2t` | Advanced: Traditional Chinese (Taiwan) to OpenCC standard Traditional Chinese. |
+| `{ from: 'hk', to: 't' }` | `hk2t` | Advanced: Traditional Chinese (Hong Kong) to OpenCC standard Traditional Chinese. |
+| `{ from: 'jp', to: 't' }` | `jp2t` | Experimental: Japanese Shinjitai to OpenCC standard Traditional Chinese. Not recommended for production use. |
+| `{ from: 't', to: 'jp' }` | `t2jp` | Experimental: OpenCC standard Traditional Chinese to Japanese Shinjitai. Not recommended for production use. |
+
 * `.CustomConverter([])` : defines custom dictionary.
   * default: `[]`
   * syntax : `[  ['item1','replacement1'], ['item2','replacement2'], … ]`
-* `.HTMLConverter(converter, rootNode, langAttrInitial, langAttrNew )` : uses previously defined converter() to converts all HTML elements text content from a starting root node and down, into the target local. Also converts all attributes `lang` from existing `langAttrInitial` to `langAttrNew` values.
+* `.HTMLConverter(converter, rootNode, langAttrInitial, langAttrNew )` : uses previously defined converter() to convert all HTML elements text content from a starting root node and down, into the target locale. Also converts all attributes `lang` from existing `langAttrInitial` to `langAttrNew` values, and converts `placeholder` and `aria-label` attributes.
 * `lang` attributes : html attribute defines the languages of the text content to the browser, at start (`langAttrInitial`) and after conversion (`langAttrNew`).
   * syntax convention: [IETF languages codes](https://www.w3.org/International/articles/bcp47/#macro), mainly `zh-TW`, `zh-HK`, `zh-CN`, `zh-SG`,…
 * `ignore-opencc` : html class signaling an element and its sub-nodes will not be converted.
@@ -152,6 +208,7 @@ HTMLConvertHandler.restore(); // Restore  -> 漢語
 
 * Tree Shaking (ES Modules Only) may result less size of bundle file.
 * Using `ConverterFactory` instead of `Converter`.
+* Prefer regional output dictionaries such as `tw` or `hk` over `to: 't'` unless you specifically need OpenCC standard Traditional Chinese.
 
 ```javascript
 import * as OpenCC from 'opencc-js/core'; // primary code
@@ -160,3 +217,24 @@ import * as Locale from 'opencc-js/preset'; // dictionary
 const converter = OpenCC.ConverterFactory(Locale.from.hk, Locale.to.cn);
 console.log(converter('漢語'));
 ```
+
+## Differences between various [`opencc`](https://www.npmjs.com/package/opencc) npm packages
+
+There are three related npm packages for OpenCC conversion. They differ in runtime environment, implementation approach, and segmentation support.
+
+[`opencc-js`](https://www.npmjs.com/package/opencc-js) is a pure JavaScript implementation for browsers and Node.js. It bundles dictionary data generated from `opencc-data` at build time, requiring no native binaries and no runtime file fetching. Its conversion pipeline aligns with the official OpenCC implementation, including mmseg-style phrase segmentation for built-in converters, verified against upstream OpenCC test cases and golden outputs. Exact parity with the official OpenCC output is not guaranteed for all inputs. Extended segmenters such as Jieba are not supported.
+
+[`opencc`](https://www.npmjs.com/package/opencc) is the official Node.js native binding for the OpenCC C++ project. It depends on native or prebuilt binaries and follows the official OpenCC engine. Extended segmentation algorithms such as Jieba are supported when the official OpenCC configuration and runtime allow it.
+
+[`opencc-wasm`](https://www.npmjs.com/package/opencc-wasm) is another browser-capable implementation using WebAssembly. Its configuration and conversion logic stay aligned with the official `opencc` package, and it can support Jieba segmentation through the official OpenCC runtime.
+
+| | [`opencc-js`](https://www.npmjs.com/package/opencc-js) | [`opencc`](https://www.npmjs.com/package/opencc) | [`opencc-wasm`](https://www.npmjs.com/package/opencc-wasm) |
+|---|---|---|---|
+| Browser | ✅ | ❌ | ✅ |
+| Node.js | ✅ | ✅ | ✅ |
+| Implementation | Pure JavaScript | Native C++ binding | WebAssembly |
+| Native binary required | ❌ | ✅ | ❌ |
+| Dictionary source | Bundled at build time | Loaded at runtime | Loaded at runtime |
+| Aligned with official OpenCC | Approximately | ✅ | ✅ |
+| mmseg segmentation | ✅ | ✅ | ✅ |
+| Jieba segmentation available | ❌ | ✅ | ✅ |

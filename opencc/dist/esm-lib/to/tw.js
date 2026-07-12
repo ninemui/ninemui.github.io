@@ -1,3 +1,4 @@
+import TWVariantsPhrases from '../dict/TWVariantsPhrases.js';
 import TWVariants from '../dict/TWVariants.js';
 
-export default [TWVariants];
+export default [[TWVariantsPhrases, TWVariants]];

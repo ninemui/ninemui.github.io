@@ -1,3 +1,3 @@
-import JPVariants from '../dict/JPVariants.js';
+import JPShinjitaiCharactersRev from '../dict/JPShinjitaiCharactersRev.js';
 
-export default [JPVariants];
+export default [[JPShinjitaiCharactersRev]];

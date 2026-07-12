@@ -1,4 +1,4 @@
-import TWVariantsRev from '../dict/TWVariantsRev.js';
 import TWVariantsRevPhrases from '../dict/TWVariantsRevPhrases.js';
+import TWVariantsRev from '../dict/TWVariantsRev.js';
 
-export default [TWVariantsRev, TWVariantsRevPhrases];
+export default [[TWVariantsRevPhrases, TWVariantsRev]];

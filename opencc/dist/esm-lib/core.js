@@ -11,8 +11,9 @@
 /**
  * 地區設定資料
  * @typedef {object} LocalePreset
- * @property {object.<string, DictGroup>} from
- * @property {object.<string, DictGroup>} to
+ * @property {object.<string, DictGroup[]>} from
+ * @property {object.<string, DictGroup[]>} to
+ * @property {object.<string, {segmentation: DictLike|DictGroup, conversionChain: DictGroup[]}>} [configs]
  */
 
 /**
@@ -58,10 +59,20 @@
       d = d.split('|');
       for (const line of d) {
         const [l, r] = line.split(' ');
+        if (typeof r !== 'string') {
+          throw new TypeError('Invalid dictionary entry: expected string entries to use "source replacement" format.');
+        }
         this.addWord(l, r);
       }
     } else {
-      for (let arr of d) {
+      for (const arr of d) {
+        if (!Array.isArray(arr) || typeof arr[0] !== 'string' || typeof arr[1] !== 'string') {
+          throw new TypeError(
+            'Invalid dictionary entry: expected [source, replacement] pairs. ' +
+            'If you are passing locale dictionaries to ConverterFactory, spread them, for example: ' +
+            'ConverterFactory(...Locale.from.cn, ...Locale.to.hk).'
+          );
+        }
         const [l, r] = arr;
         this.addWord(l, r);
       }
@@ -73,9 +84,59 @@
    * @param {DictLike[]} arr 字典
    */
   loadDictGroup(arr) {
-    arr.forEach(d => {
+    arr.slice().reverse().forEach(d => {
       this.loadDict(d);
     });
+  }
+
+  matchPrefix(s, i) {
+    const n = s.length;
+    let t_curr = this.map, k = 0, v;
+    for (let j = i; j < n;) {
+      const x = s.codePointAt(j);
+      j += x > 0xffff ? 2 : 1;
+
+      const t_next = t_curr.get(x);
+      if (typeof t_next === 'undefined') {
+        break;
+      }
+      t_curr = t_next;
+
+      const v_curr = t_curr.trie_val;
+      if (typeof v_curr !== 'undefined') {
+        k = j;
+        v = v_curr;
+      }
+    }
+    if (k > 0) {
+      return { end: k, value: v };
+    }
+    return null;
+  }
+
+  segment(s) {
+    const n = s.length, segments = [];
+    let orig_i = null;
+    for (let i = 0; i < n;) {
+      const matched = this.matchPrefix(s, i);
+      if (matched) {
+        if (orig_i !== null) {
+          segments.push(s.slice(orig_i, i));
+          orig_i = null;
+        }
+        segments.push(s.slice(i, matched.end));
+        i = matched.end;
+      } else {
+        if (orig_i === null) {
+          orig_i = i;
+        }
+        i += getUnmatchedLength(s, i);
+      }
+    }
+    if (orig_i !== null) {
+      segments.push(s.slice(orig_i, n));
+    }
+    return segments;
   }
 
   /**
@@ -83,39 +144,22 @@
    * @param {string} s 要轉換的字串
    */
   convert(s) {
-    const t = this.map;
     const n = s.length, arr = [];
-    let orig_i;
+    let orig_i = null;
     for (let i = 0; i < n;) {
-      let t_curr = t, k = 0, v;
-      for (let j = i; j < n;) {
-        const x = s.codePointAt(j);
-        j += x > 0xffff ? 2 : 1;
-
-        const t_next = t_curr.get(x);
-        if (typeof t_next === 'undefined') {
-          break;
-        }
-        t_curr = t_next;
-
-        const v_curr = t_curr.trie_val;
-        if (typeof v_curr !== 'undefined') {
-          k = j;
-          v = v_curr;
-        }
-      }
-      if (k > 0) { // 有替代
+      const matched = this.matchPrefix(s, i);
+      if (matched) { // 有替代
         if (orig_i !== null) {
           arr.push(s.slice(orig_i, i));
           orig_i = null;
         }
-        arr.push(v);
-        i = k;
+        arr.push(matched.value);
+        i = matched.end;
       } else { // 無替代
         if (orig_i === null) {
           orig_i = i;
         }
-        i += s.codePointAt(i) > 0xffff ? 2 : 1;
+        i += getUnmatchedLength(s, i);
       }
     }
     if (orig_i !== null) {
@@ -125,13 +169,50 @@
   }
 }
 
+function getCodePointLength(s, i) {
+  return s.codePointAt(i) > 0xffff ? 2 : 1;
+}
+
+function getIdeographicDescriptionArity(cp) {
+  if (cp >= 0x2ff0 && cp <= 0x2ff1) return 2;
+  if (cp >= 0x2ff2 && cp <= 0x2ff3) return 3;
+  if (cp >= 0x2ff4 && cp <= 0x2fff) return 2;
+  return 0;
+}
+
+function getIdeographicDescriptionSequenceEnd(s, i) {
+  const cp = s.codePointAt(i);
+  const arity = getIdeographicDescriptionArity(cp);
+  if (arity === 0) {
+    return 0;
+  }
+
+  let end = i + getCodePointLength(s, i);
+  for (let n = 0; n < arity; n += 1) {
+    if (end >= s.length) {
+      return 0;
+    }
+    const childEnd = getIdeographicDescriptionSequenceEnd(s, end);
+    end = childEnd || end + getCodePointLength(s, end);
+  }
+  return end;
+}
+
+function getUnmatchedLength(s, i) {
+  const idsEnd = getIdeographicDescriptionSequenceEnd(s, i);
+  if (idsEnd > i) {
+    return idsEnd - i;
+  }
+  return getCodePointLength(s, i);
+}
+
 /**
  * Create a OpenCC converter
- * @param  {...DictGroup} dictGroup
+ * @param  {...(DictLike|DictGroup|DictGroup[])} dictGroup
  * @returns The converter that performs the conversion.
  */
 export function ConverterFactory(...dictGroups) {
-  const trieArr = dictGroups.map(grp => {
+  const trieArr = normalizeConverterFactoryDictGroups(dictGroups).map(grp => {
     const t = new Trie();
     t.loadDictGroup(grp);
     return t;
@@ -149,20 +230,132 @@ export function ConverterFactory(...dictGroups) {
   return convert;
 }
 
+function isDictPair(entry) {
+  return Array.isArray(entry) && typeof entry[0] === 'string' && typeof entry[1] === 'string';
+}
+
+function isSerializedDict(dict) {
+  return typeof dict === 'string' && (dict === '' || dict.includes(' '));
+}
+
+function isDictLike(dict) {
+  return typeof dict === 'string' || (Array.isArray(dict) && dict.every(isDictPair));
+}
+
+function isDictGroup(dictGroup) {
+  return Array.isArray(dictGroup) && dictGroup.every(dict => {
+    return isSerializedDict(dict) || (Array.isArray(dict) && dict.every(isDictPair));
+  });
+}
+
+function isDictGroupCollection(dictGroups) {
+  return Array.isArray(dictGroups) && dictGroups.every(isDictGroup);
+}
+
+function normalizeConverterFactoryDictGroups(dictGroups) {
+  return dictGroups.flatMap(dictGroup => {
+    if (isDictGroupCollection(dictGroup)) {
+      return dictGroup;
+    }
+    if (isDictGroup(dictGroup)) {
+      return [dictGroup];
+    }
+    if (!Array.isArray(dictGroup)) {
+      throw new TypeError('Invalid ConverterFactory argument: expected a dictionary group or locale dictionary collection.');
+    }
+
+    const groups = [];
+    let i = 0;
+    while (i < dictGroup.length && isDictGroup(dictGroup[i])) {
+      groups.push(dictGroup[i].slice());
+      i += 1;
+    }
+    const appendedDicts = dictGroup.slice(i);
+    if (groups.length > 0 && appendedDicts.length > 0 && appendedDicts.every(isDictLike)) {
+      groups[groups.length - 1].push(...appendedDicts);
+      return groups;
+    }
+    return [dictGroup];
+  });
+}
+
+function ConverterFactoryWithSegmentation(segmentationDict, ...dictGroups) {
+  let segmentation = null;
+  if (segmentationDict) {
+    segmentation = new Trie();
+    if (Array.isArray(segmentationDict) && segmentationDict.every(dict => typeof dict === 'string')) {
+      segmentation.loadDictGroup(segmentationDict);
+    } else {
+      segmentation.loadDict(segmentationDict);
+    }
+  }
+  const trieArr = dictGroups.map(grp => {
+    const t = new Trie();
+    t.loadDictGroup(grp);
+    return t;
+  });
+  return function convert(s) {
+    const segments = segmentation ? segmentation.segment(s) : [s];
+    return trieArr
+      .reduce((segments, t) => segments.map(segment => t.convert(segment)), segments)
+      .join('');
+  };
+}
+
 /**
  * Build Converter function with locale data
  * @param {LocalePreset} localePreset
  * @returns Converter function
  */
 export function ConverterBuilder(localePreset) {
+  function getConfigName(from, to) {
+    if (from === 'cn') {
+      return `s2${to}`;
+    }
+    if (to === 'cn') {
+      if (from === 'hkp') {
+        return 'hk2sp';
+      }
+      return from === 'twp' ? 'tw2sp' : `${from}2s`;
+    }
+    return `${from}2${to}`;
+  }
+
+  function normalizeDictGroups(dictGroup) {
+    if (Array.isArray(dictGroup) && Array.isArray(dictGroup[0])) {
+      return dictGroup;
+    }
+    return [dictGroup];
+  }
+
   return function Converter(options) {
-    let dictGroups = [];
     ['from', 'to'].forEach(type => {
-      if (typeof options[type] !== 'string') {
+      if (!options || typeof options[type] !== 'string') {
         throw new Error('Please provide the `' + type + '` option');
       }
+      if (options[type] !== 't' && !localePreset[type][options[type]]) {
+        throw new Error('Unknown `' + type + '` locale: ' + options[type]);
+      }
+    });
+
+    if (localePreset.configs) {
+      const config = localePreset.configs[getConfigName(options.from, options.to)];
+      if (config) {
+        const converter = ConverterFactoryWithSegmentation(config.segmentation, ...config.conversionChain);
+        if (!config.normalizationChain) {
+          return converter;
+        }
+        const normalize = ConverterFactory(...config.normalizationChain);
+        return function convert(s) {
+          return converter(normalize(s));
+        };
+      }
+    }
+
+    let dictGroups = [];
+    ['from', 'to'].forEach(type => {
       if (options[type] !== 't') {
-        dictGroups.push(localePreset[type][options[type]]);
+        dictGroups.push(...normalizeDictGroups(localePreset[type][options[type]]));
       }
     });
     return ConverterFactory.apply(null, dictGroups);
@@ -230,6 +423,22 @@ export function HTMLConverter(converter, rootNode, fromLangTag, toLangTag) {
           }
           currentNode.value = converter(currentNode.originalValue);
         }
+
+        /* 處理 placeholder 和 aria-label 屬性 */
+        if (currentNode.nodeType === Node.ELEMENT_NODE) {
+          if (currentNode.hasAttribute('placeholder')) {
+            if (currentNode.originalPlaceholder == null) {
+              currentNode.originalPlaceholder = currentNode.getAttribute('placeholder');
+            }
+            currentNode.setAttribute('placeholder', converter(currentNode.originalPlaceholder));
+          }
+          if (currentNode.hasAttribute('aria-label')) {
+            if (currentNode.originalAriaLabel == null) {
+              currentNode.originalAriaLabel = currentNode.getAttribute('aria-label');
+            }
+            currentNode.setAttribute('aria-label', converter(currentNode.originalAriaLabel));
+          }
+        }
       }
 
       for (const node of currentNode.childNodes) {
@@ -279,6 +488,14 @@ export function HTMLConverter(converter, rootNode, fromLangTag, toLangTag) {
         if (currentNode.originalValue !== undefined) {
           currentNode.value = currentNode.originalValue;
         }
+      }
+
+      /* 恢復 placeholder 和 aria-label 屬性 */
+      if (currentNode.originalPlaceholder !== undefined) {
+        currentNode.setAttribute('placeholder', currentNode.originalPlaceholder);
+      }
+      if (currentNode.originalAriaLabel !== undefined) {
+        currentNode.setAttribute('aria-label', currentNode.originalAriaLabel);
       }
 
       for (const node of currentNode.childNodes) {
