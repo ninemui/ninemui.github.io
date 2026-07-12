@@ -65,7 +65,7 @@
 <script src="./opencc/dist/umd/full.js"></script>
 <script>
     const websiteOrder = ["🔍 獨播庫", "🔍 速播", "🔍 茅台", "🔍 豆瓣", "🔍 紅牛", "🔍 西瓜",
-                "🔍 電影天堂", "🔍 如意", "🔍 櫻花", "🔍 貓眼", "🔍 淘片", "🔍 非凡", "🔍 u酷"];
+                "🔍 電影天堂", "🔍 如意", "🔍 櫻花", "🔍 貓眼", "🔍 非凡", "🔍 u酷", "🔍 天涯"];
 
     // Fallback search sites (with Simplified Chinese support)
     const fallbackSearchSites = {
@@ -79,9 +79,10 @@
         "🔍 如意": "https://www.ryzyw.com/index.php/vod/search.html?wd=",
         "🔍 櫻花": "https://yhzy.cc/index.php/vod/search.html?wd=",
         "🔍 貓眼": "https://www.maoyanzy.com/index.php/vod/search.html?wd=",
-        "🔍 淘片": "https://www.taopianzy.com/search.html?keyword=",
         "🔍 非凡": "http://ffzy1.tv/index.php/vod/search.html?wd=",
-        "🔍 u酷": "https://ukuzy.com/index.php/vod/search.html?wd="
+        "🔍 u酷": "https://ukuzy.com/index.php/vod/search.html?wd=",
+		"🔍 天涯": "https://tyyszyapi.com/index.php/vod/search.html?wd="
+
     };
 
     const resourceList = document.getElementById("resourceList");
@@ -110,9 +111,9 @@
         { name: "🌍 如意資源", url: "https://www.ryzyw.com/index.php/vod/type/id/13.html" },
         { name: "🌍 櫻花資源", url: "https://yhzy.cc/index.php/vod/type/id/13.html" },
         { name: "🌍 貓眼資源", url: "https://www.maoyanzy.com/index.php/vod/show/id/13.html" },
-        { name: "🌍 淘片資源", url: "https://www.taopianzy.com/vod/list.html?type_id=20&cate_id=238&page=1" },
         { name: "🌍 非凡資源", url: "http://ffzy1.tv/index.php/vod/type/id/13.html" },
-        { name: "🌍 u酷資源", url: "https://ukuzy.com/index.php/vod/type/id/13.html?ac=detail" }
+        { name: "🌍 u酷資源", url: "https://ukuzy.com/index.php/vod/type/id/13.html?ac=detail" },
+		{ name: "🌍 天涯資源", url: "https://tyyszyapi.com/index.php/vod/type/id/13.html?ac=detail" }
     ];
 
     const websites = [

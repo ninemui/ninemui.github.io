@@ -32,9 +32,9 @@ const websites = {
     "🔍 如意": { url: "https://www.ryzyw.com/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "https://www.ryzyw.com" },
     "🔍 櫻花": { url: "https://yhzy.cc/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://yhzy.cc" },
     "🔍 貓眼": { url: "https://www.maoyanzy.com/index.php/vod/search.html?wd={}", selector: "a.this-link.flex[href]:not([href='javascript:'])", base_url: "https://www.maoyanzy.com" },
-    "🔍 淘片": { url: "https://www.taopianzy.com/search.html?keyword={}", selector: "tbody tr td.fontleft.txleft span.fontbule a", base_url: "https://www.taopianzy.com" },
     "🔍 非凡": { url: "http://ffzy1.tv/index.php/vod/search.html?wd={}", selector: "ul.videoContent li a.videoName", base_url: "http://ffzy1.tv" },
     "🔍 u酷": { url: "https://ukuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://ukuzy.com" },
+	"🔍 天涯": { url: "https://tyyszyapi.com/index.php/vod/search.html?wd={}", selector: "a.movie-card", base_url: "https://tyyszyapi.com" },
 };
 
 // Updated scrapePage with per-site timeout
@@ -44,10 +44,10 @@ const scrapePage = async (siteName, url, baseUrl, selector, query) => {
 
         // Custom timeout per site
         const timeouts = {
-            "🔍 西瓜": 9000,     // 9 seconds for 西瓜
+            "🔍 西瓜": 3000,     // need 9 seconds for 西瓜
         };
 
-        const timeoutMs = timeouts[siteName] || 9000;   // Default 9 seconds
+        const timeoutMs = timeouts[siteName] || 3000;   // Default 9 seconds
 
         const controller = new AbortController();
 
