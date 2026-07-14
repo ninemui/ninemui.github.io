@@ -9,7 +9,7 @@
 </head>
 <body>
 <!-- Last Update -->
-<div class="last-update">Last Updated: July 11, 2026</div>
+<div class="last-update">Last Updated: July 14, 2026</div>
 <div class="container">
 <div class="searchbar">
     <div class="search-container">
@@ -122,17 +122,17 @@
         { name: "🔍 GimyTV.biz", url: "https://gimytv.biz/vodsearch/-------------.html?wd=" },
         { name: "🔍 歐樂影院", url: "https://www.olehdtv.com/index.php/vod/search.html?wd=" },
         { name: "🔍 UB影視", url: "https://www.ub1818.com/fil.html?keyword=" },
-        { name: "🔍 看片狂人", url: "https://kpkuang.fyi/vodsearch/-------------.html?wd={search}&passed=1" },
+        { name: "🔍 看片狂人", url: "https://kpkuang.fyi/vodsearch/-------------.html?wd=" },
         { name: "🔍 電影線上看", url: "https://www.movieffm.net/xssearch?q=" },
         { name: "🔍 iKanBot", url: "https://v.ikanbot.com/search?q=" },
-        { name: "🔍 網飛貓", url: "https://www.ncat3.com/search?os=pc&k=" },
+        { name: "🔍 網飛貓", url: "https://www.ncat3.com/search?t=qiZmzy1EWGJnz1RqfaleKw%3D%3D&k=" },
         { name: "🔍 永樂視訊", url: "https://ylsp.tv/vodsearch/-------------/?wd=" },
         { name: "🔍 小鴨影音", url: "https://777tv.ai/vod/search.html?wd=" },
         { name: "🔍 蛋蛋魔法", url: "https://ddmf.net/vodsearch/-------------.html?wd=" },
         { name: "🔍 麥田影視", url: "https://www.mtyy1.com/vodsearch/-------------.html?wd=" },
         { name: "🔍 愛壹帆", url: "https://www.iyf.tv/search/" },
         { name: "🔍 瓜子影視", url: "https://gz360.tv/searchPage?key=" },
-        { name: "🔍 唐人街影視", url: "https://www.trvod.com/vodsearch/-------------.html?wd=" },
+        { name: "🔍 唐人街影視", url: "https://www.trvod.com/vod-search/-------------.html?wd=" },
         { name: "🔍 金牌影院", url: "https://www.jiabaide.cn/vod/search/" },
         { name: "🔍 小寶影院", url: "https://xiaoxintv.cc/index.php/vod/search.html?wd=" }
     ];
@@ -297,11 +297,17 @@
                 const a = document.createElement("a");
                 a.className = "common-link";
                 let finalUrl = "";
-                if (resource.name === "🔍 看片狂人") {
+				
+				// Special handling for 看片狂人 wd={search}&passed=1
+                if (resource.name === "🔍 看片狂人2") {
                     finalUrl = resource.url.replace("{search}", encodeURIComponent(simplifiedQuery));
-                } else if (["🔍 GimyTV.biz", "🔍 電影線上看", "🔍 小鴨影音"].includes(resource.name)) {
+				}
+				
+				// GimyTV.biz & 電影線上看 & 小鴨影音 - use Traditional Chinese
+				else if (["🔍 GimyTV.biz", "🔍 電影線上看", "🔍 小鴨影音"].includes(resource.name)) {
                     finalUrl = resource.url + encodeURIComponent(traditionalQuery);
-                } else {
+                } 
+				else {
                     finalUrl = resource.url + encodeURIComponent(simplifiedQuery);
                 }
                 a.href = finalUrl;
