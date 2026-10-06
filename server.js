@@ -22,8 +22,8 @@ app.get('/favicon.ico', (req, res) => {
 
 // Website configuration
 const websites = {
+	"🔍 鹹魚": { url: "https://www.jxw888.cn/?wd={}", selector: "a.card", base_url: "https://www.jxw888.cn" },
     "🔍 獨播庫": { url: "https://www.dbku.tv/vodsearch/-------------.html?wd={}", selector: "li.clearfix a.searchkey", base_url: "https://www.dbku.tv" },
-    "🔍 速播": { url: "https://www.subozy.com/index.php/vod/search.html?wd={}", selector: "div.list div.list-item span.list-title a", base_url: "https://www.subozy.com" },
     "🔍 茅台": { url: "https://mtzy.me/vod/mysearch.html?wd={}", selector: "table.center tbody tr td a", base_url: "https://mtzy.me" },
     "🔍 豆瓣": { url: "https://www.dbzy1.com/vodsearch/-------------.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://www.dbzy1.com" },
     "🔍 紅牛": { url: "https://hongniuzy.com/index.php/vod/search.html?wd={}", selector: "div.xing_vb span.xing_vb4 a", base_url: "https://hongniuzy.com" },
